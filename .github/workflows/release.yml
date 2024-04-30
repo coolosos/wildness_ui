@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  FLUTTER_VERSION: 3.19.5
+  MELOS_VERSION: 6.0.0
+  RUNID: ${{ github.run_number }}
+  TAG: ${{ github.ref_name }}
+ 
+
+jobs:
+  generate:
+    name: Generate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.4
+ 

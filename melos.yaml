@@ -1,0 +1,30 @@
+name: elementary_ui
+
+repository:
+  type: "github"
+  origin: "https://github.com/coolosos/elementary_ui"
+  owner: "coolosos"
+  name: "elementary_ui"
+
+packages:
+  - elementary
+
+command:
+  version:
+    # Only allow versioning to happen on main branch.
+    branch: main
+    # Generate commit links in package changelogs.
+    linkToCommits: true
+    updateGitTagRefs: true
+    # Additionally build a changelog at the root of the workspace.
+    workspaceChangelog: true
+  bootstrap:
+    runPubGetInParallel: false
+
+scripts:
+  env:
+    run: melos exec -- cat .current
+    description: Show the current environment.
+    packageFilters:
+      fileExists:
+        - .current
