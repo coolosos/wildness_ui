@@ -9,7 +9,8 @@ class ElementaryProperties {
   /// fallback is light
   const ElementaryProperties({
     Brightness? forzeThemeMode,
-    ThemeComponents components = const ThemeComponents(),
+    Iterable<Configuration<ElementaryBase<dynamic>>> components =
+        const Iterable<Configuration<ElementaryBase<dynamic>>>.empty(),
     this.physics = const ClampingScrollPhysics(),
     this.minScaleFactor = 0.5,
     this.maxScaleFactor = 1.2,
@@ -19,7 +20,8 @@ class ElementaryProperties {
   /// Componets of this theme.
   ///
   /// To define components, pass an [Iterable] containing one or more [ElementaryBase] and their kinds
-  final ThemeComponents _components;
+
+  final Iterable<Configuration<ElementaryBase>> _components;
 
   /// By default uses a system config
   /// if you pass a mode, it will be forced to this one.
@@ -31,22 +33,38 @@ class ElementaryProperties {
   final double minScaleFactor;
   final double maxScaleFactor;
 
-  Map<Type, ElementaryBase<dynamic>> componentsIterableToMap(
+  Map<Type, ElementaryBase<dynamic>> componentsIterableToMap({
     BuildContext? context,
-  ) {
-    final Iterable<ElementaryBase<dynamic>> components =
-        resolve<Iterable<ElementaryBase<dynamic>>>(
+  }) {
+    return resolve(
       context,
-      light: _components.light,
-      dark: _components.dark,
-    ).toSet();
+      light: () => Map<Type, ElementaryBase<dynamic>>.unmodifiable(
+        {
+          for (final Configuration<ElementaryBase<dynamic>> component
+              in _components)
+            component.light.runtimeType: component.light,
+        },
+      ),
+      dark: () => Map<Type, ElementaryBase<dynamic>>.unmodifiable({
+        for (final Configuration<ElementaryBase<dynamic>> component
+            in _components)
+          component.dark.runtimeType: component.dark,
+      }),
+    ).call();
 
-    return Map<Type, ElementaryBase<dynamic>>.unmodifiable(
-      {
-        for (final ElementaryBase<dynamic> component in components)
-          component.runtimeType: component,
-      },
-    );
+    // final Iterable<ElementaryBase<dynamic>> components =
+    //     resolve<Iterable<ElementaryBase<dynamic>>>(
+    //   context,
+    //   light: _components.light,
+    //   dark: _components.dark,
+    // ).toSet();
+
+    // return Map<Type, ElementaryBase<dynamic>>.unmodifiable(
+    //   {
+    //     for (final ElementaryBase<dynamic> component in components)
+    //       component.runtimeType: component,
+    //   },
+    // );
   }
 
   T resolve<T>(

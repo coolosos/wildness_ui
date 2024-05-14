@@ -12,7 +12,7 @@ class ElementaryComponents extends Equatable with Diagnosticable {
     required ElementaryProperties config,
   }) {
     return ElementaryComponents(
-      components: config.componentsIterableToMap(context),
+      components: config.componentsIterableToMap(context: context),
       physics: config.physics,
     );
   }

@@ -12,7 +12,7 @@ part 'base/elementary_base.dart';
 // part 'schemas/fonts.dart';
 // part 'schemas/assets.dart';
 part 'base/configuration.dart';
-part 'base/components.dart';
+
 part 'elementary_provider.dart';
 part 'elementary_components.dart';
 
