@@ -1,6 +1,10 @@
 name: melos_rack_workspace
 publish_to: none
 
+repository: https://github.com/coolosos/elementary_ui
+issue_tracker: https://github.com/coolosos/elementary_ui/issues
+homepage: https://github.com/coolosos
+
 environment:
   sdk: ">=3.3.1 <4.0.0"
 
