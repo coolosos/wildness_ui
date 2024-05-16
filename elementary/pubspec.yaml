@@ -1,16 +1,20 @@
 name: elementary
-description: "A new Flutter project."
+description: "A components with Kind provider."
 
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
-version: 0.0.0+1
+version: 0.0.1
 
 environment:
-  sdk: ">=3.3.4 <4.0.0"
+  sdk: ">=3.3.1 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+  meta: any
+  collection: any
+  equatable: any
+  nested: ^1.0.0
+  universal_io: ^2.2.2
 
 dev_dependencies:
   flutter_test:
