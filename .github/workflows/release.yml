@@ -22,11 +22,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.5
  
-      - name: 🎯 Setup Dart
-        uses: dart-lang/setup-dart@v1
+      # - name: 🎯 Setup Dart
+      #   uses: dart-lang/setup-dart@v1
+      #   with:
+      #     sdk: stable
+
+      - name: 🎯 Setup flutter
+        uses: subosito/flutter-action@v2.16.0
         with:
-          sdk: stable
- 
+          channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: false
+
       - name: Melos action
         uses: bluefireteam/melos-action@v3
         with:
