@@ -4,10 +4,11 @@ import '../library.dart';
 import 'theme/custom_default_theme.dart';
 
 part 'elementary/elementary_properties.dart';
-part 'elementary/elementary_base.dart';
+part 'component/elementary_base.dart';
 part 'configuration.dart';
 part 'elementary/elementary_app.dart';
 part 'elementary/elementary_provider.dart';
+part 'component/component_theme.dart';
 
 @immutable
 class Elementary extends Equatable with Diagnosticable {
