@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:elementary/library.dart';
 
 base class CoolButtonThemeData extends ElementaryBase<CoolButtonThemeData> {
   const CoolButtonThemeData({required this.decoration});
@@ -71,23 +71,16 @@ void main() {
         () {
           const config = ElementaryProperties(
             forzeThemeMode: Brightness.light,
-            components: [
-              Configuration(
-                light: normal,
-                dark: normal,
-              ),
-              Configuration(
-                light: replica,
-                dark: replica,
-              ),
-              Configuration(
-                light: coolKind,
-                dark: coolKind,
-              ),
-            ],
+            components: Configuration(
+              light: [
+                normal,
+                replica,
+                coolKind,
+              ],
+            ),
           );
 
-          expect(config.componentsIterableToMap().length, 2);
+          expect(config.components().length, 2);
         },
       );
       test(
@@ -95,14 +88,14 @@ void main() {
         () {
           const config = ElementaryProperties(
             forzeThemeMode: Brightness.dark,
-            components: [
-              Configuration.same(
+            components: Configuration(
+              light: [
                 replica,
-              ),
-            ],
+              ],
+            ),
           );
 
-          expect(config.componentsIterableToMap().length, 1);
+          expect(config.components().length, 0);
         },
       );
       test(
@@ -110,68 +103,54 @@ void main() {
         () {
           const config = ElementaryProperties(
             forzeThemeMode: Brightness.dark,
-            components: [
-              Configuration<CoolKindButtonThemeData>.same(
+            components: Configuration(
+              light: [
                 coolKind,
-              ),
-            ],
+              ],
+            ),
           );
 
-          expect(config.componentsIterableToMap()[CoolButtonThemeData], isNull);
+          expect(config.components()[CoolButtonThemeData], isNull);
         },
       );
       test(
         'found kind',
         () {
           const config = ElementaryProperties(
-            forzeThemeMode: Brightness.dark,
-            components: [
-              Configuration.same(
+            forzeThemeMode: Brightness.light,
+            components: Configuration(
+              light: [
                 coolKind,
-              ),
-            ],
+              ],
+            ),
           );
 
           expect(
-            config.componentsIterableToMap()[CoolKindButtonThemeData],
+            config.components()[CoolKindButtonThemeData],
             isNotNull,
           );
         },
       );
 
       test(
-        'use type of kind for find',
+        'type of kind no found base',
         () {
           const config = ElementaryProperties(
             forzeThemeMode: Brightness.dark,
-            components: [
-              Configuration<CoolButtonThemeData>.same(
-                coolKind,
-              ),
-            ],
-          );
-
-          expect(
-            config.componentsIterableToMap()[CoolKindButtonThemeData],
-            isNotNull,
-          );
-        },
-      );
-
-      test(
-        'use type of kind for find 2',
-        () {
-          const config = ElementaryProperties(
-            forzeThemeMode: Brightness.dark,
-            components: [
-              Configuration<CoolButtonThemeData>.same(
+            // components: [
+            //   Configuration<CoolButtonThemeData>.same(
+            //     normal,
+            //   ),
+            // ],
+            components: Configuration(
+              light: [
                 normal,
-              ),
-            ],
+              ],
+            ),
           );
 
           expect(
-            config.componentsIterableToMap()[CoolKindButtonThemeData],
+            config.components()[CoolKindButtonThemeData],
             isNull,
           );
         },

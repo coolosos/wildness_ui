@@ -1,188 +1,172 @@
 library elementary;
 
-import 'package:flutter/foundation.dart';
-import 'package:universal_io/io.dart';
-
 import '../library.dart';
+import 'theme/custom_default_theme.dart';
 
-part 'properties.dart';
-part 'base/elementary_base.dart';
-// part 'schemas/colors.dart';
-// part 'schemas/typographies.dart';
-// part 'schemas/fonts.dart';
-// part 'schemas/assets.dart';
-part 'base/configuration.dart';
-
-part 'elementary_provider.dart';
-part 'elementary_components.dart';
+part 'elementary/elementary_properties.dart';
+part 'elementary/elementary_base.dart';
+part 'configuration.dart';
+part 'elementary/elementary_app.dart';
+part 'elementary/elementary_provider.dart';
 
 @immutable
-class ElementaryApp extends SingleChildStatelessWidget {
-  const ElementaryApp({
-    required ElementaryProperties elementaryProperties,
-    TextStyle? defaultTextStyle,
-    super.key,
-    super.child,
-  })  : _elementaryProperties = elementaryProperties,
-        _defaultTextStyle = defaultTextStyle;
+class Elementary extends Equatable with Diagnosticable {
+  const Elementary({
+    required this.physics,
+    this.components = const {},
+    this.fundations = const {},
+  });
 
-  factory ElementaryApp.withUnMaterialTheme({
-    required ElementaryProperties elementaryProperties,
-    TextStyle? defaultTextStyle,
-    Color? primaryColor,
-    Key? key,
-    Widget? child,
-  }) {
-    return ElementaryApp(
-      elementaryProperties: elementaryProperties,
-      defaultTextStyle: defaultTextStyle,
-      key: key,
-      child: CustomUnMaterialTheme(
-        primaryColor: primaryColor,
-        defaultTextStyle: defaultTextStyle,
-        child: child,
-      ),
-    );
+  static Elementary of(BuildContext context, {bool listen = true}) {
+    final ElementaryProvider? inheritedTheme = listen
+        ? //searches only for InheritedWidget
+        context.dependOnInheritedWidgetOfExactType<ElementaryProvider>()
+        : //does not establish a relationship with the target in the way that dependOnInheritedWidgetOfExactType does.
+        (context
+            .getElementForInheritedWidgetOfExactType<ElementaryProvider>()
+            ?.widget as ElementaryProvider?);
+    //expensive, searches for any Widget subclass
+    // context.findAncestorWidgetOfExactType<_InheritedElementaryTheme>();
+
+    //! No podemos retornar una excepcion aqui, para permitir usar los componentes sueltos sin theme
+    return inheritedTheme?.data ??
+        const Elementary(
+          physics: AlwaysScrollableScrollPhysics(),
+          components: {},
+          fundations: {},
+        );
   }
 
-  final ElementaryProperties _elementaryProperties;
-  final TextStyle? _defaultTextStyle;
+  final Map<Type, ElementaryBase<dynamic>> components;
+  final Map<Type, ElementaryBase<dynamic>> fundations;
+  final ScrollPhysics physics;
+
+  /// Used to obtain a particular [ElementaryBase] from [components].
+  ///
+  /// Obtain with `ElementaryTheme.of(context).component<MyThemeComponent>()`.
+  ///
+  /// See [components] for an interactive example.
+  T? component<T>() => (components[T] as T?);
+
+  T? fundation<T>() => (fundations[T] as T?);
+
+  /// Linearly interpolate between two [components].
+  ///
+  /// Includes all theme compoents in [a] and [b].
+  ///
+  /// {@macro dart.ui.shadow.lerp}
+  Map<Type, ElementaryBase<dynamic>> _lerpElementaryBase(
+    Map<Type, ElementaryBase<dynamic>> elementsBase,
+    double t,
+  ) {
+    // Lerp [a].
+    final Map<Type, ElementaryBase<dynamic>> newComponents =
+        components.map((id, componentA) {
+      final ElementaryBase<dynamic>? componentB = elementsBase[id];
+      return MapEntry<Type, ElementaryBase<dynamic>>(
+        id,
+        componentA.lerp(componentB, t),
+      );
+    });
+    // Add [b]-only components.
+    newComponents.addEntries(
+      elementsBase.entries.where(
+        (MapEntry<Type, ElementaryBase<dynamic>> entry) =>
+            !components.containsKey(entry.key),
+      ),
+    );
+
+    return newComponents;
+  }
+
+  /// Linearly interpolate between two themes.
+  Elementary lerp(
+    Elementary b,
+    double t,
+  ) {
+    return Elementary(
+      components: _lerpElementaryBase(b.components, t),
+      physics: t < 0.5 ? physics : b.physics,
+      fundations: _lerpElementaryBase(b.fundations, t),
+    );
+  }
 
   @override
-  Widget buildWithChild(BuildContext context, Widget? child) {
-    MediaQueryData mediaQuery =
-        MediaQuery.maybeOf(context) ?? const MediaQueryData();
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
 
-    final elementaryTheme = ElementaryComponents.themeStyleOf(
-      context: context,
-      config: _elementaryProperties,
-    );
-
-    TextStyle defaultTextStyle = _defaultTestStyle();
-
-    return ElementaryProvider(
-      data: elementaryTheme,
-      child: MediaQuery(
-        data: mediaQuery.copyWith(
-          textScaler: mediaQuery.textScaler.clamp(
-            minScaleFactor: _elementaryProperties.minScaleFactor,
-            maxScaleFactor: _elementaryProperties.maxScaleFactor,
-          ),
-        ),
-        child: DefaultTextStyle(
-          style: defaultTextStyle,
-          child: child ?? const SizedBox.shrink(),
-        ),
+    properties.add(
+      IterableProperty<ElementaryBase<dynamic>>(
+        'extensions',
+        components.values,
+        level: DiagnosticLevel.debug,
       ),
     );
   }
 
-  TextStyle _defaultTestStyle() {
-    const defaultTextStyle = TextStyle(
-      fontFamily: 'Roboto',
-      fontWeight: FontWeight.w400,
-      fontSize: 14,
-      letterSpacing: -0.26,
-      color: Color(0xFF000000),
-      textBaseline: TextBaseline.alphabetic,
-    );
-    if (kDebugMode &&
-        (!kIsWeb && !Platform.environment.containsKey('FLUTTER_TEST'))) {
-      return defaultTextStyle.copyWith(
-        color: const Color(0xffFF2323),
-        decorationColor: const Color(0xffFFCE51),
-        decoration: TextDecoration.lineThrough,
+  @override
+  List<Object?> get props => [
+        components,
+        fundations,
+        physics,
+      ];
+
+  ///Replace all kinds provide.
+  ///
+  ///If the kind exist already in Elementary components change the value of the map.key for the current value of map.value.
+  ///You can replace one by one using [replaceKind], however if you only want to change a kind in the current context
+  ///must be recomendated to use Elementary(KindToReplace)Theme.
+  ///
+  ///Usually use in [ElementaryAnimatedTheme] widget.
+  Elementary replaceMultipleKind({
+    required Map<Type, ElementaryBase<dynamic>> kinds,
+  }) {
+    //Check if the component kind exists in the provide theme components
+    for (MapEntry<Type, ElementaryBase<dynamic>> kind in kinds.entries) {
+      assert(
+        components[kind.key]?.runtimeType != null,
+        "Kind must be the same Type or Covariant as the replacemente kind",
       );
     }
-    return _defaultTextStyle ?? defaultTextStyle;
-  }
-
-  @override
-  void debugFillProperties(
-    DiagnosticPropertiesBuilder properties,
-  ) {
-    super.debugFillProperties(properties);
-    properties.add(
-      DiagnosticsProperty<ElementaryProperties>(
-        'elementaryProperties',
-        _elementaryProperties,
-        showName: false,
-      ),
+    //Return copyWith of the [ElementaryThemeData] components must be unmodifiable
+    //for being sure of no modifications and no repit hash
+    return copyWith(
+      components: Map.unmodifiable(Map.from(components)..addAll(kinds)),
     );
   }
-}
 
-class CustomUnMaterialTheme extends SingleChildStatelessWidget {
-  const CustomUnMaterialTheme({
-    required Color? primaryColor,
-    required TextStyle? defaultTextStyle,
-    super.key,
-    super.child,
-  })  : _primaryColor = primaryColor,
-        _defaultTextStyle = defaultTextStyle;
-
-  final Color? _primaryColor;
-  final TextStyle? _defaultTextStyle;
-
-  ThemeData _defaultMaterialTheme({
-    required ThemeData defaultTheme,
+  ///Replace current kind in the ElementaryThemeData.
+  ///
+  ///If the kind exist already in Elementary components and is Type or Covariant
+  ///of the provide [Kind] then replace the [Kind] type for the new kind.
+  ///
+  ///
+  ///Usually use in [ElementaryAnimatedTheme] widget. If you want to change the
+  ///current context for instance it's recommended to use Elementary(KindToReplace)Theme.
+  Elementary replaceKind<Kind extends ElementaryBase>({
+    required ElementaryBase<dynamic> kind,
   }) {
-    final textTheme = defaultTheme.textTheme.apply(
-      displayColor: _defaultTextStyle?.color,
-      bodyColor: _defaultTextStyle?.color,
-      decoration: _defaultTextStyle?.decoration,
-      decorationColor: _defaultTextStyle?.decorationColor,
-      decorationStyle: _defaultTextStyle?.decorationStyle,
-      fontFamily: _defaultTextStyle?.fontFamily,
+    //Check if the component kind exists in the provide theme components and is the type
+    assert(
+      components[kind.type] is Kind,
+      "Kind must be the same Type or Covariant as the replacemente kind",
     );
-
-    final materialTheme = defaultTheme.copyWith(
-      primaryColor: _primaryColor,
-      visualDensity: VisualDensity.standard,
-      bottomSheetTheme: const BottomSheetThemeData(
-        surfaceTintColor: Colors.transparent,
-      ),
-      scrollbarTheme: ScrollbarThemeData(
-        thumbVisibility: MaterialStateProperty.all(true),
-        trackColor: MaterialStateProperty.all(
-          _primaryColor,
-        ),
-        thumbColor: MaterialStateProperty.all(
-          _primaryColor,
-        ),
-      ),
-      dialogTheme: const DialogTheme(
-        surfaceTintColor: Colors.transparent,
-      ),
-      textTheme: textTheme,
-      primaryTextTheme: textTheme,
-      inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-        labelStyle: _defaultTextStyle,
-        helperStyle: _defaultTextStyle,
-        hintStyle: _defaultTextStyle,
-        errorStyle: _defaultTextStyle,
-        prefixStyle: _defaultTextStyle,
-        counterStyle: _defaultTextStyle,
-      ),
-      sliderTheme: defaultTheme.sliderTheme.copyWith(
-        valueIndicatorTextStyle: _defaultTextStyle,
-      ),
-      chipTheme: defaultTheme.chipTheme.copyWith(
-        labelStyle: _defaultTextStyle,
-        secondaryLabelStyle: _defaultTextStyle,
-      ),
+    //Return copyWith of the [ElementaryThemeData] components must be unmodifiable
+    //for being sure of no modifications and no repit hash
+    return copyWith(
+      components: Map.unmodifiable(Map.from(components)..addAll({Kind: kind})),
     );
-    return materialTheme;
   }
 
-  @override
-  Widget buildWithChild(BuildContext context, Widget? child) {
-    final defaultTheme = Theme.of(context);
-    return Theme(
-      data: _defaultMaterialTheme(
-        defaultTheme: defaultTheme,
-      ),
-      child: child ?? const SizedBox.shrink(),
+  Elementary copyWith({
+    Map<Type, ElementaryBase<dynamic>>? components,
+    Map<Type, ElementaryBase<dynamic>>? fundations,
+    ScrollPhysics? physics,
+  }) {
+    return Elementary(
+      components: components ?? this.components,
+      fundations: fundations ?? this.fundations,
+      physics: physics ?? this.physics,
     );
   }
 }

@@ -1,6 +1,6 @@
 part of '../elementary.dart';
 
-/// An interface that defines components to a [ElementaryComponents] object.
+/// An interface that defines components to a [Elementary] object.
 @immutable
 abstract base class ElementaryBase<T> extends Equatable with Diagnosticable {
   /// Enable const constructor for subclasses.
