@@ -13,10 +13,24 @@ env:
  
 
 jobs:
-  generate:
-    name: Generate
+  publish:
+    permissions:
+      id-token: write # Required for authentication using OIDC
+    name: publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.5
  
+      - name: 🎯 Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+ 
+      - name: Melos action
+        uses: bluefireteam/melos-action@v3
+        with:
+          melos-version: ${{ env.MELOS_VERSION }}
+          run-bootstrap: true
+
+      - run: melos publish  
