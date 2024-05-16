@@ -1,6 +1,10 @@
 name: elementary_ui
 description: "A components with Kind provider."
 
+repository: https://github.com/coolosos/elementary_ui
+issue_tracker: https://github.com/coolosos/elementary_ui/issues
+homepage: https://github.com/coolosos
+
 version: 0.0.1
 
 environment:
@@ -10,9 +14,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meta: any
-  collection: any
-  equatable: any
+  meta: ^1.11.0
+  collection: ^1.18.0
+  equatable: ^2.0.5
   nested: ^1.0.0
   universal_io: ^2.2.2
 
