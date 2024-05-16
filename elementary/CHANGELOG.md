@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Fixes
+
 ## 0.0.2
 
 - Added ComponentTheme
