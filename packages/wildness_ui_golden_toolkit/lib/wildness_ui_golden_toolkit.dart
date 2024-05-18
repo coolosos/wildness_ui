@@ -1,6 +1,6 @@
 library toolkit;
 
-import 'package:elementary_ui/elementary.dart';
+import 'package:wildness_ui/wildness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';

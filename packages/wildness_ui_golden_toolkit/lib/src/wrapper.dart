@@ -1,4 +1,4 @@
-part of "../toolkit.dart";
+part of "../wildness_ui_golden_toolkit.dart";
 
 const bgColor = Color.fromARGB(255, 234, 255, 217);
 

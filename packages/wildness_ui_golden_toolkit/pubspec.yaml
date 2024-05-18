@@ -23,10 +23,10 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  build_runner: any
-  golden_toolkit: 0.15.0
+  build_runner: ^2.4.9
+  golden_toolkit: ^0.15.0
 
-  wildness_ui: 0.0.4
+  wildness_ui: ^0.1.1
 
 dev_dependencies:
-  coolint: 2.0.0
+  coolint: ^2.0.0
