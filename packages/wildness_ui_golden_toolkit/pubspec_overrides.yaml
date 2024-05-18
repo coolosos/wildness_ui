@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: elementary_ui
+dependency_overrides:
+  elementary_ui:
+    path: ../elementary_ui

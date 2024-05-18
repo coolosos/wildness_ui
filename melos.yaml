@@ -7,7 +7,7 @@ repository:
   name: "elementary_ui"
 
 packages:
-  - elementary
+  - packages/**
 
 command:
   version:

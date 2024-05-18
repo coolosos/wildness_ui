@@ -9,6 +9,7 @@ version: 0.0.3
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
+  flutter: ">=3.19.6"
 
 dependencies:
   flutter:
@@ -23,4 +24,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  coolint: 1.0.3
+  coolint: 2.0.0
