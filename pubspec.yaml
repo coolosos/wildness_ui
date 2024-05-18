@@ -7,7 +7,8 @@ homepage: https://github.com/coolosos
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
+  flutter: ">=3.19.6"
 
 dev_dependencies:
   melos: ^6.0.0
-  coolint: 1.0.3
+  coolint: 2.0.0

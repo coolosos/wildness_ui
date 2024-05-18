@@ -26,5 +26,5 @@ abstract base class ComponentTheme<T extends ElementaryBase<T>>
   static Kind? kindThemeData<Kind extends ElementaryBase>(
     BuildContext context,
   ) =>
-      Elementary.of(context).component<Kind>();
+      Elementary.of(context, listen: true).component<Kind>();
 }

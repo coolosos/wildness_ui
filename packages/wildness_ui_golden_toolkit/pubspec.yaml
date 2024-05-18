@@ -1,0 +1,32 @@
+name: wildness_ui_golden_toolkit
+description: "A tools for create goldent test on elementary components."
+
+repository: https://github.com/coolosos/elementary_ui
+issue_tracker: https://github.com/coolosos/elementary_ui/issues
+homepage: https://github.com/coolosos
+
+version: 0.1.0
+
+environment:
+  sdk: ">=3.3.1 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  meta: ^1.11.0
+  collection: ^1.18.0
+  equatable: ^2.0.5
+  nested: ^1.0.0
+  universal_io: ^2.2.2
+  flutter_test:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  build_runner: any
+  golden_toolkit: 0.15.0
+
+  elementary_ui: 0.0.3
+
+dev_dependencies:
+  coolint: 2.0.0
