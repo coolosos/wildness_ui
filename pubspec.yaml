@@ -1,8 +1,8 @@
 name: melos_rack_workspace
 publish_to: none
 
-repository: https://github.com/coolosos/elementary_ui
-issue_tracker: https://github.com/coolosos/elementary_ui/issues
+repository: https://github.com/coolosos/wildness_ui
+issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
 environment:

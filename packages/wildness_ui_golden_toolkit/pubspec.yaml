@@ -1,8 +1,8 @@
 name: wildness_ui_golden_toolkit
-description: "A tools for create goldent test on elementary components."
+description: "A tools for create goldent test on wildness components."
 
-repository: https://github.com/coolosos/elementary_ui
-issue_tracker: https://github.com/coolosos/elementary_ui/issues
+repository: https://github.com/coolosos/wildness_ui
+issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
 version: 0.1.0
@@ -26,7 +26,7 @@ dependencies:
   build_runner: any
   golden_toolkit: 0.15.0
 
-  elementary_ui: 0.0.3
+  wildness_ui: 0.0.4
 
 dev_dependencies:
   coolint: 2.0.0

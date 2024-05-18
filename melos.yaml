@@ -1,10 +1,10 @@
-name: elementary_ui
+name: wildness_ui
 
 repository:
   type: "github"
-  origin: "https://github.com/coolosos/elementary_ui"
+  origin: "https://github.com/coolosos/wildness_ui"
   owner: "coolosos"
-  name: "elementary_ui"
+  name: "wildness_ui"
 
 packages:
   - packages/**

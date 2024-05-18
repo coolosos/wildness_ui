@@ -1,4 +1,4 @@
-import 'package:elementary_ui/elementary.dart';
+import 'package:wildness_ui/wildness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,11 +6,11 @@ void main() {
   group('Widtget', () {
     testWidgets('Verify only one DefaultTestStyle',
         (WidgetTester tester) async {
-      const config = ElementaryProperties(
+      const config = WildnessProperties(
         forzeThemeMode: Brightness.dark,
       );
-      const app = ElementaryApp(
-        elementaryProperties: config,
+      const app = WildnessApp(
+        wildnessProperties: config,
         defaultTextStyle: TextStyle(fontFamily: 'test'),
       );
 
@@ -23,13 +23,13 @@ void main() {
 
     testWidgets('Verify only one DefaultTestStyle',
         (WidgetTester tester) async {
-      const config = ElementaryProperties(
+      const config = WildnessProperties(
         forzeThemeMode: Brightness.dark,
         // TextStyle(fontFamily: 'test')
       );
       String? fontFamily;
-      final app = ElementaryApp(
-        elementaryProperties: config,
+      final app = WildnessApp(
+        wildnessProperties: config,
         defaultTextStyle: const TextStyle(fontFamily: 'test'),
         child: Builder(
           builder: (context) {
@@ -52,8 +52,8 @@ void main() {
       Brightness? brightness;
 
       await tester.pumpWidget(
-        ElementaryApp(
-          elementaryProperties: const ElementaryProperties(
+        WildnessApp(
+          wildnessProperties: const WildnessProperties(
             forzeThemeMode: Brightness.dark,
           ),
           child: Builder(
@@ -68,8 +68,8 @@ void main() {
       expect(brightness, Brightness.dark);
 
       await tester.pumpWidget(
-        ElementaryApp(
-          elementaryProperties: const ElementaryProperties(
+        WildnessApp(
+          wildnessProperties: const WildnessProperties(
             forzeThemeMode: Brightness.light,
           ),
           child: Builder(
@@ -89,8 +89,8 @@ void main() {
       Brightness? brightness;
 
       await tester.pumpWidget(
-        ElementaryApp.withDefaultTheme(
-          elementaryProperties: const ElementaryProperties(
+        WildnessApp.withDefaultTheme(
+          wildnessProperties: const WildnessProperties(
             forzeThemeMode: Brightness.dark,
           ),
           child: Builder(
@@ -106,8 +106,8 @@ void main() {
       expect(brightness, Brightness.dark);
 
       await tester.pumpWidget(
-        ElementaryApp(
-          elementaryProperties: const ElementaryProperties(
+        WildnessApp(
+          wildnessProperties: const WildnessProperties(
             forzeThemeMode: Brightness.light,
           ),
           child: Builder(

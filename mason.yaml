@@ -2,5 +2,5 @@ bricks:
       component:
             git:
                   url: "git@github.com:coolosos/mason-bricks.git"
-                  path: bricks/dart/elementary_ui/component
+                  path: bricks/dart/wildness_ui/component
                   ref: main
