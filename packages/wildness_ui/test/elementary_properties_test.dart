@@ -1,22 +1,22 @@
-import 'package:elementary_ui/elementary.dart';
+import 'package:wildness_ui/wildness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-base class CoolButtonThemeData extends ElementaryBase<CoolButtonThemeData> {
+base class CoolButtonThemeData extends WildnessBase<CoolButtonThemeData> {
   const CoolButtonThemeData({required this.decoration});
 
   final BoxDecoration? decoration;
 
   @override
-  ElementaryBase<CoolButtonThemeData> copyWith({
+  WildnessBase<CoolButtonThemeData> copyWith({
     BoxDecoration? decoration,
   }) {
     return CoolButtonThemeData(decoration: decoration ?? this.decoration);
   }
 
   @override
-  ElementaryBase<CoolButtonThemeData> lerp(
-    ElementaryBase<CoolButtonThemeData>? other,
+  CoolButtonThemeData lerp(
+    WildnessBase<CoolButtonThemeData>? other,
     double t,
   ) {
     if (other is! CoolButtonThemeData) {
@@ -64,12 +64,12 @@ const coolKind = CoolKindButtonThemeData(
 
 void main() {
   group(
-    'Elementary Components',
+    'wildness Components',
     () {
       test(
         'components size by type',
         () {
-          const config = ElementaryProperties(
+          const config = WildnessProperties(
             forzeThemeMode: Brightness.light,
             components: Configuration(
               light: [
@@ -86,7 +86,7 @@ void main() {
       test(
         'components ThemeMode',
         () {
-          const config = ElementaryProperties(
+          const config = WildnessProperties(
             forzeThemeMode: Brightness.dark,
             components: Configuration(
               light: [
@@ -101,7 +101,7 @@ void main() {
       test(
         'no found kind',
         () {
-          const config = ElementaryProperties(
+          const config = WildnessProperties(
             forzeThemeMode: Brightness.dark,
             components: Configuration(
               light: [
@@ -116,7 +116,7 @@ void main() {
       test(
         'found kind',
         () {
-          const config = ElementaryProperties(
+          const config = WildnessProperties(
             forzeThemeMode: Brightness.light,
             components: Configuration(
               light: [
@@ -135,7 +135,7 @@ void main() {
       test(
         'type of kind no found base',
         () {
-          const config = ElementaryProperties(
+          const config = WildnessProperties(
             forzeThemeMode: Brightness.dark,
             // components: [
             //   Configuration<CoolButtonThemeData>.same(

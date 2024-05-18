@@ -1,7 +1,7 @@
-part of '../elementary.dart';
+part of '../wildness.dart';
 
 @immutable
-abstract base class ComponentTheme<T extends ElementaryBase<T>>
+abstract base class ComponentTheme<T extends WildnessBase<T>>
     extends InheritedTheme {
   const ComponentTheme({
     required this.data,
@@ -18,13 +18,13 @@ abstract base class ComponentTheme<T extends ElementaryBase<T>>
   bool updateShouldNotify(ComponentTheme<T> oldWidget) =>
       data != oldWidget.data;
 
-  static W? wrappedThemeData<W extends ComponentTheme<ElementaryBase>>(
+  static W? wrappedThemeData<W extends ComponentTheme<WildnessBase>>(
     BuildContext context,
   ) =>
       context.dependOnInheritedWidgetOfExactType<W>();
 
-  static Kind? kindThemeData<Kind extends ElementaryBase>(
+  static Kind? kindThemeData<Kind extends WildnessBase>(
     BuildContext context,
   ) =>
-      Elementary.of(context, listen: true).component<Kind>();
+      Wildness.of(context, listen: true).component<Kind>();
 }

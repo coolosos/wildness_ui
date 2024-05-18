@@ -16,13 +16,13 @@ extension DeviceExt on WidgetTester {
     double? textScaleSize,
     Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
     Iterable<Locale>? supportedLocales,
-    ElementaryProperties? config,
+    WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
   }) async {
     await pumpWidgetBuilder(
       builder.build(),
-      wrapper: elementaryWidgetWrapper(
+      wrapper: wildnessWidgetWrapper(
         config: config,
         defaultTextStyle: defaultTextStyle,
         localizationsDelegates: localizationsDelegates,
@@ -50,13 +50,13 @@ extension DeviceExt on WidgetTester {
     bool? autoHeight = true,
     Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
     Iterable<Locale>? supportedLocales,
-    ElementaryProperties? config,
+    WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
   }) async {
     await pumpDeviceBuilder(
       builder,
-      wrapper: elementaryWidgetWrapper(
+      wrapper: wildnessWidgetWrapper(
         config: config,
         defaultTextStyle: defaultTextStyle,
         localizationsDelegates: localizationsDelegates,

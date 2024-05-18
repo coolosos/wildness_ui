@@ -2,20 +2,20 @@ part of "../toolkit.dart";
 
 const bgColor = Color.fromARGB(255, 234, 255, 217);
 
-/// This [elementaryAppWrapper] is a convenience function to wrap your widget in [ElementaryApp]
+/// This [wildnessAppWrapper] is a convenience function to wrap your widget in [wildnessApp]
 /// Wraps your widget in MaterialApp, inject  custom theme, localizations, override  surfaceSize and platform
 ///
 /// [localizationsDelegates] is list of [LocalizationsDelegate] that is required for this test
 ///
 /// [supportedLocales] will set supported supportedLocales, defaults to [Locale('en')]
-WidgetWrapper elementaryWidgetWrapper({
+WidgetWrapper wildnessWidgetWrapper({
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
-  ElementaryProperties? config,
+  WildnessProperties? config,
   TextStyle? defaultTextStyle,
   Color? primaryColor = const Color.fromARGB(255, 3, 85, 3),
 }) {
-  return (child) => elementaryApp(
+  return (child) => wildnessApp(
         child: child,
         config: config,
         supportedLocales: supportedLocales,
@@ -25,22 +25,22 @@ WidgetWrapper elementaryWidgetWrapper({
       );
 }
 
-ElementaryApp elementaryApp({
+WildnessApp wildnessApp({
   required Widget child,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
-  ElementaryProperties? config,
+  WildnessProperties? config,
   TextStyle? defaultTextStyle,
   Color? primaryColor,
 }) {
-  return ElementaryApp.withDefaultTheme(
+  return WildnessApp.withDefaultTheme(
     defaultTextStyle: defaultTextStyle,
     primaryColor: primaryColor,
-    elementaryProperties: config ??
-        const ElementaryProperties(
+    wildnessProperties: config ??
+        const WildnessProperties(
           forzeThemeMode: Brightness.dark,
         ),
-    child: ElementaryBuilder(
+    child: WildnessBuilder(
       builder: (context, themeData) => WidgetsApp(
         debugShowCheckedModeBanner: false,
         title: 'Test App',

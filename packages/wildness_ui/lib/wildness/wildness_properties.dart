@@ -1,13 +1,13 @@
-part of '../elementary.dart';
+part of '../wildness.dart';
 
 @immutable
-class ElementaryProperties {
-  /// Creates a [ElementaryProperties] tha's used to configure ElementaryUI
+class WildnessProperties {
+  /// Creates a [wildnessProperties] tha's used to configure wildnessUI
   ///
-  /// The [forzeThemeElementaryMode] will be used to set the theme,
+  /// The [forzeThemewildnessMode] will be used to set the theme,
   /// if you dont pass it, the system default setting is used
   /// fallback is light
-  const ElementaryProperties({
+  const WildnessProperties({
     this.forzeThemeMode,
     Configuration components = const Configuration(),
     Configuration fundations = const Configuration(),
@@ -19,7 +19,7 @@ class ElementaryProperties {
 
   /// Componets of this theme.
   ///
-  /// To define components, pass an [Iterable] containing one or more [ElementaryBase] and their kinds
+  /// To define components, pass an [Iterable] containing one or more [wildnessBase] and their kinds
   final Configuration _components;
   final Configuration _fundations;
 
@@ -33,9 +33,9 @@ class ElementaryProperties {
   final double minScaleFactor;
   final double maxScaleFactor;
 
-  /// Convert the [_components] passed to [ElementaryProperties.new]
-  /// to the stored [Elementary.components] map, where each entry's key consists of the kind type, theme resolved.
-  Map<Type, ElementaryBase<dynamic>> components({
+  /// Convert the [_components] passed to [wildnessProperties.new]
+  /// to the stored [wildness.components] map, where each entry's key consists of the kind type, theme resolved.
+  Map<Type, WildnessBase<dynamic>> components({
     Brightness? brightness,
   }) {
     return _configurationToMap(
@@ -44,9 +44,9 @@ class ElementaryProperties {
     );
   }
 
-  /// Convert the [_fundations] passed to [ElementaryProperties.new]
+  /// Convert the [_fundations] passed to [wildnessProperties.new]
   /// to the stored [fundations] map, where each entry's key consists of the kind type, theme resolved.
-  Map<Type, ElementaryBase<dynamic>> fundations({
+  Map<Type, WildnessBase<dynamic>> fundations({
     Brightness? brightness,
   }) {
     return _configurationToMap(
@@ -55,7 +55,7 @@ class ElementaryProperties {
     );
   }
 
-  Map<Type, ElementaryBase<dynamic>> _configurationToMap({
+  Map<Type, WildnessBase<dynamic>> _configurationToMap({
     required Configuration configuration,
     required Brightness? brightness,
   }) {
@@ -64,9 +64,9 @@ class ElementaryProperties {
       _ => configuration.light,
     };
 
-    return Map<Type, ElementaryBase<dynamic>>.unmodifiable(
+    return Map<Type, WildnessBase<dynamic>>.unmodifiable(
       {
-        for (final ElementaryBase<dynamic> eBase in resolvedTheme.toSet())
+        for (final WildnessBase<dynamic> eBase in resolvedTheme.toSet())
           eBase.runtimeType: eBase,
       },
     );

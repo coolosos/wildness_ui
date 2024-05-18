@@ -13,7 +13,7 @@ updates:
       time: "19:00"
       timezone: Europe/Madrid
   - package-ecosystem: "pub"
-    directory: "elementary/"
+    directory: "wildness/"
     schedule:
       interval: weekly
       time: "19:00"

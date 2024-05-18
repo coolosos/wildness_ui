@@ -1,3 +1,7 @@
+## 0.1.0
+
+- Rename project to Wildness
+
 ## 0.0.3
 
 - Fixes

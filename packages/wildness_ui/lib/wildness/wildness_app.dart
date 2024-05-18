@@ -1,24 +1,24 @@
-part of '../elementary.dart';
+part of '../wildness.dart';
 
 @immutable
-class ElementaryApp extends SingleChildStatelessWidget {
-  const ElementaryApp({
-    required ElementaryProperties elementaryProperties,
+class WildnessApp extends SingleChildStatelessWidget {
+  const WildnessApp({
+    required WildnessProperties wildnessProperties,
     TextStyle? defaultTextStyle,
     super.key,
     super.child,
-  })  : _elementaryProperties = elementaryProperties,
+  })  : _wildnessProperties = wildnessProperties,
         _defaultTextStyle = defaultTextStyle;
 
-  factory ElementaryApp.withDefaultTheme({
-    required ElementaryProperties elementaryProperties,
+  factory WildnessApp.withDefaultTheme({
+    required WildnessProperties wildnessProperties,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
     Key? key,
     Widget? child,
   }) {
-    return ElementaryApp(
-      elementaryProperties: elementaryProperties,
+    return WildnessApp(
+      wildnessProperties: wildnessProperties,
       defaultTextStyle: defaultTextStyle,
       key: key,
       child: CustomDefaultTheme(
@@ -29,7 +29,7 @@ class ElementaryApp extends SingleChildStatelessWidget {
     );
   }
 
-  final ElementaryProperties _elementaryProperties;
+  final WildnessProperties _wildnessProperties;
   final TextStyle? _defaultTextStyle;
 
   @override
@@ -40,24 +40,24 @@ class ElementaryApp extends SingleChildStatelessWidget {
     TextStyle defaultTextStyle = _defaultTestStyle();
 
     final Brightness platformBrightness =
-        _elementaryProperties.forzeThemeMode ?? mediaQuery.platformBrightness;
+        _wildnessProperties.forzeThemeMode ?? mediaQuery.platformBrightness;
     // MediaQuery.platformBrightnessOf(context);
 
-    return ElementaryProvider(
-      data: Elementary(
-        components: _elementaryProperties.components(
+    return WildnessProvider(
+      data: Wildness(
+        components: _wildnessProperties.components(
           brightness: platformBrightness,
         ),
-        fundations: _elementaryProperties.fundations(
+        fundations: _wildnessProperties.fundations(
           brightness: platformBrightness,
         ),
-        physics: _elementaryProperties.physics,
+        physics: _wildnessProperties.physics,
       ),
       child: MediaQuery(
         data: mediaQuery.copyWith(
           textScaler: mediaQuery.textScaler.clamp(
-            minScaleFactor: _elementaryProperties.minScaleFactor,
-            maxScaleFactor: _elementaryProperties.maxScaleFactor,
+            minScaleFactor: _wildnessProperties.minScaleFactor,
+            maxScaleFactor: _wildnessProperties.maxScaleFactor,
           ),
           platformBrightness: platformBrightness,
         ),
@@ -95,9 +95,9 @@ class ElementaryApp extends SingleChildStatelessWidget {
   ) {
     super.debugFillProperties(properties);
     properties.add(
-      DiagnosticsProperty<ElementaryProperties>(
-        'elementaryProperties',
-        _elementaryProperties,
+      DiagnosticsProperty<WildnessProperties>(
+        'wildnessProperties',
+        _wildnessProperties,
         showName: false,
       ),
     );
