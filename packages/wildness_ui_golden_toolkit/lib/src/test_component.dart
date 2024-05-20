@@ -4,7 +4,8 @@ part of "../wildness_ui_golden_toolkit.dart";
 void testColumnComponent({
   required String name,
   required List<Component> scenarios,
-  required Future<TestGesture?> Function()? gestureBuilder,
+  String? groupName,
+  Future<TestGesture?> Function()? gestureBuilder,
   List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
@@ -26,7 +27,7 @@ void testColumnComponent({
     }
 
     await tester.pumpWidgetAndMatchWithGesture(
-      groupTitle: 'components/${name.toLowerCase()}',
+      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
       builder: builder,
       surfaceSize: surfaceSize,
       gestureBuilder: () async {
@@ -46,7 +47,8 @@ void testColumnComponent({
 void testDeviceComponent({
   required String name,
   required List<Component> scenarios,
-  required Future<TestGesture?> Function()? gestureBuilder,
+  String? groupName,
+  Future<TestGesture?> Function()? gestureBuilder,
   List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
@@ -65,7 +67,7 @@ void testDeviceComponent({
     }
 
     await tester.pumpDeviceAndMatch(
-      groupTitle: 'components/${name.toLowerCase()}_device',
+      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
       builder: builder,
       autoHeight: true,
     );
