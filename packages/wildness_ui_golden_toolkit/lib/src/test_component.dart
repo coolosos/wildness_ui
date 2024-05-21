@@ -9,9 +9,10 @@ void testColumnComponent({
   List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
+  Widget Function(Widget)? wrap,
 }) {
   testGoldens(name, (WidgetTester tester) async {
-    final builder = GoldenBuilder.column();
+    final builder = GoldenBuilder.column(wrap: wrap);
 
     for (var scenario in scenarios) {
       if (scenario.textScaleFactor != null) {
@@ -52,9 +53,10 @@ void testDeviceComponent({
   List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
+  Widget Function(Widget)? wrap,
 }) {
   testGoldens(name, (WidgetTester tester) async {
-    final builder = DeviceBuilder();
+    final builder = DeviceBuilder(wrap: wrap);
     if (devices != null) {
       builder.overrideDevicesForAllScenarios(devices: devices);
     }
