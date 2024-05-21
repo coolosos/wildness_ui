@@ -47,6 +47,7 @@ extension DeviceExt on WidgetTester {
   Future<void> pumpDeviceAndMatch({
     required String groupTitle,
     required DeviceBuilder builder,
+    Future Function()? gestureBuilder,
     bool? autoHeight = true,
     Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
     Iterable<Locale>? supportedLocales,
@@ -64,6 +65,10 @@ extension DeviceExt on WidgetTester {
         primaryColor: primaryColor,
       ),
     );
+
+    await pumpAndSettle();
+
+    await gestureBuilder?.call();
 
     await screenMatchesGolden(
       this,
