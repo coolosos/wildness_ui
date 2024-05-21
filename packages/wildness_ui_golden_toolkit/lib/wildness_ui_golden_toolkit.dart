@@ -7,6 +7,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
 
+export 'package:flutter_test/flutter_test.dart';
+export 'package:golden_toolkit/golden_toolkit.dart';
+
 part 'src/component.dart';
 part 'src/wrapper.dart';
 part 'src/list_devices.dart';

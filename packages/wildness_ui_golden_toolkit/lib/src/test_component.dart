@@ -5,11 +5,18 @@ void testColumnComponent({
   required String name,
   required List<Component> scenarios,
   String? groupName,
-  Future<TestGesture?> Function()? gestureBuilder,
+  Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
-  Widget Function(Widget)? wrap,
+  Widget Function(Widget child)? wrap,
+  bool? autoHeight = true,
+  double? textScaleSize,
+  Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
+  Iterable<Locale>? supportedLocales,
+  WildnessProperties? config,
+  TextStyle? defaultTextStyle,
+  Color? primaryColor,
 }) {
   testGoldens(name, (WidgetTester tester) async {
     final builder = GoldenBuilder.column(wrap: wrap);
@@ -38,8 +45,15 @@ void testColumnComponent({
           );
         }
 
-        await gestureBuilder?.call();
+        await gestureBuilder?.call(tester);
       },
+      autoHeight: autoHeight,
+      config: config,
+      defaultTextStyle: defaultTextStyle,
+      localizationsDelegates: localizationsDelegates,
+      primaryColor: primaryColor,
+      supportedLocales: supportedLocales,
+      textScaleSize: textScaleSize,
     );
   });
 }
@@ -49,11 +63,18 @@ void testDeviceComponent({
   required String name,
   required List<Component> scenarios,
   String? groupName,
-  Future<TestGesture?> Function()? gestureBuilder,
+  Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
-  Widget Function(Widget)? wrap,
+  Widget Function(Widget child)? wrap,
+  bool? autoHeight = true,
+  double? textScaleSize,
+  Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
+  Iterable<Locale>? supportedLocales,
+  WildnessProperties? config,
+  TextStyle? defaultTextStyle,
+  Color? primaryColor,
 }) {
   testGoldens(name, (WidgetTester tester) async {
     final builder = DeviceBuilder(wrap: wrap);
@@ -72,6 +93,20 @@ void testDeviceComponent({
       groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
       builder: builder,
       autoHeight: true,
+      config: config,
+      defaultTextStyle: defaultTextStyle,
+      localizationsDelegates: localizationsDelegates,
+      primaryColor: primaryColor,
+      supportedLocales: supportedLocales,
+      gestureBuilder: () async {
+        if (touchKey != null) {
+          await tester.startGesture(
+            tester.getRect(find.byKey(touchKey)).center,
+          );
+        }
+
+        await gestureBuilder?.call(tester);
+      },
     );
   });
 }
