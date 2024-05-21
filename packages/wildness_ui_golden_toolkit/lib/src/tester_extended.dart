@@ -10,7 +10,7 @@ extension DeviceExt on WidgetTester {
   Future<void> pumpWidgetAndMatchWithGesture({
     required String groupTitle,
     required GoldenBuilder builder,
-    required Future Function()? gestureBuilder,
+    Future Function()? gestureBuilder,
     bool? autoHeight = true,
     Size? surfaceSize,
     double? textScaleSize,
