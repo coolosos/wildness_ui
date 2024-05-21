@@ -1,3 +1,6 @@
+## 0.1.3
+- added more properties for component test
+- passthrough WidgetTester for gestures
 ## 0.1.2
 - added wrap for scenarios 
 - use home on widgetApp
