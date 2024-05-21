@@ -1,7 +1,5 @@
 part of "../wildness_ui_golden_toolkit.dart";
 
-const bgColor = Color.fromARGB(255, 234, 255, 217);
-
 /// This [wildnessAppWrapper] is a convenience function to wrap your widget in [wildnessApp]
 /// Wraps your widget in MaterialApp, inject  custom theme, localizations, override  surfaceSize and platform
 ///
@@ -45,14 +43,16 @@ WildnessApp wildnessApp({
         debugShowCheckedModeBanner: false,
         title: 'Test App',
         initialRoute: 'root',
-        onGenerateRoute: (settings) => MaterialPageRoute(
-          builder: (context) {
-            return ColoredBox(
-              color: bgColor,
-              child: child,
-            );
-          },
+        home: child,
+        pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
+            PageRouteBuilder<T>(
           settings: settings,
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              builder(context),
         ),
         localizationsDelegates: localizationsDelegates ??
             const [
