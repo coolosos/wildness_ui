@@ -70,7 +70,7 @@ void main() {
         'components size by type',
         () {
           const config = WildnessProperties(
-            forzeThemeMode: Brightness.light,
+            forceThemeMode: Brightness.light,
             components: Configuration(
               light: [
                 normal,
@@ -87,7 +87,7 @@ void main() {
         'components ThemeMode',
         () {
           const config = WildnessProperties(
-            forzeThemeMode: Brightness.dark,
+            forceThemeMode: Brightness.dark,
             components: Configuration(
               light: [
                 replica,
@@ -102,7 +102,7 @@ void main() {
         'no found kind',
         () {
           const config = WildnessProperties(
-            forzeThemeMode: Brightness.dark,
+            forceThemeMode: Brightness.dark,
             components: Configuration(
               light: [
                 coolKind,
@@ -117,7 +117,7 @@ void main() {
         'found kind',
         () {
           const config = WildnessProperties(
-            forzeThemeMode: Brightness.light,
+            forceThemeMode: Brightness.light,
             components: Configuration(
               light: [
                 coolKind,
@@ -136,7 +136,7 @@ void main() {
         'type of kind no found base',
         () {
           const config = WildnessProperties(
-            forzeThemeMode: Brightness.dark,
+            forceThemeMode: Brightness.dark,
             // components: [
             //   Configuration<CoolButtonThemeData>.same(
             //     normal,

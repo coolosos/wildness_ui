@@ -1,3 +1,5 @@
+## 0.1.4
+- Fix spells
 ## 0.1.3
 - added more properties for component test
 - passthrough WidgetTester for gestures

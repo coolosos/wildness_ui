@@ -5,7 +5,7 @@ class Devices {
   static const common = [
     Device(
       size: Size(320, 480),
-      name: 'Ipod touch',
+      name: 'IPod touch',
       devicePixelRatio: 3 / 2,
     ),
     Device(
@@ -15,7 +15,7 @@ class Devices {
     ),
     Device(
       size: Size(320, 568),
-      name: 'Iphone SE',
+      name: 'iPhone SE',
       devicePixelRatio: 2,
     ),
     Device(

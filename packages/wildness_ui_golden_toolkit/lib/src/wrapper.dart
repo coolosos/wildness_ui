@@ -36,7 +36,7 @@ WildnessApp wildnessApp({
     primaryColor: primaryColor,
     wildnessProperties: config ??
         const WildnessProperties(
-          forzeThemeMode: Brightness.dark,
+          forceThemeMode: Brightness.dark,
         ),
     child: WildnessBuilder(
       builder: (context, themeData) => WidgetsApp(

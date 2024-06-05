@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Fix spells
+
 ## 0.1.1
 
 - Rename project to Wildness
