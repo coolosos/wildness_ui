@@ -2,30 +2,30 @@ part of '../wildness.dart';
 
 @immutable
 class WildnessProperties {
-  /// Creates a [wildnessProperties] tha's used to configure wildnessUI
+  /// Creates a [wildnessProperties] that's used to configure wildnessUI
   ///
-  /// The [forzeThemewildnessMode] will be used to set the theme,
-  /// if you dont pass it, the system default setting is used
+  /// The [forceThemeMode] will be used to set the theme,
+  /// if you don't pass it, the system default setting is used
   /// fallback is light
   const WildnessProperties({
-    this.forzeThemeMode,
+    this.forceThemeMode,
     Configuration components = const Configuration(),
-    Configuration fundations = const Configuration(),
+    Configuration resources = const Configuration(),
     this.physics = const ClampingScrollPhysics(),
     this.minScaleFactor = 0.5,
     this.maxScaleFactor = 1.2,
-  })  : _fundations = fundations,
+  })  : _resources = resources,
         _components = components;
 
-  /// Componets of this theme.
+  /// Components of this theme.
   ///
   /// To define components, pass an [Iterable] containing one or more [wildnessBase] and their kinds
   final Configuration _components;
-  final Configuration _fundations;
+  final Configuration _resources;
 
   /// By default uses a system config
   /// if you pass a mode, it will be forced to this one.
-  final Brightness? forzeThemeMode;
+  final Brightness? forceThemeMode;
 
   /// The default Scroll physics for this theme.
   final ScrollPhysics physics;
@@ -44,14 +44,14 @@ class WildnessProperties {
     );
   }
 
-  /// Convert the [_fundations] passed to [wildnessProperties.new]
-  /// to the stored [fundations] map, where each entry's key consists of the kind type, theme resolved.
-  Map<Type, WildnessBase<dynamic>> fundations({
+  /// Convert the [_resources] passed to [wildnessProperties.new]
+  /// to the stored [resources] map, where each entry's key consists of the kind type, theme resolved.
+  Map<Type, WildnessBase<dynamic>> resources({
     Brightness? brightness,
   }) {
     return _configurationToMap(
       brightness: brightness,
-      configuration: _fundations,
+      configuration: _resources,
     );
   }
 
@@ -59,7 +59,7 @@ class WildnessProperties {
     required Configuration configuration,
     required Brightness? brightness,
   }) {
-    final resolvedTheme = switch (brightness ?? forzeThemeMode) {
+    final resolvedTheme = switch (brightness ?? forceThemeMode) {
       Brightness.dark => configuration.dark,
       _ => configuration.light,
     };

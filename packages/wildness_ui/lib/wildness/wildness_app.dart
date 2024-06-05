@@ -40,7 +40,7 @@ class WildnessApp extends SingleChildStatelessWidget {
     TextStyle defaultTextStyle = _defaultTestStyle();
 
     final Brightness platformBrightness =
-        _wildnessProperties.forzeThemeMode ?? mediaQuery.platformBrightness;
+        _wildnessProperties.forceThemeMode ?? mediaQuery.platformBrightness;
     // MediaQuery.platformBrightnessOf(context);
 
     return WildnessProvider(
@@ -48,7 +48,7 @@ class WildnessApp extends SingleChildStatelessWidget {
         components: _wildnessProperties.components(
           brightness: platformBrightness,
         ),
-        fundations: _wildnessProperties.fundations(
+        resources: _wildnessProperties.resources(
           brightness: platformBrightness,
         ),
         physics: _wildnessProperties.physics,

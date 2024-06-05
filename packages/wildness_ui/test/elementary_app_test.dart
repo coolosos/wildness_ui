@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Widtget', () {
+  group('Widget', () {
     testWidgets('Verify only one DefaultTestStyle',
         (WidgetTester tester) async {
       const config = WildnessProperties(
-        forzeThemeMode: Brightness.dark,
+        forceThemeMode: Brightness.dark,
       );
       const app = WildnessApp(
         wildnessProperties: config,
@@ -24,7 +24,7 @@ void main() {
     testWidgets('Verify only one DefaultTestStyle',
         (WidgetTester tester) async {
       const config = WildnessProperties(
-        forzeThemeMode: Brightness.dark,
+        forceThemeMode: Brightness.dark,
         // TextStyle(fontFamily: 'test')
       );
       String? fontFamily;
@@ -47,14 +47,14 @@ void main() {
       expect(fontFamily, 'test');
     });
 
-    testWidgets('MediaQuery set forzed brightness',
+    testWidgets('MediaQuery set forced brightness',
         (WidgetTester tester) async {
       Brightness? brightness;
 
       await tester.pumpWidget(
         WildnessApp(
           wildnessProperties: const WildnessProperties(
-            forzeThemeMode: Brightness.dark,
+            forceThemeMode: Brightness.dark,
           ),
           child: Builder(
             builder: (context) {
@@ -70,7 +70,7 @@ void main() {
       await tester.pumpWidget(
         WildnessApp(
           wildnessProperties: const WildnessProperties(
-            forzeThemeMode: Brightness.light,
+            forceThemeMode: Brightness.light,
           ),
           child: Builder(
             builder: (context) {
@@ -84,14 +84,14 @@ void main() {
       expect(brightness, Brightness.light);
     });
 
-    testWidgets('theme set forzed brightness with custom theme',
+    testWidgets('theme set forced brightness with custom theme',
         (WidgetTester tester) async {
       Brightness? brightness;
 
       await tester.pumpWidget(
         WildnessApp.withDefaultTheme(
           wildnessProperties: const WildnessProperties(
-            forzeThemeMode: Brightness.dark,
+            forceThemeMode: Brightness.dark,
           ),
           child: Builder(
             builder: (context) {
@@ -108,7 +108,7 @@ void main() {
       await tester.pumpWidget(
         WildnessApp(
           wildnessProperties: const WildnessProperties(
-            forzeThemeMode: Brightness.light,
+            forceThemeMode: Brightness.light,
           ),
           child: Builder(
             builder: (context) {

@@ -18,7 +18,7 @@ class Wildness extends Equatable with Diagnosticable {
   const Wildness({
     required this.physics,
     this.components = const {},
-    this.fundations = const {},
+    this.resources = const {},
   });
 
   static Wildness of(BuildContext context, {bool listen = true}) {
@@ -32,17 +32,17 @@ class Wildness extends Equatable with Diagnosticable {
     //expensive, searches for any Widget subclass
     // context.findAncestorWidgetOfExactType<_InheritedWildnessTheme>();
 
-    //! No podemos retornar una excepcion aqui, para permitir usar los componentes sueltos sin theme
+    //! No podemos retornar una excepción aquí, para permitir usar los componentes sueltos sin theme
     return inheritedTheme?.data ??
         const Wildness(
           physics: AlwaysScrollableScrollPhysics(),
           components: {},
-          fundations: {},
+          resources: {},
         );
   }
 
   final Map<Type, WildnessBase<dynamic>> components;
-  final Map<Type, WildnessBase<dynamic>> fundations;
+  final Map<Type, WildnessBase<dynamic>> resources;
   final ScrollPhysics physics;
 
   /// Used to obtain a particular [WildnessBase] from [components].
@@ -52,11 +52,11 @@ class Wildness extends Equatable with Diagnosticable {
   /// See [components] for an interactive example.
   T? component<T>() => (components[T] as T?);
 
-  T? fundation<T>() => (fundations[T] as T?);
+  T? resource<T>() => (resources[T] as T?);
 
   /// Linearly interpolate between two [components].
   ///
-  /// Includes all theme compoents in [a] and [b].
+  /// Includes all theme components in [a] and [b].
   ///
   /// {@macro dart.ui.shadow.lerp}
   Map<Type, WildnessBase<dynamic>> _lerpWildnessBase(
@@ -91,7 +91,7 @@ class Wildness extends Equatable with Diagnosticable {
     return Wildness(
       components: _lerpWildnessBase(b.components, t),
       physics: t < 0.5 ? physics : b.physics,
-      fundations: _lerpWildnessBase(b.fundations, t),
+      resources: _lerpWildnessBase(b.resources, t),
     );
   }
 
@@ -111,7 +111,7 @@ class Wildness extends Equatable with Diagnosticable {
   @override
   List<Object?> get props => [
         components,
-        fundations,
+        resources,
         physics,
       ];
 
@@ -119,7 +119,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///
   ///If the kind exist already in wildness components change the value of the map.key for the current value of map.value.
   ///You can replace one by one using [replaceKind], however if you only want to change a kind in the current context
-  ///must be recomendated to use wildness(KindToReplace)Theme.
+  ///must be recommended to use wildness(KindToReplace)Theme.
   ///
   ///Usually use in [wildnessAnimatedTheme] widget.
   Wildness replaceMultipleKind({
@@ -129,11 +129,11 @@ class Wildness extends Equatable with Diagnosticable {
     for (MapEntry<Type, WildnessBase<dynamic>> kind in kinds.entries) {
       assert(
         components[kind.key]?.runtimeType != null,
-        "Kind must be the same Type or Covariant as the replacemente kind",
+        "Kind must be the same Type or Covariant as the replacement kind",
       );
     }
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
-    //for being sure of no modifications and no repit hash
+    //for being sure of no modifications and no repeat hash
     return copyWith(
       components: Map.unmodifiable(Map.from(components)..addAll(kinds)),
     );
@@ -153,10 +153,10 @@ class Wildness extends Equatable with Diagnosticable {
     //Check if the component kind exists in the provide theme components and is the type
     assert(
       components[kind.type] is Kind,
-      "Kind must be the same Type or Covariant as the replacemente kind",
+      "Kind must be the same Type or Covariant as the replacement kind",
     );
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
-    //for being sure of no modifications and no repit hash
+    //for being sure of no modifications and no repeat hash
     return copyWith(
       components: Map.unmodifiable(Map.from(components)..addAll({Kind: kind})),
     );
@@ -164,12 +164,12 @@ class Wildness extends Equatable with Diagnosticable {
 
   Wildness copyWith({
     Map<Type, WildnessBase<dynamic>>? components,
-    Map<Type, WildnessBase<dynamic>>? fundations,
+    Map<Type, WildnessBase<dynamic>>? resources,
     ScrollPhysics? physics,
   }) {
     return Wildness(
       components: components ?? this.components,
-      fundations: fundations ?? this.fundations,
+      resources: resources ?? this.resources,
       physics: physics ?? this.physics,
     );
   }

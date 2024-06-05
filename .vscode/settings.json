@@ -27,4 +27,16 @@
         "pubspec.yaml": "*.yaml",
         ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
     },
+    "cSpell.words": [
+        "ARGB",
+        "coolosos",
+        "Cupertino",
+        "iphone",
+        "lerp",
+        "Lerp",
+        "melos",
+        "Roboto"
+    ],
+    "cSpell.enabled": true,
+    "cSpell.language": "en,es-ES",
 }
