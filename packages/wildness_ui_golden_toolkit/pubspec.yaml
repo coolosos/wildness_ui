@@ -5,7 +5,7 @@ repository: https://github.com/coolosos/wildness_ui
 issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
-version: 0.1.4
+version: 0.1.5
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
@@ -14,19 +14,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meta: ^1.11.0
-  collection: ^1.18.0
-  equatable: ^2.0.5
+  meta: ^1.16.0
+  collection: ^1.19.1
+  equatable: ^2.0.7
   nested: ^1.0.0
   universal_io: ^2.2.2
   flutter_test:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  build_runner: ^2.4.9
+  build_runner: ^2.4.15
   golden_toolkit: ^0.15.0
 
   wildness_ui: ^0.1.2
 
 dev_dependencies:
-  coolint: ^2.0.0
+  coolint: ^2.0.1

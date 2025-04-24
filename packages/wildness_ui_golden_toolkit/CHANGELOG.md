@@ -1,14 +1,23 @@
+## 0.1.5
+- Fix spells in the golden toolkit.
+- Updated dependencies to ensure compatibility with `wildness_ui` version 0.1.2.
+- Remove `flutter_localizations` dependency
+
 ## 0.1.4
-- Fix spells
+- Fix spells.
+
 ## 0.1.3
-- added more properties for component test
-- passthrough WidgetTester for gestures
+- Added more properties for component tests.
+- Passthrough `WidgetTester` for gestures.
+
 ## 0.1.2
-- added wrap for scenarios 
-- use home on widgetApp
+- Added wrap for scenarios.
+- Use `home` on `widgetApp`.
+
 ## 0.1.1
-chantes on testColumnComponent and testDeviceComponent:
-- removed gestureBuilder parameter as required
-- added groupName parameter
+Changes on `testColumnComponent` and `testDeviceComponent`:
+- Removed `gestureBuilder` parameter as required.
+- Added `groupName` parameter.
+
 ## 0.1.0
-- First version
+- First version.
