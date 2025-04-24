@@ -6,8 +6,8 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
 
 env:
-  FLUTTER_VERSION: 3.19.6
-  MELOS_VERSION: 6.0.0
+  FLUTTER_VERSION: 3.29.3
+  MELOS_VERSION: 6.3.2
   RUNID: ${{ github.run_number }}
   TAG: ${{ github.ref_name }}
  
