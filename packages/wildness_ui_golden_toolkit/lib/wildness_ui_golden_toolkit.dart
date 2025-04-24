@@ -2,7 +2,6 @@ library toolkit;
 
 import 'package:wildness_ui/wildness.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
@@ -17,7 +16,7 @@ part 'src/test_component.dart';
 part 'src/tester_extended.dart';
 
 /// create a [flutter_test_config.dart]
-/// and set [testExecutable] funciont for add default config
+/// and set [testExecutable] function for add default config
 /// ```
 /// Future<void> testExecutable(Future<void> Function() testMain) async {
 ///   return runWithConfiguration(testMain);

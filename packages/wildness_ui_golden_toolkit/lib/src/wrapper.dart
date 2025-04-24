@@ -54,12 +54,7 @@ WildnessApp wildnessApp({
           ) =>
               builder(context),
         ),
-        localizationsDelegates: localizationsDelegates ??
-            const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
+        localizationsDelegates: localizationsDelegates,
         color: Theme.of(context).colorScheme.primary,
         supportedLocales: supportedLocales ?? const [Locale('es')],
       ),
