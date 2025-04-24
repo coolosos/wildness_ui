@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meta: ^1.16.0
+  meta: ^1.11.0
   collection: ^1.19.1
   equatable: ^2.0.7
   nested: ^1.0.0

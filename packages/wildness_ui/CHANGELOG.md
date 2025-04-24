@@ -1,6 +1,5 @@
 ## 0.1.3
 
-- Updated dependency `meta` to version `1.16.0`
 - Updated dependency `collection` to version `^1.19.1`
 - Updated dependency `equatable` to version `^2.0.7`
 - Updated dependency `coolint` to version `^2.0.1`
