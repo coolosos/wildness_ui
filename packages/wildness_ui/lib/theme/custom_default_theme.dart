@@ -2,8 +2,8 @@ import 'package:flutter/material.dart'
     show
         BottomSheetThemeData,
         Colors,
-        DialogTheme,
-        MaterialStateProperty,
+        DialogThemeData,
+        WidgetStateProperty,
         ScrollbarThemeData,
         Theme,
         ThemeData,
@@ -44,15 +44,15 @@ class CustomDefaultTheme extends SingleChildStatelessWidget {
         surfaceTintColor: Colors.transparent,
       ),
       scrollbarTheme: ScrollbarThemeData(
-        thumbVisibility: MaterialStateProperty.all(true),
-        trackColor: MaterialStateProperty.all(
+        thumbVisibility: WidgetStateProperty.all(true),
+        trackColor: WidgetStateProperty.all(
           _primaryColor,
         ),
-        thumbColor: MaterialStateProperty.all(
+        thumbColor: WidgetStateProperty.all(
           _primaryColor,
         ),
       ),
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         surfaceTintColor: Colors.transparent,
       ),
       textTheme: textTheme,
