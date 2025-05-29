@@ -1,4 +1,4 @@
-library toolkit;
+library;
 
 import 'package:wildness_ui/wildness.dart';
 import 'package:flutter/material.dart';
