@@ -1,3 +1,7 @@
+## 1.0.0
+- Stable release.
+- Updated dependencies for better compatibility.
+
 ## 0.1.3
 
 - Updated dependency `coolint` to version `^2.0.1`
