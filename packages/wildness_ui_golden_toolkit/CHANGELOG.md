@@ -1,3 +1,6 @@
+## 0.1.6
+- Updated dependencies to ensure compatibility with `wildness_ui` version 1.0.0.
+
 ## 0.1.5
 - Fix spells in the golden toolkit.
 - Updated dependencies to ensure compatibility with `wildness_ui` version 0.1.2.
