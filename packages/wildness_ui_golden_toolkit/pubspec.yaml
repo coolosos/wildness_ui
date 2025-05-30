@@ -5,7 +5,7 @@ repository: https://github.com/coolosos/wildness_ui
 issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
-version: 0.1.5
+version: 0.1.6
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
@@ -24,7 +24,7 @@ dependencies:
   build_runner: ^2.4.15
   golden_toolkit: ^0.15.0
 
-  wildness_ui: ^0.1.2
+  wildness_ui: ^1.0.0
 
 dev_dependencies:
   coolint: ^2.0.1
