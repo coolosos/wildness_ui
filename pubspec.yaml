@@ -9,6 +9,12 @@ environment:
   sdk: ">=3.8.0 <4.0.0"
   flutter: ">3.32.0"
 
+workspace:
+  - packages/wildness_ui_golden_toolkit/
+  - packages/wildness_ui/
+
 dev_dependencies:
-  melos: ^6.3.2
+  melos: ^7.3.0
   coolint: 2.1.2
+
+melos:

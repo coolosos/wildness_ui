@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: wildness_ui
-dependency_overrides:
-  wildness_ui:
-    path: ../wildness_ui
