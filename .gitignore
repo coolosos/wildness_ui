@@ -16,6 +16,7 @@ doc/api/
 
 .idea/
 melos_wildness_ui*.iml
+melos_melos_rack_workspace.iml
 **/melos_wildness_ui*.iml
 
 # Avoid committing generated Javascript files:
