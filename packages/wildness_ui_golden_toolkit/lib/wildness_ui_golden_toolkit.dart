@@ -2,7 +2,8 @@ library;
 
 import 'dart:io' show Platform;
 
-import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart' show Theme;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
