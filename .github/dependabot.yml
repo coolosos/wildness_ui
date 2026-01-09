@@ -13,7 +13,13 @@ updates:
       time: "19:00"
       timezone: Europe/Madrid
   - package-ecosystem: "pub"
-    directory: "wildness/"
+    directory: "/packages/wildness_ui_golden_toolkit/"
+    schedule:
+      interval: weekly
+      time: "19:00"
+      timezone: Europe/Madrid
+  - package-ecosystem: "pub"
+    directory: "/packages/wildness_ui/"
     schedule:
       interval: weekly
       time: "19:00"

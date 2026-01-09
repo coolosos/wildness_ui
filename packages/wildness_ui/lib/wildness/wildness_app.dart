@@ -7,8 +7,8 @@ class WildnessApp extends SingleChildStatelessWidget {
     TextStyle? defaultTextStyle,
     super.key,
     super.child,
-  })  : _wildnessProperties = wildnessProperties,
-        _defaultTextStyle = defaultTextStyle;
+  }) : _wildnessProperties = wildnessProperties,
+       _defaultTextStyle = defaultTextStyle;
 
   factory WildnessApp.withDefaultTheme({
     required WildnessProperties wildnessProperties,
@@ -34,12 +34,11 @@ class WildnessApp extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) {
-    MediaQueryData mediaQuery =
-        MediaQuery.maybeOf(context) ?? const MediaQueryData();
+    final mediaQuery = MediaQuery.maybeOf(context) ?? const MediaQueryData();
 
-    TextStyle defaultTextStyle = _defaultTestStyle();
+    final defaultTextStyle = _defaultTestStyle();
 
-    final Brightness platformBrightness =
+    final platformBrightness =
         _wildnessProperties.forceThemeMode ?? mediaQuery.platformBrightness;
     // MediaQuery.platformBrightnessOf(context);
 
@@ -90,9 +89,7 @@ class WildnessApp extends SingleChildStatelessWidget {
   }
 
   @override
-  void debugFillProperties(
-    DiagnosticPropertiesBuilder properties,
-  ) {
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
       DiagnosticsProperty<WildnessProperties>(
