@@ -6,7 +6,7 @@
         "**/*.packages": true,
         "**/*.lock": true,
         "**/*.dart_tool": true,
-        "**/*.idea": true,
+        "**/*.idea": false,
         ".vscode": false,
         "**/*.iml": true,
         "**/*.current": true,
