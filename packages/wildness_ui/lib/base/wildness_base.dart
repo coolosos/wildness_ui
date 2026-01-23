@@ -1,10 +1,15 @@
 part of '../wildness.dart';
 
-/// An interface that defines components to a [wildness] object.
+/// An interface that defines components to a [Wildness] object.
 @immutable
 abstract base class WildnessBase<T> extends Equatable with Diagnosticable {
   /// Enable const constructor for subclasses.
   const WildnessBase();
+
+  ///Name of the wildness base.
+  ///
+  ///Can be use for searching a [WildnessBase]
+  String get name => runtimeType.toString();
 
   /// The extension's type.
   Type get type => T;
@@ -13,7 +18,7 @@ abstract base class WildnessBase<T> extends Equatable with Diagnosticable {
   /// replaced by the non-null parameter values.
   WildnessBase<T> copyWith();
 
-  /// Linearly interpolate with another [wildnessBase] object.
+  /// Linearly interpolate with another [WildnessBase] object.
   ///
   /// {@macro dart.ui.shadow.lerp}
   WildnessBase<T> lerp(WildnessBase<T>? other, double t);

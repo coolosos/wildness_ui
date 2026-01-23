@@ -1,6 +1,6 @@
-import 'package:wildness_ui/wildness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:wildness_ui/wildness.dart';
 
 base class CoolButtonThemeData extends WildnessBase<CoolButtonThemeData> {
   const CoolButtonThemeData({required this.decoration});

@@ -34,12 +34,11 @@ class WildnessApp extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) {
-    MediaQueryData mediaQuery =
-        MediaQuery.maybeOf(context) ?? const MediaQueryData();
+    final mediaQuery = MediaQuery.maybeOf(context) ?? const MediaQueryData();
 
-    TextStyle defaultTextStyle = _defaultTestStyle();
+    final defaultTextStyle = _defaultTestStyle();
 
-    final Brightness platformBrightness =
+    final platformBrightness =
         _wildnessProperties.forceThemeMode ?? mediaQuery.platformBrightness;
     // MediaQuery.platformBrightnessOf(context);
 

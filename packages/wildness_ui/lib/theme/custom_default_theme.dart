@@ -3,11 +3,11 @@ import 'package:flutter/material.dart'
         BottomSheetThemeData,
         Colors,
         DialogThemeData,
-        WidgetStateProperty,
         ScrollbarThemeData,
         Theme,
         ThemeData,
-        VisualDensity;
+        VisualDensity,
+        WidgetStateProperty;
 
 import '../library.dart';
 

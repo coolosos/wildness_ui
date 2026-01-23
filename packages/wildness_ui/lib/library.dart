@@ -3,12 +3,12 @@ export 'dart:ui' show Brightness;
 export 'package:equatable/equatable.dart';
 export 'package:flutter/foundation.dart'
     show
-        kDebugMode,
-        kIsWeb,
         DiagnosticPropertiesBuilder,
         Diagnosticable,
         DiagnosticsProperty,
-        IterableProperty;
+        IterableProperty,
+        kDebugMode,
+        kIsWeb;
 
 export 'package:flutter/widgets.dart';
 
