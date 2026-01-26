@@ -13,4 +13,3 @@ export 'package:flutter/foundation.dart'
 export 'package:flutter/widgets.dart';
 
 export 'package:nested/nested.dart';
-export 'package:universal_io/io.dart';

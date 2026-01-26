@@ -14,8 +14,8 @@ class WildnessProperties {
     this.physics = const ClampingScrollPhysics(),
     this.minScaleFactor = 0.5,
     this.maxScaleFactor = 1.2,
-  })  : _resources = resources,
-        _components = components;
+  }) : _resources = resources,
+       _components = components;
 
   /// Components of this theme.
   ///
@@ -35,9 +35,7 @@ class WildnessProperties {
 
   /// Convert the [_components] passed to [wildnessProperties.new]
   /// to the stored [wildness.components] map, where each entry's key consists of the kind type, theme resolved.
-  Map<Type, WildnessBase<dynamic>> components({
-    Brightness? brightness,
-  }) {
+  Map<Type, WildnessBase<dynamic>> components({Brightness? brightness}) {
     return _configurationToMap(
       brightness: brightness,
       configuration: _components,
@@ -46,9 +44,7 @@ class WildnessProperties {
 
   /// Convert the [_resources] passed to [wildnessProperties.new]
   /// to the stored [resources] map, where each entry's key consists of the kind type, theme resolved.
-  Map<Type, WildnessBase<dynamic>> resources({
-    Brightness? brightness,
-  }) {
+  Map<Type, WildnessBase<dynamic>> resources({Brightness? brightness}) {
     return _configurationToMap(
       brightness: brightness,
       configuration: _resources,
@@ -64,11 +60,9 @@ class WildnessProperties {
       _ => configuration.light,
     };
 
-    return Map<Type, WildnessBase<dynamic>>.unmodifiable(
-      {
-        for (final WildnessBase<dynamic> eBase in resolvedTheme.toSet())
-          eBase.runtimeType: eBase,
-      },
-    );
+    return Map<Type, WildnessBase<dynamic>>.unmodifiable({
+      for (final WildnessBase<dynamic> eBase in resolvedTheme.toSet())
+        eBase.runtimeType: eBase,
+    });
   }
 }

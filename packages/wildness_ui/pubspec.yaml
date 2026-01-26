@@ -8,20 +8,19 @@ homepage: https://github.com/coolosos
 version: 1.1.0
 
 environment:
-  sdk: ">=3.3.1 <4.0.0"
-  flutter: ">=3.19.6"
+  sdk: ">=3.8.0 <4.0.0"
+  flutter: ">3.32.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  meta: ^1.11.0
-  collection: ^1.18.0
-  equatable: ^2.0.5
+  meta: ^1.17.0
+  collection: ^1.19.1
+  equatable: ^2.0.8
   nested: ^1.0.0
-  universal_io: ^2.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  coolint: ^2.0.1
+  coolint: ^2.1.2

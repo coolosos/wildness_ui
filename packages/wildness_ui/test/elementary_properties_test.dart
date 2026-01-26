@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Colors;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wildness_ui/wildness.dart';
 
@@ -8,17 +8,12 @@ base class CoolButtonThemeData extends WildnessBase<CoolButtonThemeData> {
   final BoxDecoration? decoration;
 
   @override
-  WildnessBase<CoolButtonThemeData> copyWith({
-    BoxDecoration? decoration,
-  }) {
+  WildnessBase<CoolButtonThemeData> copyWith({BoxDecoration? decoration}) {
     return CoolButtonThemeData(decoration: decoration ?? this.decoration);
   }
 
   @override
-  CoolButtonThemeData lerp(
-    WildnessBase<CoolButtonThemeData>? other,
-    double t,
-  ) {
+  CoolButtonThemeData lerp(WildnessBase<CoolButtonThemeData>? other, double t) {
     if (other is! CoolButtonThemeData) {
       return this;
     }
@@ -28,9 +23,7 @@ base class CoolButtonThemeData extends WildnessBase<CoolButtonThemeData> {
   }
 
   @override
-  List<Object?> get props => [
-        decoration,
-      ];
+  List<Object?> get props => [decoration];
 }
 
 final class CoolKindButtonThemeData extends CoolButtonThemeData {
@@ -43,118 +36,63 @@ final class CoolKindButtonThemeData extends CoolButtonThemeData {
 }
 
 const normal = CoolButtonThemeData(
-  decoration: BoxDecoration(
-    color: Colors.redAccent,
-    shape: BoxShape.rectangle,
-  ),
+  decoration: BoxDecoration(color: Colors.redAccent, shape: BoxShape.rectangle),
 );
 const replica = CoolButtonThemeData(
-  decoration: BoxDecoration(
-    color: Colors.amber,
-    shape: BoxShape.rectangle,
-  ),
+  decoration: BoxDecoration(color: Colors.amber, shape: BoxShape.rectangle),
 );
 
 const coolKind = CoolKindButtonThemeData(
-  decoration: BoxDecoration(
-    color: Colors.red,
-    shape: BoxShape.rectangle,
-  ),
+  decoration: BoxDecoration(color: Colors.red, shape: BoxShape.rectangle),
 );
 
 void main() {
-  group(
-    'wildness Components',
-    () {
-      test(
-        'components size by type',
-        () {
-          const config = WildnessProperties(
-            forceThemeMode: Brightness.light,
-            components: Configuration(
-              light: [
-                normal,
-                replica,
-                coolKind,
-              ],
-            ),
-          );
-
-          expect(config.components().length, 2);
-        },
-      );
-      test(
-        'components ThemeMode',
-        () {
-          const config = WildnessProperties(
-            forceThemeMode: Brightness.dark,
-            components: Configuration(
-              light: [
-                replica,
-              ],
-            ),
-          );
-
-          expect(config.components().length, 0);
-        },
-      );
-      test(
-        'no found kind',
-        () {
-          const config = WildnessProperties(
-            forceThemeMode: Brightness.dark,
-            components: Configuration(
-              light: [
-                coolKind,
-              ],
-            ),
-          );
-
-          expect(config.components()[CoolButtonThemeData], isNull);
-        },
-      );
-      test(
-        'found kind',
-        () {
-          const config = WildnessProperties(
-            forceThemeMode: Brightness.light,
-            components: Configuration(
-              light: [
-                coolKind,
-              ],
-            ),
-          );
-
-          expect(
-            config.components()[CoolKindButtonThemeData],
-            isNotNull,
-          );
-        },
+  group('wildness Components', () {
+    test('components size by type', () {
+      const config = WildnessProperties(
+        forceThemeMode: Brightness.light,
+        components: Configuration(light: [normal, replica, coolKind]),
       );
 
-      test(
-        'type of kind no found base',
-        () {
-          const config = WildnessProperties(
-            forceThemeMode: Brightness.dark,
-            // components: [
-            //   Configuration<CoolButtonThemeData>.same(
-            //     normal,
-            //   ),
-            // ],
-            components: Configuration(
-              light: [
-                normal,
-              ],
-            ),
-          );
-
-          expect(
-            config.components()[CoolKindButtonThemeData],
-            isNull,
-          );
-        },
+      expect(config.components().length, 2);
+    });
+    test('components ThemeMode', () {
+      const config = WildnessProperties(
+        forceThemeMode: Brightness.dark,
+        components: Configuration(light: [replica]),
       );
-    },
-  );
+
+      expect(config.components().length, 0);
+    });
+    test('no found kind', () {
+      const config = WildnessProperties(
+        forceThemeMode: Brightness.dark,
+        components: Configuration(light: [coolKind]),
+      );
+
+      expect(config.components()[CoolButtonThemeData], isNull);
+    });
+    test('found kind', () {
+      const config = WildnessProperties(
+        forceThemeMode: Brightness.light,
+        components: Configuration(light: [coolKind]),
+      );
+
+      expect(config.components()[CoolKindButtonThemeData], isNotNull);
+    });
+
+    test('type of kind no found base', () {
+      const config = WildnessProperties(
+        forceThemeMode: Brightness.dark,
+        // components: [
+        //   Configuration<CoolButtonThemeData>.same(
+        //     normal,
+        //   ),
+        // ],
+        components: Configuration(light: [normal]),
+      );
+
+      expect(config.components()[CoolKindButtonThemeData], isNull);
+    });
+  });
 }

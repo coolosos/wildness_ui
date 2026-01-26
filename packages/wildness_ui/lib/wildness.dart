@@ -1,6 +1,7 @@
 library;
 
 import 'package:collection/collection.dart';
+import 'dart:io' show Platform;
 
 import '../library.dart';
 import 'theme/custom_default_theme.dart';
@@ -23,6 +24,7 @@ class Wildness extends Equatable with Diagnosticable {
     this.resources = const {},
   });
 
+  // ignore: prefer_constructors_over_static_methods
   static Wildness of(BuildContext context, {bool listen = true}) {
     final inheritedTheme = listen
         ? //searches only for InheritedWidget
@@ -100,10 +102,7 @@ class Wildness extends Equatable with Diagnosticable {
   }
 
   /// Linearly interpolate between two themes.
-  Wildness lerp(
-    Wildness b,
-    double t,
-  ) {
+  Wildness lerp(Wildness b, double t) {
     return Wildness(
       components: _lerpWildnessBase(b.components, t),
       physics: t < 0.5 ? physics : b.physics,
@@ -125,11 +124,7 @@ class Wildness extends Equatable with Diagnosticable {
   }
 
   @override
-  List<Object?> get props => [
-        components,
-        resources,
-        physics,
-      ];
+  List<Object?> get props => [components, resources, physics];
 
   ///Replace all kinds provide.
   ///

@@ -17,8 +17,8 @@ class CustomDefaultTheme extends SingleChildStatelessWidget {
     required TextStyle? defaultTextStyle,
     super.key,
     super.child,
-  })  : _primaryColor = primaryColor,
-        _defaultTextStyle = defaultTextStyle;
+  }) : _primaryColor = primaryColor,
+       _defaultTextStyle = defaultTextStyle;
 
   final Color? _primaryColor;
   final TextStyle? _defaultTextStyle;
@@ -45,16 +45,10 @@ class CustomDefaultTheme extends SingleChildStatelessWidget {
       ),
       scrollbarTheme: ScrollbarThemeData(
         thumbVisibility: WidgetStateProperty.all(true),
-        trackColor: WidgetStateProperty.all(
-          _primaryColor,
-        ),
-        thumbColor: WidgetStateProperty.all(
-          _primaryColor,
-        ),
+        trackColor: WidgetStateProperty.all(_primaryColor),
+        thumbColor: WidgetStateProperty.all(_primaryColor),
       ),
-      dialogTheme: const DialogThemeData(
-        surfaceTintColor: Colors.transparent,
-      ),
+      dialogTheme: const DialogThemeData(surfaceTintColor: Colors.transparent),
       textTheme: textTheme,
       primaryTextTheme: textTheme,
       inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(

@@ -1,4 +1,4 @@
-part of "../wildness_ui_golden_toolkit.dart";
+part of '../wildness_ui_golden_toolkit.dart';
 
 /// This [wildnessAppWrapper] is a convenience function to wrap your widget in [wildnessApp]
 /// Wraps your widget in MaterialApp, inject  custom theme, localizations, override  surfaceSize and platform
@@ -14,13 +14,13 @@ WidgetWrapper wildnessWidgetWrapper({
   Color? primaryColor = const Color.fromARGB(255, 3, 85, 3),
 }) {
   return (child) => wildnessApp(
-        child: child,
-        config: config,
-        supportedLocales: supportedLocales,
-        localizationsDelegates: localizationsDelegates,
-        defaultTextStyle: defaultTextStyle,
-        primaryColor: primaryColor,
-      );
+    child: child,
+    config: config,
+    supportedLocales: supportedLocales,
+    localizationsDelegates: localizationsDelegates,
+    defaultTextStyle: defaultTextStyle,
+    primaryColor: primaryColor,
+  );
 }
 
 WildnessApp wildnessApp({
@@ -34,10 +34,8 @@ WildnessApp wildnessApp({
   return WildnessApp.withDefaultTheme(
     defaultTextStyle: defaultTextStyle,
     primaryColor: primaryColor,
-    wildnessProperties: config ??
-        const WildnessProperties(
-          forceThemeMode: Brightness.dark,
-        ),
+    wildnessProperties:
+        config ?? const WildnessProperties(forceThemeMode: Brightness.dark),
     child: WildnessBuilder(
       builder: (context, themeData) => WidgetsApp(
         debugShowCheckedModeBanner: false,
@@ -46,14 +44,14 @@ WildnessApp wildnessApp({
         home: child,
         pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
             PageRouteBuilder<T>(
-          settings: settings,
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              builder(context),
-        ),
+              settings: settings,
+              pageBuilder:
+                  (
+                    BuildContext context,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                  ) => builder(context),
+            ),
         localizationsDelegates: localizationsDelegates,
         color: Theme.of(context).colorScheme.primary,
         supportedLocales: supportedLocales ?? const [Locale('es')],

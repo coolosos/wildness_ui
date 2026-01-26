@@ -1,9 +1,7 @@
-part of "../wildness_ui_golden_toolkit.dart";
+part of '../wildness_ui_golden_toolkit.dart';
 
 extension DeviceExt on WidgetTester {
-  String screenMatchesName(
-    String groupTitle,
-  ) {
+  String screenMatchesName(String groupTitle) {
     return '${groupTitle.toLowerCase().replaceAll(' ', '_')}/${testDescription.toLowerCase().replaceAll(' ', '_')}';
   }
 
