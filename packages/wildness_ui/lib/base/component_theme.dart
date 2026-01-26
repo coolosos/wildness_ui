@@ -16,7 +16,8 @@ abstract base class ComponentTheme<T extends WildnessBase<T>>
 
   static W? wrappedThemeData<W extends ComponentTheme<WildnessBase>>(
     BuildContext context,
-  ) => context.dependOnInheritedWidgetOfExactType<W>();
+  ) =>
+      context.dependOnInheritedWidgetOfExactType<W>();
 
   static Kind? kindThemeData<Kind extends WildnessBase>(BuildContext context) =>
       Wildness.of(context, listen: true).component<Kind>();

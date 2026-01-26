@@ -14,13 +14,13 @@ WidgetWrapper wildnessWidgetWrapper({
   Color? primaryColor = const Color.fromARGB(255, 3, 85, 3),
 }) {
   return (child) => wildnessApp(
-    child: child,
-    config: config,
-    supportedLocales: supportedLocales,
-    localizationsDelegates: localizationsDelegates,
-    defaultTextStyle: defaultTextStyle,
-    primaryColor: primaryColor,
-  );
+        child: child,
+        config: config,
+        supportedLocales: supportedLocales,
+        localizationsDelegates: localizationsDelegates,
+        defaultTextStyle: defaultTextStyle,
+        primaryColor: primaryColor,
+      );
 }
 
 WildnessApp wildnessApp({
@@ -44,14 +44,14 @@ WildnessApp wildnessApp({
         home: child,
         pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
             PageRouteBuilder<T>(
-              settings: settings,
-              pageBuilder:
-                  (
-                    BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                  ) => builder(context),
-            ),
+          settings: settings,
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              builder(context),
+        ),
         localizationsDelegates: localizationsDelegates,
         color: Theme.of(context).colorScheme.primary,
         supportedLocales: supportedLocales ?? const [Locale('es')],

@@ -14,8 +14,8 @@ class WildnessProperties {
     this.physics = const ClampingScrollPhysics(),
     this.minScaleFactor = 0.5,
     this.maxScaleFactor = 1.2,
-  }) : _resources = resources,
-       _components = components;
+  })  : _resources = resources,
+        _components = components;
 
   /// Components of this theme.
   ///
