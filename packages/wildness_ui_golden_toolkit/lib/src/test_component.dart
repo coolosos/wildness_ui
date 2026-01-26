@@ -1,4 +1,4 @@
-part of "../wildness_ui_golden_toolkit.dart";
+part of '../wildness_ui_golden_toolkit.dart';
 
 @isTest
 void testColumnComponent({
@@ -21,7 +21,7 @@ void testColumnComponent({
   testGoldens(name, (WidgetTester tester) async {
     final builder = GoldenBuilder.column(wrap: wrap);
 
-    for (var scenario in scenarios) {
+    for (final scenario in scenarios) {
       if (scenario.textScaleFactor != null) {
         builder.addTextScaleScenario(
           scenario.name,
@@ -82,11 +82,8 @@ void testDeviceComponent({
       builder.overrideDevicesForAllScenarios(devices: devices);
     }
 
-    for (var scenario in scenarios) {
-      builder.addScenario(
-        name: scenario.name,
-        widget: scenario.widget,
-      );
+    for (final scenario in scenarios) {
+      builder.addScenario(name: scenario.name, widget: scenario.widget);
     }
 
     await tester.pumpDeviceAndMatch(

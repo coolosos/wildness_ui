@@ -1,23 +1,26 @@
 library;
 
-import 'package:wildness_ui/wildness.dart';
-import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
+
+
+import 'package:flutter/material.dart' show Theme;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
+import 'package:wildness_ui/wildness.dart';
 
 export 'package:flutter_test/flutter_test.dart';
 export 'package:golden_toolkit/golden_toolkit.dart';
 
 part 'src/component.dart';
-part 'src/wrapper.dart';
 part 'src/list_devices.dart';
 part 'src/test_component.dart';
 part 'src/tester_extended.dart';
+part 'src/wrapper.dart';
 
 /// create a [flutter_test_config.dart]
 /// and set [testExecutable] function for add default config
-/// ```
+/// ```dart
 /// Future<void> testExecutable(Future<void> Function() testMain) async {
 ///   return runWithConfiguration(testMain);
 /// }

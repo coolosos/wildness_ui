@@ -1,4 +1,6 @@
-library wildness;
+library;
+
+import 'dart:io' show Platform;
 
 import '../library.dart';
 import 'theme/custom_default_theme.dart';
@@ -21,14 +23,16 @@ class Wildness extends Equatable with Diagnosticable {
     this.resources = const {},
   });
 
+  // ignore: prefer_constructors_over_static_methods
   static Wildness of(BuildContext context, {bool listen = true}) {
-    final WildnessProvider? inheritedTheme = listen
+    final inheritedTheme = listen
         ? //searches only for InheritedWidget
-        context.dependOnInheritedWidgetOfExactType<WildnessProvider>()
+          context.dependOnInheritedWidgetOfExactType<WildnessProvider>()
         : //does not establish a relationship with the target in the way that dependOnInheritedWidgetOfExactType does.
-        (context
-            .getElementForInheritedWidgetOfExactType<WildnessProvider>()
-            ?.widget as WildnessProvider?);
+          (context
+                  .getElementForInheritedWidgetOfExactType<WildnessProvider>()
+                  ?.widget
+              as WildnessProvider?);
     //expensive, searches for any Widget subclass
     // context.findAncestorWidgetOfExactType<_InheritedWildnessTheme>();
 
@@ -50,9 +54,9 @@ class Wildness extends Equatable with Diagnosticable {
   /// Obtain with `WildnessTheme.of(context).component<MyThemeComponent>()`.
   ///
   /// See [components] for an interactive example.
-  T? component<T>() => (components[T] as T?);
+  T? component<T>() => components[T] as T?;
 
-  T? resource<T>() => (resources[T] as T?);
+  T? resource<T>() => resources[T] as T?;
 
   /// Linearly interpolate between two [components].
   ///
@@ -64,30 +68,27 @@ class Wildness extends Equatable with Diagnosticable {
     double t,
   ) {
     // Lerp [a].
-    final Map<Type, WildnessBase<dynamic>> newComponents =
+    final newComponents =
         components.map((id, componentA) {
-      final WildnessBase<dynamic>? componentB = elementsBase[id];
-      return MapEntry<Type, WildnessBase<dynamic>>(
-        id,
-        componentA.lerp(componentB, t),
-      );
-    });
-    // Add [b]-only components.
-    newComponents.addEntries(
-      elementsBase.entries.where(
-        (MapEntry<Type, WildnessBase<dynamic>> entry) =>
-            !components.containsKey(entry.key),
-      ),
-    );
+            final componentB = elementsBase[id];
+            return MapEntry<Type, WildnessBase<dynamic>>(
+              id,
+              componentA.lerp(componentB, t),
+            );
+          })
+          // Add [b]-only components.
+          ..addEntries(
+            elementsBase.entries.where(
+              (MapEntry<Type, WildnessBase<dynamic>> entry) =>
+                  !components.containsKey(entry.key),
+            ),
+          );
 
     return newComponents;
   }
 
   /// Linearly interpolate between two themes.
-  Wildness lerp(
-    Wildness b,
-    double t,
-  ) {
+  Wildness lerp(Wildness b, double t) {
     return Wildness(
       components: _lerpWildnessBase(b.components, t),
       physics: t < 0.5 ? physics : b.physics,
@@ -109,11 +110,7 @@ class Wildness extends Equatable with Diagnosticable {
   }
 
   @override
-  List<Object?> get props => [
-        components,
-        resources,
-        physics,
-      ];
+  List<Object?> get props => [components, resources, physics];
 
   ///Replace all kinds provide.
   ///
@@ -126,10 +123,10 @@ class Wildness extends Equatable with Diagnosticable {
     required Map<Type, WildnessBase<dynamic>> kinds,
   }) {
     //Check if the component kind exists in the provide theme components
-    for (MapEntry<Type, WildnessBase<dynamic>> kind in kinds.entries) {
+    for (final kind in kinds.entries) {
       assert(
         components[kind.key]?.runtimeType != null,
-        "Kind must be the same Type or Covariant as the replacement kind",
+        'Kind must be the same Type or Covariant as the replacement kind',
       );
     }
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
@@ -153,7 +150,7 @@ class Wildness extends Equatable with Diagnosticable {
     //Check if the component kind exists in the provide theme components and is the type
     assert(
       components[kind.type] is Kind,
-      "Kind must be the same Type or Covariant as the replacement kind",
+      'Kind must be the same Type or Covariant as the replacement kind',
     );
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
     //for being sure of no modifications and no repeat hash
