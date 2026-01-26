@@ -1,3 +1,7 @@
+## 0.1.7
+- Updated dependencies to ensure compatibility with `wildness_ui` version 1.1.0.
+- General project formatting.
+
 ## 0.1.6
 - Updated dependencies to ensure compatibility with `wildness_ui` version 1.0.0.
 
