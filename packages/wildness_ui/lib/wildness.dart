@@ -1,5 +1,6 @@
 library;
 
+import 'package:collection/collection.dart';
 import 'dart:io' show Platform;
 
 import '../library.dart';
@@ -27,12 +28,11 @@ class Wildness extends Equatable with Diagnosticable {
   static Wildness of(BuildContext context, {bool listen = true}) {
     final inheritedTheme = listen
         ? //searches only for InheritedWidget
-          context.dependOnInheritedWidgetOfExactType<WildnessProvider>()
+        context.dependOnInheritedWidgetOfExactType<WildnessProvider>()
         : //does not establish a relationship with the target in the way that dependOnInheritedWidgetOfExactType does.
-          (context
-                  .getElementForInheritedWidgetOfExactType<WildnessProvider>()
-                  ?.widget
-              as WildnessProvider?);
+        (context
+            .getElementForInheritedWidgetOfExactType<WildnessProvider>()
+            ?.widget as WildnessProvider?);
     //expensive, searches for any Widget subclass
     // context.findAncestorWidgetOfExactType<_InheritedWildnessTheme>();
 
@@ -56,6 +56,21 @@ class Wildness extends Equatable with Diagnosticable {
   /// See [components] for an interactive example.
   T? component<T>() => components[T] as T?;
 
+  WildnessBase<dynamic>? componentByName(String name) =>
+      components.values.firstWhereOrNull(
+        (element) => element.name == name,
+      );
+
+  T? componentByNameCast<T extends WildnessBase<dynamic>>(String name) {
+    final component = componentByName(name);
+
+    if (component is T) {
+      return component;
+    }
+
+    return null;
+  }
+
   T? resource<T>() => resources[T] as T?;
 
   /// Linearly interpolate between two [components].
@@ -68,21 +83,20 @@ class Wildness extends Equatable with Diagnosticable {
     double t,
   ) {
     // Lerp [a].
-    final newComponents =
-        components.map((id, componentA) {
-            final componentB = elementsBase[id];
-            return MapEntry<Type, WildnessBase<dynamic>>(
-              id,
-              componentA.lerp(componentB, t),
-            );
-          })
-          // Add [b]-only components.
-          ..addEntries(
-            elementsBase.entries.where(
-              (MapEntry<Type, WildnessBase<dynamic>> entry) =>
-                  !components.containsKey(entry.key),
-            ),
-          );
+    final newComponents = components.map((id, componentA) {
+      final componentB = elementsBase[id];
+      return MapEntry<Type, WildnessBase<dynamic>>(
+        id,
+        componentA.lerp(componentB, t),
+      );
+    })
+      // Add [b]-only components.
+      ..addEntries(
+        elementsBase.entries.where(
+          (MapEntry<Type, WildnessBase<dynamic>> entry) =>
+              !components.containsKey(entry.key),
+        ),
+      );
 
     return newComponents;
   }
