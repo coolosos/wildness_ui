@@ -1,3 +1,10 @@
+## 1.1.0
+
+- **feat**: Added `name` property to `WildnessBase` to allow searching for a component by name.
+- **feat**: Added `componentByName` and `componentByNameCast` to `Wildness` to get a component by name.
+- **chore**: Updated dependencies.
+- **chore**: General project formatting.
+
 ## 1.0.0
 - Stable release.
 - Updated dependencies for better compatibility.
