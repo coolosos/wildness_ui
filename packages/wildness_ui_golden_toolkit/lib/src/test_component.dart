@@ -65,7 +65,7 @@ void testColumnComponent({
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
     );
-  });
+  }, tags: ['golden']);
 }
 
 @isTest
@@ -119,6 +119,6 @@ void testDeviceComponent({
         defaultTextStyle: defaultTextStyle,
         primaryColor: primaryColor,
       );
-    });
+    }, tags: ['golden']);
   }
 }
