@@ -26,7 +26,7 @@ Future<void> runWithConfiguration(Future<void> Function() testMain) async {
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  await _loadFonts();
+  //await _loadFonts();
 
   if (!Platform.isMacOS) {
     goldenFileComparator = _NoopGoldenComparator();
@@ -34,7 +34,7 @@ Future<void> runWithConfiguration(Future<void> Function() testMain) async {
 
   await testMain();
 }
-
+/*
 Future<void> _loadFonts() async {
   final fontLoader = FontLoader('Roboto')
     ..addFont(rootBundle.load('assets/fonts/Roboto-Regular.ttf'))
@@ -42,6 +42,7 @@ Future<void> _loadFonts() async {
 
   await fontLoader.load();
 }
+*/
 
 class _NoopGoldenComparator extends GoldenFileComparator {
   @override
