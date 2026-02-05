@@ -1,15 +1,12 @@
-library;
-
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart' show Theme;
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
 import 'package:wildness_ui/wildness.dart';
 
 export 'package:flutter_test/flutter_test.dart';
-export 'package:golden_toolkit/golden_toolkit.dart';
 
 part 'src/component.dart';
 part 'src/list_devices.dart';
@@ -25,14 +22,34 @@ part 'src/wrapper.dart';
 /// }
 /// ```
 Future<void> runWithConfiguration(Future<void> Function() testMain) async {
-  return GoldenToolkit.runWithConfiguration(
-    () async {
-      await loadAppFonts();
-      await testMain();
-    },
-    config: GoldenToolkitConfiguration(
-      skipGoldenAssertion: () => !Platform.isMacOS,
-      defaultDevices: const [Device.phone, Device.iphone11],
-    ),
-  );
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  await _loadFonts();
+
+  if (!Platform.isMacOS) {
+    goldenFileComparator = _NoopGoldenComparator();
+  }
+
+  await testMain();
+}
+
+Future<void> _loadFonts() async {
+  final fontLoader = FontLoader('Roboto')
+    ..addFont(rootBundle.load('assets/fonts/Roboto-Regular.ttf'))
+    ..addFont(rootBundle.load('assets/fonts/Roboto-Bold.ttf'));
+
+  await fontLoader.load();
+}
+
+class _NoopGoldenComparator extends GoldenFileComparator {
+  @override
+  Uri get basedir => Uri.parse('');
+
+  @override
+  Future<bool> compare(Uint8List imageBytes, Uri golden) async => true;
+
+  @override
+  Future<void> update(Uri golden, Uint8List imageBytes) async {}
 }
