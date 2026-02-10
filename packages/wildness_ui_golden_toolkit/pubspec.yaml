@@ -26,3 +26,9 @@ dependencies:
 
 dev_dependencies:
   coolint: ^2.1.2
+
+flutter:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: packages/golden_toolkit/fonts/Roboto-Regular.ttf
