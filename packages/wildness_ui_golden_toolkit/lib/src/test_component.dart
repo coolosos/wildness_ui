@@ -36,14 +36,17 @@ void testColumnComponent({
           );
         }
 
-        final scenarioWidget = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(scenario.name),
-            const SizedBox(height: 8),
-            child,
-            const SizedBox(height: 24),
-          ],
+        final scenarioWidget = Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(name),
+              const SizedBox(height: 8),
+              Center(child: child),
+              const SizedBox(height: 24),
+            ],
+          ),
         );
 
         return wrap != null ? wrap(scenarioWidget) : scenarioWidget;

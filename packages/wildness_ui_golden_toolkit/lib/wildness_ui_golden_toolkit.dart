@@ -25,8 +25,6 @@ part 'src/wildness_wrapper.dart';
 Future<void> runWithConfiguration(Future<void> Function() testMain) async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   await loadAppFonts();
 
   if (!Platform.isMacOS) {
