@@ -18,46 +18,49 @@ void testColumnComponent({
   Color? primaryColor,
 }) {
   testWidgets(name, (tester) async {
-    final content = Padding(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: scenarios.map((scenario) {
-          var child = scenario.widget;
+    final content = ColoredBox(
+      color: const Color.fromARGB(255, 255, 255, 255),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: scenarios.map((scenario) {
+            var child = scenario.widget;
 
-          final factor = scenario.textScaleFactor;
-          if (factor != null) {
-            child = MediaQuery(
-              data: MediaQueryData(
-                textScaler: TextScaler.linear(
-                  factor.clamp(1.0, textScaleFactorMaxSupported),
-                ),
-              ),
-              child: child,
-            );
-          }
-
-          final scenarioWidget = SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text(
-                    scenario.name +
-                        ((scenario.textScaleFactor != null)
-                            ? ' ${scenario.textScaleFactor}'
-                            : ''),
+            final factor = scenario.textScaleFactor;
+            if (factor != null) {
+              child = MediaQuery(
+                data: MediaQueryData(
+                  textScaler: TextScaler.linear(
+                    factor.clamp(1.0, textScaleFactorMaxSupported),
                   ),
                 ),
-                const SizedBox(height: 8),
-                child,
-                const SizedBox(height: 24),
-              ],
-            ),
-          );
+                child: child,
+              );
+            }
 
-          return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
-        }).toList(),
+            final scenarioWidget = SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      scenario.name +
+                          ((scenario.textScaleFactor != null)
+                              ? ' ${scenario.textScaleFactor}'
+                              : ''),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  child,
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
+
+            return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
+          }).toList(),
+        ),
       ),
     );
 

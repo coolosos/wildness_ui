@@ -11,37 +11,13 @@ Widget Function(Widget child) wildnessWidgetWrapper({
 }) {
   return (child) => RepaintBoundary(
     key: const Key('__golden_root__'),
-    child: ColoredBox(
-      color: const Color.fromARGB(255, 255, 255, 255),
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: MediaQuery(
-          data: const MediaQueryData(
-            size: Size(800, 600),
-            devicePixelRatio: 1,
-            textScaler: TextScaler.linear(1),
-          ),
-          child: DefaultTextStyle(
-            style:
-                defaultTextStyle ??
-                const TextStyle(
-                  fontFamily: 'Roboto',
-                  fontFamilyFallback: [],
-                  height: 1,
-                  leadingDistribution: TextLeadingDistribution.even,
-                ),
-
-            child: wildnessApp(
-              child: child,
-              config: config,
-              supportedLocales: supportedLocales,
-              localizationsDelegates: localizationsDelegates,
-              defaultTextStyle: defaultTextStyle,
-              primaryColor: primaryColor,
-            ),
-          ),
-        ),
-      ),
+    child: wildnessApp(
+      child: child,
+      config: config,
+      supportedLocales: supportedLocales,
+      localizationsDelegates: localizationsDelegates,
+      defaultTextStyle: defaultTextStyle,
+      primaryColor: primaryColor,
     ),
   );
 }
