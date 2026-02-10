@@ -37,14 +37,22 @@ void testColumnComponent({
             );
           }
 
-          final scenarioWidget = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(child: Text(scenario.name)),
-              const SizedBox(height: 8),
-              child,
-              const SizedBox(height: 24),
-            ],
+          final scenarioWidget = SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    scenario.name +
+                        ((factor != null) ? ' (textScale: $factor)' : ''),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Center(child: child),
+                const SizedBox(height: 24),
+              ],
+            ),
           );
 
           return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
