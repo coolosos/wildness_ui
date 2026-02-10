@@ -23,10 +23,14 @@ void testColumnComponent({
       children: scenarios.map((scenario) {
         var child = scenario.widget;
 
-        if (scenario.textScaleFactor != null) {
+        final factor = scenario.textScaleFactor;
+
+        if (factor != null) {
           child = MediaQuery(
             data: MediaQueryData(
-              textScaler: TextScaler.linear(scenario.textScaleFactor!),
+              textScaler: TextScaler.linear(
+                factor.clamp(1.0, textScaleFactorMaxSupported),
+              ),
             ),
             child: child,
           );

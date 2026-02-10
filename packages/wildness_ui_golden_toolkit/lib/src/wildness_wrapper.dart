@@ -21,13 +21,24 @@ Widget Function(Widget child) wildnessWidgetWrapper({
             devicePixelRatio: 1,
             textScaler: TextScaler.linear(1),
           ),
-          child: wildnessApp(
-            child: child,
-            config: config,
-            supportedLocales: supportedLocales,
-            localizationsDelegates: localizationsDelegates,
-            defaultTextStyle: defaultTextStyle,
-            primaryColor: primaryColor,
+          child: DefaultTextStyle(
+            style:
+                defaultTextStyle ??
+                const TextStyle(
+                  fontFamily: 'Roboto',
+                  fontFamilyFallback: [],
+                  height: 1,
+                  leadingDistribution: TextLeadingDistribution.even,
+                ),
+
+            child: wildnessApp(
+              child: child,
+              config: config,
+              supportedLocales: supportedLocales,
+              localizationsDelegates: localizationsDelegates,
+              defaultTextStyle: defaultTextStyle,
+              primaryColor: primaryColor,
+            ),
           ),
         ),
       ),
