@@ -45,7 +45,9 @@ void testColumnComponent({
                 Center(
                   child: Text(
                     scenario.name +
-                        ((factor != null) ? ' (textScale: $factor)' : ''),
+                        ((scenario.textScaleFactor != null)
+                            ? ' (textScale: ${scenario.textScaleFactor})'
+                            : ''),
                   ),
                 ),
                 const SizedBox(height: 8),
