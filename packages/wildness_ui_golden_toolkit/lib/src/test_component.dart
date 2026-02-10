@@ -6,7 +6,7 @@ void testColumnComponent({
   required List<Component> scenarios,
   String? groupName,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
-  Size surfaceSize = const Size(100, 740),
+  Size surfaceSize = const Size(800, 740),
   Key? touchKey,
   Widget Function(Widget child)? wrap,
   bool autoHeight = true,
@@ -38,9 +38,8 @@ void testColumnComponent({
           }
 
           final scenarioWidget = SizedBox(
-            width: double.infinity,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
                   child: Text(
