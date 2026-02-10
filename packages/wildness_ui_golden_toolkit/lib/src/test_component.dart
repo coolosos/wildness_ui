@@ -21,7 +21,7 @@ void testColumnComponent({
     final content = Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: scenarios.map((scenario) {
           var child = scenario.widget;
 
@@ -38,12 +38,11 @@ void testColumnComponent({
           }
 
           final scenarioWidget = Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(scenario.name),
               const SizedBox(height: 8),
               Center(child: child),
-              const SizedBox(height: 24),
             ],
           );
 
