@@ -50,10 +50,7 @@ extension GoldenTesterExt on WidgetTester {
       await pumpAndSettle();
     }
 
-    expect(
-      find.byKey(const Key('__golden_root__')),
-      matchesGoldenFile(_screenName(groupTitle)),
-    );
+    expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
 
   Future<void> pumpDeviceAndMatch({

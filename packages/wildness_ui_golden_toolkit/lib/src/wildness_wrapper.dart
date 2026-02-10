@@ -9,16 +9,13 @@ Widget Function(Widget child) wildnessWidgetWrapper({
   TextStyle? defaultTextStyle,
   Color? primaryColor = const Color.fromARGB(255, 3, 85, 3),
 }) {
-  return (child) => RepaintBoundary(
-    key: const Key('__golden_root__'),
-    child: wildnessApp(
-      child: child,
-      config: config,
-      supportedLocales: supportedLocales,
-      localizationsDelegates: localizationsDelegates,
-      defaultTextStyle: defaultTextStyle,
-      primaryColor: primaryColor,
-    ),
+  return (child) => wildnessApp(
+    child: child,
+    config: config,
+    supportedLocales: supportedLocales,
+    localizationsDelegates: localizationsDelegates,
+    defaultTextStyle: defaultTextStyle,
+    primaryColor: primaryColor,
   );
 }
 
