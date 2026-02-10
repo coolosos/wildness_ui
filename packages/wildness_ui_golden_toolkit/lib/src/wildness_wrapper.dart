@@ -19,11 +19,13 @@ Widget Function(Widget child) wildnessWidgetWrapper({
           devicePixelRatio: 1,
           textScaler: TextScaler.linear(1),
         ),
-        child: DefaultTextStyle(
-          style:
-              defaultTextStyle?.copyWith(fontFamily: 'Roboto') ??
-              const TextStyle(),
+        child: wildnessApp(
           child: child,
+          config: config,
+          supportedLocales: supportedLocales,
+          localizationsDelegates: localizationsDelegates,
+          defaultTextStyle: defaultTextStyle,
+          primaryColor: primaryColor,
         ),
       ),
     ),
