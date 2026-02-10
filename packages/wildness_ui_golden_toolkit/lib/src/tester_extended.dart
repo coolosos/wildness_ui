@@ -32,8 +32,7 @@ extension GoldenTesterExt on WidgetTester {
     TextStyle? defaultTextStyle,
     Color? primaryColor,
   }) async {
-    //_setSurfaceSize(this, surfaceSize);
-
+    _setSurfaceSize(this, surfaceSize);
     await pumpWidget(
       wildnessWidgetWrapper(
         localizationsDelegates: localizationsDelegates,
