@@ -23,16 +23,13 @@ extension GoldenTesterExt on WidgetTester {
     _setSurfaceSize(this, surfaceSize);
 
     await pumpWidget(
-      MediaQuery(
-        data: MediaQueryData(textScaler: TextScaler.linear(textScaleSize)),
-        child: wildnessWidgetWrapper(
-          localizationsDelegates: localizationsDelegates,
-          supportedLocales: supportedLocales,
-          config: config,
-          defaultTextStyle: defaultTextStyle,
-          primaryColor: primaryColor,
-        )(widget),
-      ),
+      wildnessWidgetWrapper(
+        localizationsDelegates: localizationsDelegates,
+        supportedLocales: supportedLocales,
+        config: config,
+        defaultTextStyle: defaultTextStyle,
+        primaryColor: primaryColor,
+      )(widget),
     );
 
     await pumpAndSettle();
