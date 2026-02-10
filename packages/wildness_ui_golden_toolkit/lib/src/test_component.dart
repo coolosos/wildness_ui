@@ -6,7 +6,7 @@ void testColumnComponent({
   required List<Component> scenarios,
   String? groupName,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
-  Size surfaceSize = const Size(800, 740),
+  Size surfaceSize = const Size(100, 740),
   Key? touchKey,
   Widget Function(Widget child)? wrap,
   bool autoHeight = true,
@@ -46,12 +46,12 @@ void testColumnComponent({
                   child: Text(
                     scenario.name +
                         ((scenario.textScaleFactor != null)
-                            ? ' (textScale: ${scenario.textScaleFactor})'
+                            ? ' ${scenario.textScaleFactor}'
                             : ''),
                   ),
                 ),
                 const SizedBox(height: 8),
-                Center(child: child),
+                child,
                 const SizedBox(height: 24),
               ],
             ),
