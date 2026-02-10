@@ -18,39 +18,38 @@ void testColumnComponent({
   Color? primaryColor,
 }) {
   testWidgets(name, (tester) async {
-    final content = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: scenarios.map((scenario) {
-        var child = scenario.widget;
+    final content = Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: scenarios.map((scenario) {
+          var child = scenario.widget;
 
-        final factor = scenario.textScaleFactor;
-
-        if (factor != null) {
-          child = MediaQuery(
-            data: MediaQueryData(
-              textScaler: TextScaler.linear(
-                factor.clamp(1.0, textScaleFactorMaxSupported),
+          final factor = scenario.textScaleFactor;
+          if (factor != null) {
+            child = MediaQuery(
+              data: MediaQueryData(
+                textScaler: TextScaler.linear(
+                  factor.clamp(1.0, textScaleFactorMaxSupported),
+                ),
               ),
-            ),
-            child: child,
-          );
-        }
+              child: child,
+            );
+          }
 
-        final scenarioWidget = Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
+          final scenarioWidget = Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(name),
+              Text(scenario.name),
               const SizedBox(height: 8),
               Center(child: child),
               const SizedBox(height: 24),
             ],
-          ),
-        );
+          );
 
-        return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
-      }).toList(),
+          return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
+        }).toList(),
+      ),
     );
 
     await tester.pumpWidgetAndMatch(

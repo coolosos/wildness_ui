@@ -1,5 +1,17 @@
 part of '../wildness_ui_golden_toolkit.dart';
 
+const Size _defaultSize = Size(800, 600);
+
+///CustomPump is a function that lets you do custom pumping before golden evaluation.
+///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
+typedef CustomPump = Future<void> Function(WidgetTester);
+
+/// Typedef for wrapping a widget with one or more other widgets
+typedef WidgetWrapper = Widget Function(Widget);
+
+/// Hook for running arbitrary behavior for a particular scenario
+typedef OnScenarioCreate = Future<void> Function(Key scenarioWidgetKey);
+
 extension GoldenTesterExt on WidgetTester {
   String _screenName(String groupTitle) {
     final testName = testDescription.toLowerCase().replaceAll(' ', '_');
