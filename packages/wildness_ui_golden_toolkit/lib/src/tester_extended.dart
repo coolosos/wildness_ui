@@ -4,7 +4,7 @@ extension GoldenTesterExt on WidgetTester {
   String _screenName(String groupTitle) {
     final testName = testDescription.toLowerCase().replaceAll(' ', '_');
     final group = groupTitle.toLowerCase().replaceAll(' ', '_');
-    return '$group/$testName';
+    return 'goldens/$group/$testName.png';
   }
 
   Future<void> pumpWidgetAndMatch({
