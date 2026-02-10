@@ -28,19 +28,8 @@ Future<void> runWithConfiguration(Future<void> Function() testMain) async {
   await loadAppFonts();
 
   if (!Platform.isMacOS) {
-    goldenFileComparator = _NoopGoldenComparator();
+    return;
   }
 
   await testMain();
-}
-
-class _NoopGoldenComparator extends GoldenFileComparator {
-  @override
-  Uri get basedir => Uri.parse('');
-
-  @override
-  Future<bool> compare(Uint8List imageBytes, Uri golden) async => true;
-
-  @override
-  Future<void> update(Uri golden, Uint8List imageBytes) async {}
 }

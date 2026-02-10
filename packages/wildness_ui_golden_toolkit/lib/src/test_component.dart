@@ -19,7 +19,7 @@ void testColumnComponent({
 }) {
   testWidgets(name, (tester) async {
     final content = ColoredBox(
-      color: const Color.fromARGB(255, 255, 255, 255),
+      color: const Color(0xFFEEEEEE),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
