@@ -13,7 +13,7 @@ part 'src/component.dart';
 part 'src/list_devices.dart';
 part 'src/test_component.dart';
 part 'src/tester_extended.dart';
-part 'src/wrapper.dart';
+part 'src/wildness_wrapper.dart';
 
 /// create a [flutter_test_config.dart]
 /// and set [testExecutable] function for add default config
