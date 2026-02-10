@@ -25,7 +25,6 @@ extension GoldenTesterExt on WidgetTester {
     Size surfaceSize = _defaultSize,
     bool autoHeight = true,
     double textScaleSize = 1.0,
-    Future<void> Function()? gestureBuilder,
     Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
     Iterable<Locale>? supportedLocales,
     WildnessProperties? config,
@@ -45,11 +44,6 @@ extension GoldenTesterExt on WidgetTester {
 
     await pumpAndSettle();
 
-    if (gestureBuilder != null) {
-      await gestureBuilder();
-      await pumpAndSettle();
-    }
-
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
 
@@ -58,7 +52,6 @@ extension GoldenTesterExt on WidgetTester {
     required Widget widget,
     required String groupTitle,
     bool autoHeight = true,
-    Future<void> Function()? gestureBuilder,
     Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
     Iterable<Locale>? supportedLocales,
     WildnessProperties? config,
@@ -82,11 +75,6 @@ extension GoldenTesterExt on WidgetTester {
     );
 
     await pumpAndSettle();
-
-    if (gestureBuilder != null) {
-      await gestureBuilder();
-      await pumpAndSettle();
-    }
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }

@@ -69,14 +69,6 @@ void testColumnComponent({
       groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
       surfaceSize: surfaceSize,
       autoHeight: autoHeight,
-      gestureBuilder: () async {
-        if (touchKey != null) {
-          await tester.startGesture(
-            tester.getRect(find.byKey(touchKey)).center,
-          );
-        }
-        await gestureBuilder?.call(tester);
-      },
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
@@ -123,14 +115,6 @@ void testDeviceComponent({
         groupTitle:
             'components/${(groupName ?? name).toLowerCase()}_${device.name.toLowerCase()}',
         autoHeight: autoHeight,
-        gestureBuilder: () async {
-          if (touchKey != null) {
-            await tester.startGesture(
-              tester.getRect(find.byKey(touchKey)).center,
-            );
-          }
-          await gestureBuilder?.call(tester);
-        },
         localizationsDelegates: localizationsDelegates,
         supportedLocales: supportedLocales,
         config: config,

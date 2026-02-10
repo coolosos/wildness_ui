@@ -1,7 +1,6 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart' show Theme;
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 import 'package:wildness_ui/wildness.dart';
