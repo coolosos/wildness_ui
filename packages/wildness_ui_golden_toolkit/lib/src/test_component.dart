@@ -43,6 +43,7 @@ void testColumnComponent({
               Text(scenario.name),
               const SizedBox(height: 8),
               Center(child: child),
+              const SizedBox(height: 24),
             ],
           );
 
