@@ -9,23 +9,26 @@ Widget Function(Widget child) wildnessWidgetWrapper({
   TextStyle? defaultTextStyle,
   Color? primaryColor = const Color.fromARGB(255, 3, 85, 3),
 }) {
-  return (child) => ColoredBox(
-    color: const Color.fromARGB(255, 255, 255, 255),
-    child: Directionality(
-      textDirection: TextDirection.ltr,
-      child: MediaQuery(
-        data: const MediaQueryData(
-          size: Size(800, 600),
-          devicePixelRatio: 1,
-          textScaler: TextScaler.linear(1),
-        ),
-        child: wildnessApp(
-          child: child,
-          config: config,
-          supportedLocales: supportedLocales,
-          localizationsDelegates: localizationsDelegates,
-          defaultTextStyle: defaultTextStyle,
-          primaryColor: primaryColor,
+  return (child) => RepaintBoundary(
+    key: const Key('__golden_root__'),
+    child: ColoredBox(
+      color: const Color.fromARGB(255, 255, 255, 255),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: MediaQuery(
+          data: const MediaQueryData(
+            size: Size(800, 600),
+            devicePixelRatio: 1,
+            textScaler: TextScaler.linear(1),
+          ),
+          child: wildnessApp(
+            child: child,
+            config: config,
+            supportedLocales: supportedLocales,
+            localizationsDelegates: localizationsDelegates,
+            defaultTextStyle: defaultTextStyle,
+            primaryColor: primaryColor,
+          ),
         ),
       ),
     ),
