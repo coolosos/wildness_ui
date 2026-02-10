@@ -31,4 +31,4 @@ flutter:
   fonts:
     - family: Roboto
       fonts:
-        - asset: packages/golden_toolkit/fonts/Roboto-Regular.ttf
+        - asset: packages/wildness_ui_golden_toolkit/fonts/Roboto-Regular.ttf
