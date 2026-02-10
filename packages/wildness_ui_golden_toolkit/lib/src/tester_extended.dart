@@ -22,7 +22,7 @@ extension GoldenTesterExt on WidgetTester {
   Future<void> pumpWidgetAndMatch({
     required Widget widget,
     required String groupTitle,
-    Size surfaceSize = const Size(800, 600),
+    Size surfaceSize = _defaultSize,
     bool autoHeight = true,
     double textScaleSize = 1.0,
     Future<void> Function()? gestureBuilder,
