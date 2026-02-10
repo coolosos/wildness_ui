@@ -19,7 +19,7 @@ void testColumnComponent({
 }) {
   testWidgets(name, (tester) async {
     final content = Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: scenarios.map((scenario) {
