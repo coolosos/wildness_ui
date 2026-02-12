@@ -153,19 +153,26 @@ void testDevicesGolden({
       color: const Color(0xFFEEEEEE),
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: direction == Axis.horizontal
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: deviceWidgets,
-              )
-            : Column(children: deviceWidgets),
+        child: Center(
+          child: direction == Axis.horizontal
+              ? Row(
+                  mainAxisSize: MainAxisSize.min, // 👈 clave
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: deviceWidgets,
+                )
+              : Column(mainAxisSize: MainAxisSize.min, children: deviceWidgets),
+        ),
       ),
     );
 
     await tester.pumpWidgetAndMatch(
       widget: content,
       groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
-      surfaceSize: _calculateSurface(resolvedDevices, direction),
+      surfaceSize: _calculateSurface(
+        resolvedDevices,
+        direction,
+        scenarios.length,
+      ),
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
@@ -234,30 +241,43 @@ class _DeviceScenarioView extends StatelessWidget {
   }
 }
 
-Size _calculateSurface(List<TestDevice> devices, Axis direction) {
+Size _calculateSurface(
+  List<TestDevice> devices,
+  Axis direction,
+  int scenarioCount,
+) {
   const horizontalSpacing = 24.0;
   const verticalSpacing = 24.0;
-  const titleHeight = 40.0;
+
+  const titleHeight = 24.0;
+  const titleGap = 8.0;
 
   if (direction == Axis.horizontal) {
-    final width =
+    final totalWidth =
         devices.fold<double>(0, (sum, d) => sum + d.size.width) +
         (devices.length * horizontalSpacing);
 
-    final maxHeight = devices
+    final maxDeviceHeight = devices
         .map((d) => d.size.height)
         .reduce((a, b) => a > b ? a : b);
 
-    return Size(width, maxHeight + titleHeight + verticalSpacing);
-  } else {
-    final height =
-        devices.fold<double>(0, (sum, d) => sum + d.size.height) +
-        (devices.length * verticalSpacing);
+    final scenariosHeight = scenarioCount * (maxDeviceHeight + verticalSpacing);
 
+    final totalHeight = titleHeight + titleGap + scenariosHeight;
+
+    return Size(totalWidth, totalHeight + 12);
+  } else {
     final maxWidth = devices
         .map((d) => d.size.width)
         .reduce((a, b) => a > b ? a : b);
 
-    return Size(maxWidth + horizontalSpacing, height + titleHeight);
+    final totalHeight =
+        devices.fold<double>(0, (sum, d) => sum + d.size.height) +
+        (devices.length * verticalSpacing);
+
+    return Size(
+      maxWidth + horizontalSpacing,
+      totalHeight + titleHeight + titleGap,
+    );
   }
 }
