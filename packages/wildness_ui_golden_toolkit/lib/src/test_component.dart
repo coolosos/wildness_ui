@@ -151,12 +151,12 @@ void testDevicesGolden({
 
     final content = ColoredBox(
       color: const Color(0xFFEEEEEE),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Center(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: direction == Axis.horizontal
               ? Row(
-                  mainAxisSize: MainAxisSize.min, // 👈 clave
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: deviceWidgets,
                 )
@@ -239,6 +239,7 @@ class _DeviceScenarioView extends StatelessWidget {
 
 const _kGoldenSafetyPadding = 32.0;
 const _kHeaderHeight = 28.0;
+const _kTextCompensation = 16.0;
 
 Size _calculateSurface(List<TestDevice> devices, Axis direction) {
   if (direction == Axis.horizontal) {
@@ -252,7 +253,10 @@ Size _calculateSurface(List<TestDevice> devices, Axis direction) {
 
     return Size(
       width + _kGoldenSafetyPadding,
-      maxHeight + _kHeaderHeight + _kGoldenSafetyPadding,
+      maxHeight +
+          _kHeaderHeight +
+          _kGoldenSafetyPadding +
+          _kTextCompensation, // 👈 clave
     );
   } else {
     final height =
@@ -265,7 +269,7 @@ Size _calculateSurface(List<TestDevice> devices, Axis direction) {
 
     return Size(
       maxWidth + _kGoldenSafetyPadding,
-      height + _kHeaderHeight + _kGoldenSafetyPadding,
+      height + _kHeaderHeight + _kGoldenSafetyPadding + _kTextCompensation,
     );
   }
 }
