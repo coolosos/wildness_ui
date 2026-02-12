@@ -155,7 +155,7 @@ void testDevicesGolden({
         padding: const EdgeInsets.all(12),
         child: direction == Axis.horizontal
             ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: deviceWidgets,
               )
             : Column(children: deviceWidgets),
@@ -188,62 +188,76 @@ class _DeviceScenarioView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget scenarioColumn = Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(device.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 8),
-        ...scenarios.map((scenario) {
-          var child = scenario.widget;
-
-          if (wrap != null) {
-            child = wrap!(child);
-          }
-
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: SizedBox(
-              width: device.size.width,
-              height: device.size.height,
-              child: MediaQuery(
-                data: MediaQueryData(
-                  size: device.size,
-                  devicePixelRatio: device.devicePixelRatio,
-                  textScaler: TextScaler.linear(device.textScale),
-                  platformBrightness: device.brightness,
-                  padding: device.safeArea,
-                ),
-                child: child,
+    return RepaintBoundary(
+      child: SizedBox(
+        width: device.size.width,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                device.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-            ),
-          );
-        }),
-      ],
-    );
+              const SizedBox(height: 8),
+              ...scenarios.map((scenario) {
+                var child = scenario.widget;
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 24),
-      child: scenarioColumn,
+                if (wrap != null) {
+                  child = wrap!(child);
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: SizedBox(
+                    width: device.size.width,
+                    height: device.size.height,
+                    child: MediaQuery(
+                      data: MediaQueryData(
+                        size: device.size,
+                        devicePixelRatio: device.devicePixelRatio,
+                        textScaler: TextScaler.linear(device.textScale),
+                        platformBrightness: device.brightness,
+                        padding: device.safeArea,
+                      ),
+                      child: child,
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
 
 Size _calculateSurface(List<TestDevice> devices, Axis direction) {
+  const horizontalSpacing = 24.0;
+  const verticalSpacing = 24.0;
+  const titleHeight = 40.0;
+
   if (direction == Axis.horizontal) {
-    final width = devices.fold<double>(0, (sum, d) => sum + d.size.width);
+    final width =
+        devices.fold<double>(0, (sum, d) => sum + d.size.width) +
+        (devices.length * horizontalSpacing);
 
     final maxHeight = devices
         .map((d) => d.size.height)
         .reduce((a, b) => a > b ? a : b);
 
-    return Size(width + (devices.length * 24), maxHeight + 120);
+    return Size(width, maxHeight + titleHeight + verticalSpacing);
   } else {
-    final height = devices.fold<double>(0, (sum, d) => sum + d.size.height);
+    final height =
+        devices.fold<double>(0, (sum, d) => sum + d.size.height) +
+        (devices.length * verticalSpacing);
 
     final maxWidth = devices
         .map((d) => d.size.width)
         .reduce((a, b) => a > b ? a : b);
 
-    return Size(maxWidth + 120, height + (devices.length * 24));
+    return Size(maxWidth + horizontalSpacing, height + titleHeight);
   }
 }
