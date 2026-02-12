@@ -130,7 +130,7 @@ void testDevicesGolden({
   required List<Component> scenarios,
   String? groupName,
   List<TestDevice>? devices,
-  Axis direction = Axis.horizontal, // Row o Column
+  Axis direction = Axis.horizontal,
   Widget Function(Widget child)? wrap,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
@@ -154,9 +154,15 @@ void testDevicesGolden({
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: direction == Axis.horizontal
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: deviceWidgets,
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const NeverScrollableScrollPhysics(),
+                child: IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: deviceWidgets,
+                  ),
+                ),
               )
             : Column(children: deviceWidgets),
       ),
@@ -165,7 +171,7 @@ void testDevicesGolden({
     await tester.pumpWidgetAndMatch(
       widget: content,
       groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
-      surfaceSize: _calculateSurface(resolvedDevices, direction),
+      surfaceSize: const Size(4000, 4000),
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
@@ -202,9 +208,8 @@ class _DeviceScenarioView extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 24),
-            child: SizedBox(
-              width: device.size.width,
-              height: device.size.height,
+            child: ConstrainedBox(
+              constraints: BoxConstraints.tight(device.size),
               child: MediaQuery(
                 data: MediaQueryData(
                   size: device.size,
