@@ -123,3 +123,127 @@ void testDeviceComponent({
     }, tags: ['golden']);
   }
 }
+
+@isTest
+void testDevicesGolden({
+  required String name,
+  required List<Component> scenarios,
+  String? groupName,
+  List<TestDevice>? devices,
+  Axis direction = Axis.horizontal, // Row o Column
+  Widget Function(Widget child)? wrap,
+  Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
+  Iterable<Locale>? supportedLocales,
+  WildnessProperties? config,
+  TextStyle? defaultTextStyle,
+  Color? primaryColor,
+}) {
+  final resolvedDevices = devices ?? Devices.all;
+
+  testWidgets(name, (tester) async {
+    final deviceWidgets = resolvedDevices.map((device) {
+      return _DeviceScenarioView(
+        device: device,
+        scenarios: scenarios,
+        wrap: wrap,
+      );
+    }).toList();
+
+    final content = ColoredBox(
+      color: const Color(0xFFEEEEEE),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: direction == Axis.horizontal
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: deviceWidgets,
+              )
+            : Column(children: deviceWidgets),
+      ),
+    );
+
+    await tester.pumpWidgetAndMatch(
+      widget: content,
+      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
+      surfaceSize: _calculateSurface(resolvedDevices, direction),
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      config: config,
+      defaultTextStyle: defaultTextStyle,
+      primaryColor: primaryColor,
+    );
+  }, tags: ['golden']);
+}
+
+class _DeviceScenarioView extends StatelessWidget {
+  const _DeviceScenarioView({
+    required this.device,
+    required this.scenarios,
+    this.wrap,
+  });
+
+  final TestDevice device;
+  final List<Component> scenarios;
+  final Widget Function(Widget child)? wrap;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget scenarioColumn = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(device.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        ...scenarios.map((scenario) {
+          var child = scenario.widget;
+
+          if (wrap != null) {
+            child = wrap!(child);
+          }
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: SizedBox(
+              width: device.size.width,
+              height: device.size.height,
+              child: MediaQuery(
+                data: MediaQueryData(
+                  size: device.size,
+                  devicePixelRatio: device.devicePixelRatio,
+                  textScaler: TextScaler.linear(device.textScale),
+                  platformBrightness: device.brightness,
+                  padding: device.safeArea,
+                ),
+                child: child,
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 24),
+      child: scenarioColumn,
+    );
+  }
+}
+
+Size _calculateSurface(List<TestDevice> devices, Axis direction) {
+  if (direction == Axis.horizontal) {
+    final width = devices.fold<double>(0, (sum, d) => sum + d.size.width);
+
+    final maxHeight = devices
+        .map((d) => d.size.height)
+        .reduce((a, b) => a > b ? a : b);
+
+    return Size(width + (devices.length * 24), maxHeight + 120);
+  } else {
+    final height = devices.fold<double>(0, (sum, d) => sum + d.size.height);
+
+    final maxWidth = devices
+        .map((d) => d.size.width)
+        .reduce((a, b) => a > b ? a : b);
+
+    return Size(maxWidth + 120, height + (devices.length * 24));
+  }
+}
