@@ -5,7 +5,6 @@ void testColumnComponent({
   required String name,
   required List<Component> scenarios,
   String? groupName,
-  Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
   Widget Function(Widget child)? wrap,
@@ -94,7 +93,7 @@ void testDeviceComponent({
   TextStyle? defaultTextStyle,
   Color? primaryColor,
 }) {
-  final resolvedDevices = devices ?? Devices.common;
+  final resolvedDevices = devices ?? Devices.all;
 
   for (final device in resolvedDevices) {
     testWidgets('$name – ${device.name}', (tester) async {
@@ -113,7 +112,7 @@ void testDeviceComponent({
         device: device,
         widget: content,
         groupTitle:
-            'components/${(groupName ?? name).toLowerCase()}_${device.name.toLowerCase()}',
+            'components/$groupName/${(groupName ?? name).toLowerCase()}_${device.name.toLowerCase()}',
         autoHeight: autoHeight,
         localizationsDelegates: localizationsDelegates,
         supportedLocales: supportedLocales,
