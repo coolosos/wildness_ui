@@ -154,15 +154,9 @@ void testDevicesGolden({
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: direction == Axis.horizontal
-            ? SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: const NeverScrollableScrollPhysics(),
-                child: IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: deviceWidgets,
-                  ),
-                ),
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: deviceWidgets,
               )
             : Column(children: deviceWidgets),
       ),
@@ -171,7 +165,7 @@ void testDevicesGolden({
     await tester.pumpWidgetAndMatch(
       widget: content,
       groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
-      surfaceSize: const Size(4000, 4000),
+      surfaceSize: _calculateSurface(resolvedDevices, direction),
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
@@ -208,8 +202,9 @@ class _DeviceScenarioView extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 24),
-            child: ConstrainedBox(
-              constraints: BoxConstraints.tight(device.size),
+            child: SizedBox(
+              width: device.size.width,
+              height: device.size.height,
               child: MediaQuery(
                 data: MediaQueryData(
                   size: device.size,
