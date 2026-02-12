@@ -5,6 +5,7 @@ void testColumnComponent({
   required String name,
   required List<Component> scenarios,
   String? groupName,
+  Future Function()? gestureBuilder,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
   Widget Function(Widget child)? wrap,
@@ -73,10 +74,85 @@ void testColumnComponent({
       config: config,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
+      gestureBuilder: () async {
+        if (touchKey != null) {
+          await tester.startGesture(
+            tester.getRect(find.byKey(touchKey)).center,
+          );
+        }
+
+        await gestureBuilder?.call();
+      },
     );
   }, tags: ['golden']);
 }
 
+@isTest
+void testDevicesGolden({
+  required String name,
+  required List<Component> scenarios,
+  String? groupName,
+  List<TestDevice>? devices,
+  Axis direction = Axis.horizontal,
+  Widget Function(Widget child)? wrap,
+  Future Function()? gestureBuilder,
+  Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
+  Iterable<Locale>? supportedLocales,
+  WildnessProperties? config,
+  TextStyle? defaultTextStyle,
+  Color? primaryColor,
+  Key? touchKey,
+}) {
+  final resolvedDevices = devices ?? Devices.all;
+
+  testWidgets(name, (tester) async {
+    final deviceWidgets = resolvedDevices.map((device) {
+      return _DeviceScenarioView(
+        device: device,
+        scenarios: scenarios,
+        wrap: wrap,
+      );
+    }).toList();
+
+    final content = ColoredBox(
+      color: const Color(0xFFEEEEEE),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: direction == Axis.horizontal
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: deviceWidgets,
+                )
+              : Column(mainAxisSize: MainAxisSize.min, children: deviceWidgets),
+        ),
+      ),
+    );
+
+    await tester.pumpWidgetAndMatch(
+      widget: content,
+      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
+      surfaceSize: _calculateSurface(resolvedDevices, direction),
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      config: config,
+      defaultTextStyle: defaultTextStyle,
+      primaryColor: primaryColor,
+      gestureBuilder: () async {
+        if (touchKey != null) {
+          await tester.startGesture(
+            tester.getRect(find.byKey(touchKey)).center,
+          );
+        }
+
+        await gestureBuilder?.call();
+      },
+    );
+  }, tags: ['golden']);
+}
+
+/*
 @isTest
 void testDeviceComponent({
   required String name,
@@ -122,61 +198,7 @@ void testDeviceComponent({
       );
     }, tags: ['golden']);
   }
-}
-
-@isTest
-void testDevicesGolden({
-  required String name,
-  required List<Component> scenarios,
-  String? groupName,
-  List<TestDevice>? devices,
-  Axis direction = Axis.horizontal,
-  Widget Function(Widget child)? wrap,
-  Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
-  Iterable<Locale>? supportedLocales,
-  WildnessProperties? config,
-  TextStyle? defaultTextStyle,
-  Color? primaryColor,
-}) {
-  final resolvedDevices = devices ?? Devices.all;
-
-  testWidgets(name, (tester) async {
-    final deviceWidgets = resolvedDevices.map((device) {
-      return _DeviceScenarioView(
-        device: device,
-        scenarios: scenarios,
-        wrap: wrap,
-      );
-    }).toList();
-
-    final content = ColoredBox(
-      color: const Color(0xFFEEEEEE),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: direction == Axis.horizontal
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: deviceWidgets,
-                )
-              : Column(mainAxisSize: MainAxisSize.min, children: deviceWidgets),
-        ),
-      ),
-    );
-
-    await tester.pumpWidgetAndMatch(
-      widget: content,
-      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
-      surfaceSize: _calculateSurface(resolvedDevices, direction),
-      localizationsDelegates: localizationsDelegates,
-      supportedLocales: supportedLocales,
-      config: config,
-      defaultTextStyle: defaultTextStyle,
-      primaryColor: primaryColor,
-    );
-  }, tags: ['golden']);
-}
+}*/
 
 class _DeviceScenarioView extends StatelessWidget {
   const _DeviceScenarioView({
