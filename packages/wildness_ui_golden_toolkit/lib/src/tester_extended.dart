@@ -23,6 +23,7 @@ extension GoldenTesterExt on WidgetTester {
     Future Function()? gestureBuilder,
   }) async {
     _setSurfaceSize(this, surfaceSize);
+
     await pumpWidget(
       wildnessWidgetWrapper(
         localizationsDelegates: localizationsDelegates,
@@ -33,9 +34,14 @@ extension GoldenTesterExt on WidgetTester {
       )(widget),
     );
 
+    await pump();
+
     await pumpAndSettle();
 
     await gestureBuilder?.call();
+
+    await pump();
+    await pump(const Duration(milliseconds: 16));
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
@@ -68,8 +74,13 @@ extension GoldenTesterExt on WidgetTester {
       )(widget),
     );
 
+    await pump(); // ← flush metrics change
     await pumpAndSettle();
+
     await gestureBuilder?.call();
+
+    await pump(); // ← flush hover / tap / animations
+    await pump(const Duration(milliseconds: 16));
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
