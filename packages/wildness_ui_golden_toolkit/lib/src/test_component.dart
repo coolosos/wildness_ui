@@ -5,7 +5,7 @@ void testColumnComponent({
   required String name,
   required List<Component> scenarios,
   String? groupName,
-  Future Function()? gestureBuilder,
+  Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
   Widget Function(Widget child)? wrap,
@@ -81,7 +81,7 @@ void testColumnComponent({
           );
         }
 
-        await gestureBuilder?.call();
+        await gestureBuilder?.call(tester);
       },
     );
   }, tags: ['golden']);
@@ -95,7 +95,7 @@ void testDevicesGolden({
   List<TestDevice>? devices,
   Axis direction = Axis.horizontal,
   Widget Function(Widget child)? wrap,
-  Future Function()? gestureBuilder,
+  Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
   WildnessProperties? config,
@@ -146,7 +146,7 @@ void testDevicesGolden({
           );
         }
 
-        await gestureBuilder?.call();
+        await gestureBuilder?.call(tester);
       },
     );
   }, tags: ['golden']);

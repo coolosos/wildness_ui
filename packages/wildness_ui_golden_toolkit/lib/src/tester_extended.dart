@@ -50,6 +50,7 @@ extension GoldenTesterExt on WidgetTester {
     WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
+    Future Function()? gestureBuilder,
   }) async {
     _setSurfaceSize(
       this,
@@ -68,6 +69,7 @@ extension GoldenTesterExt on WidgetTester {
     );
 
     await pumpAndSettle();
+    await gestureBuilder?.call();
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
