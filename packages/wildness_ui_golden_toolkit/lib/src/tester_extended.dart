@@ -74,12 +74,12 @@ extension GoldenTesterExt on WidgetTester {
       )(widget),
     );
 
-    await pump(); // ← flush metrics change
+    await pump();
     await pumpAndSettle();
 
     await gestureBuilder?.call();
 
-    await pump(); // ← flush hover / tap / animations
+    await pump();
     await pump(const Duration(milliseconds: 16));
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
