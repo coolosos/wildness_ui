@@ -36,8 +36,6 @@ extension GoldenTesterExt on WidgetTester {
 
     await pump();
 
-    await pumpAndSettle();
-
     await gestureBuilder?.call();
 
     await pump();
