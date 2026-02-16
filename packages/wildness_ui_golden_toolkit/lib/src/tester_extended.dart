@@ -38,11 +38,25 @@ extension GoldenTesterExt on WidgetTester {
 
     await gestureBuilder?.call();
 
+    /// Procesa el tap
     await pump();
-
     await pump(const Duration(milliseconds: 16));
 
-    await pumpAndSettle();
+    /// 👇 ESTA ES LA CLAVE — quitar cualquier hover activo
+    await TestAsyncUtils.guard(() async {
+      final binding = this.binding;
+
+      if (binding is LiveTestWidgetsFlutterBinding) {
+        // nothing
+      }
+
+      // Forzamos a Flutter a creer que no hay ningún mouse encima
+      await sendEventToBinding(
+        const PointerRemovedEvent(position: Offset(-1, -1)),
+      );
+    });
+
+    await pump();
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
