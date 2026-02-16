@@ -42,6 +42,7 @@ extension GoldenTesterExt on WidgetTester {
 
     await pump(const Duration(milliseconds: 16));
     await pumpAndSettle();
+    await pump();
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
 
