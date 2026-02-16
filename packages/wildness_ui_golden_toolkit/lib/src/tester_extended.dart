@@ -20,7 +20,7 @@ extension GoldenTesterExt on WidgetTester {
     WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
-    Future Function()? gestureBuilder,
+    Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   }) async {
     _setSurfaceSize(this, surfaceSize);
 
@@ -36,7 +36,7 @@ extension GoldenTesterExt on WidgetTester {
 
     await pumpAndSettle();
 
-    await gestureBuilder?.call();
+    await gestureBuilder?.call(this);
 
     await pump();
 
@@ -56,7 +56,7 @@ extension GoldenTesterExt on WidgetTester {
     WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
-    Future Function()? gestureBuilder,
+    Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   }) async {
     _setSurfaceSize(
       this,
@@ -76,7 +76,7 @@ extension GoldenTesterExt on WidgetTester {
 
     await pumpAndSettle();
 
-    await gestureBuilder?.call();
+    await gestureBuilder?.call(this);
 
     await pump();
     await pump(const Duration(milliseconds: 120));

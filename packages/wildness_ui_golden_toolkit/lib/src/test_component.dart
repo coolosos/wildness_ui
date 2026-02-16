@@ -74,15 +74,7 @@ void testColumnComponent({
       config: config,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
-      gestureBuilder: () async {
-        if (touchKey != null) {
-          await tester.startGesture(
-            tester.getRect(find.byKey(touchKey)).center,
-          );
-        }
-
-        await gestureBuilder?.call(tester);
-      },
+      gestureBuilder: gestureBuilder,
     );
   }, tags: ['golden']);
 }
@@ -139,20 +131,11 @@ void testDevicesGolden({
       config: config,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
-      gestureBuilder: () async {
-        if (touchKey != null) {
-          await tester.startGesture(
-            tester.getRect(find.byKey(touchKey)).center,
-          );
-        }
-
-        await gestureBuilder?.call(tester);
-      },
+      gestureBuilder: gestureBuilder,
     );
   }, tags: ['golden']);
 }
 
-/*
 @isTest
 void testDeviceComponent({
   required String name,
@@ -195,10 +178,11 @@ void testDeviceComponent({
         config: config,
         defaultTextStyle: defaultTextStyle,
         primaryColor: primaryColor,
+        gestureBuilder: gestureBuilder,
       );
     }, tags: ['golden']);
   }
-}*/
+}
 
 class _DeviceScenarioView extends StatelessWidget {
   const _DeviceScenarioView({
@@ -275,10 +259,7 @@ Size _calculateSurface(List<TestDevice> devices, Axis direction) {
 
     return Size(
       width + _kGoldenSafetyPadding,
-      maxHeight +
-          _kHeaderHeight +
-          _kGoldenSafetyPadding +
-          _kTextCompensation, // 👈 clave
+      maxHeight + _kHeaderHeight + _kGoldenSafetyPadding + _kTextCompensation,
     );
   } else {
     final height =
