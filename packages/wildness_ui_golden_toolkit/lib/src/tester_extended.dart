@@ -37,11 +37,11 @@ extension GoldenTesterExt on WidgetTester {
     await pumpAndSettle();
 
     await gestureBuilder?.call();
-
     //await pump();
     //await pump(const Duration(milliseconds: 120));
-    await pumpAndSettle();
-    await pumpAndSettle();
+
+    await pump();
+    await pump();
 
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
   }
