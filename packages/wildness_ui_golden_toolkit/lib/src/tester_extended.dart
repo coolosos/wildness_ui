@@ -38,6 +38,8 @@ extension GoldenTesterExt on WidgetTester {
 
     await gestureBuilder?.call();
 
+    await pump();
+
     await pump(const Duration(milliseconds: 16));
     // await pumpAndSettle();
     expect(find.byWidget(widget), matchesGoldenFile(_screenName(groupTitle)));
