@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
