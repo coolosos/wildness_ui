@@ -72,6 +72,8 @@ void testColumnComponent({
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
+      hoverKey: hoverKey,
+      touchKey: touchKey,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
       gestureBuilder: gestureBuilder,
@@ -93,6 +95,7 @@ void testDevicesGolden({
   WildnessProperties? config,
   TextStyle? defaultTextStyle,
   Color? primaryColor,
+  Key? hoverKey,
   Key? touchKey,
 }) {
   final resolvedDevices = devices ?? Devices.all;
@@ -129,6 +132,8 @@ void testDevicesGolden({
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
+      hoverKey: hoverKey,
+      touchKey: touchKey,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
       gestureBuilder: gestureBuilder,
