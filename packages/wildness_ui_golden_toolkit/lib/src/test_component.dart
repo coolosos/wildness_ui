@@ -8,6 +8,7 @@ void testColumnComponent({
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
+  Key? hoverKey,
   Widget Function(Widget child)? wrap,
   bool autoHeight = true,
   double? textScaleSize,
@@ -68,7 +69,6 @@ void testColumnComponent({
       widget: content,
       groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
       surfaceSize: surfaceSize,
-      autoHeight: autoHeight,
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       config: config,
@@ -172,7 +172,6 @@ void testDeviceComponent({
         widget: content,
         groupTitle:
             'components/$groupName/${(groupName ?? name).toLowerCase()}_${device.name.toLowerCase()}',
-        autoHeight: autoHeight,
         localizationsDelegates: localizationsDelegates,
         supportedLocales: supportedLocales,
         config: config,
