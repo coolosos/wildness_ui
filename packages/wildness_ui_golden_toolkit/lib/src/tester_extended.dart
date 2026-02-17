@@ -62,6 +62,7 @@ Future<void> _pumpAndMatchInternal({
   await tester.pump(const Duration(milliseconds: 16));
   await tester.pumpAndSettle();
   await tester.pump();
+
   expect(
     find.byWidget(widget),
     matchesGoldenFile(tester._screenName(groupTitle)),
@@ -154,11 +155,15 @@ Future<void> _manageKeys(
   WidgetTester tester,
 ) async {
   if (touchKey != null) {
-    await tester.startGesture(
+    final gesture = await tester.startGesture(
       tester.getCenter(find.byKey(touchKey)),
       kind: PointerDeviceKind.touch,
     );
-    await tester.pump(const Duration(milliseconds: 150));
+
+    await tester.pump(const Duration(milliseconds: 300));
+
+    await gesture.up();
+    await tester.pump();
   }
 
   if (hoverKey != null) {
