@@ -52,17 +52,16 @@ Future<void> _pumpAndMatchInternal({
     )(widget),
   );
 
-  await tester.pump();
   await tester.pumpAndSettle();
 
   await _manageKeys(touchKey, hoverKey, tester);
   await gestureBuilder?.call(tester);
 
   await tester.pump();
-  await tester.pump(renderConfig.additionalPump);
+
+  await tester.pump(const Duration(milliseconds: 16));
   await tester.pumpAndSettle();
   await tester.pump();
-
   expect(
     find.byWidget(widget),
     matchesGoldenFile(tester._screenName(groupTitle)),
