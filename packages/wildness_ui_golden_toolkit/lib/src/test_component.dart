@@ -6,56 +6,137 @@ void testColumnComponent({
   required List<Component> scenarios,
   String? groupName,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
-  List<Device>? devices,
   Size surfaceSize = const Size(800, 740),
   Key? touchKey,
+  Key? hoverKey,
   Widget Function(Widget child)? wrap,
-  bool? autoHeight = true,
-  double? textScaleSize,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
   WildnessProperties? config,
   TextStyle? defaultTextStyle,
   Color? primaryColor,
 }) {
-  testGoldens(name, (WidgetTester tester) async {
-    final builder = GoldenBuilder.column(wrap: wrap);
+  testWidgets(name, (tester) async {
+    final content = ColoredBox(
+      color: const Color(0xFFEEEEEE),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: scenarios.map((scenario) {
+            var child = scenario.widget;
 
-    for (final scenario in scenarios) {
-      if (scenario.textScaleFactor != null) {
-        builder.addTextScaleScenario(
-          scenario.name,
-          scenario.widget,
-          textScaleFactor:
-              scenario.textScaleFactor ?? textScaleFactorMaxSupported,
-        );
-      } else {
-        builder.addScenario(scenario.name, scenario.widget);
-      }
-    }
+            final factor = scenario.textScaleFactor;
+            if (factor != null) {
+              child = MediaQuery(
+                data: MediaQueryData(
+                  textScaler: TextScaler.linear(
+                    factor.clamp(1.0, textScaleFactorMaxSupported),
+                  ),
+                ),
+                child: child,
+              );
+            }
 
-    await tester.pumpWidgetAndMatchWithGesture(
-      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
-      builder: builder,
-      surfaceSize: surfaceSize,
-      gestureBuilder: () async {
-        if (touchKey != null) {
-          await tester.startGesture(
-            tester.getRect(find.byKey(touchKey)).center,
-          );
-        }
+            final scenarioWidget = SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      scenario.name +
+                          ((scenario.textScaleFactor != null)
+                              ? ' ${scenario.textScaleFactor}'
+                              : ''),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  child,
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
 
-        await gestureBuilder?.call(tester);
-      },
-      autoHeight: autoHeight,
-      config: config,
-      defaultTextStyle: defaultTextStyle,
-      localizationsDelegates: localizationsDelegates,
-      primaryColor: primaryColor,
-      supportedLocales: supportedLocales,
-      textScaleSize: textScaleSize,
+            return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
+          }).toList(),
+        ),
+      ),
     );
-  });
+
+    await tester.pumpWidgetAndMatch(
+      widget: content,
+      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
+      surfaceSize: surfaceSize,
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      config: config,
+      hoverKey: hoverKey,
+      touchKey: touchKey,
+      defaultTextStyle: defaultTextStyle,
+      primaryColor: primaryColor,
+      gestureBuilder: gestureBuilder,
+    );
+  }, tags: ['golden']);
+}
+
+@isTest
+void testDevicesGolden({
+  required String name,
+  required List<Component> scenarios,
+  String? groupName,
+  List<TestDevice>? devices,
+  Axis direction = Axis.horizontal,
+  Widget Function(Widget child)? wrap,
+  Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
+  Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
+  Iterable<Locale>? supportedLocales,
+  WildnessProperties? config,
+  TextStyle? defaultTextStyle,
+  Color? primaryColor,
+  Key? hoverKey,
+  Key? touchKey,
+}) {
+  final resolvedDevices = devices ?? Devices.all;
+
+  testWidgets(name, (tester) async {
+    final deviceWidgets = resolvedDevices.map((device) {
+      return _DeviceScenarioView(
+        device: device,
+        scenarios: scenarios,
+        wrap: wrap,
+      );
+    }).toList();
+
+    final content = ColoredBox(
+      color: const Color(0xFFEEEEEE),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: direction == Axis.horizontal
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: deviceWidgets,
+                )
+              : Column(mainAxisSize: MainAxisSize.min, children: deviceWidgets),
+        ),
+      ),
+    );
+
+    await tester.pumpWidgetAndMatch(
+      widget: content,
+      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
+      surfaceSize: _calculateSurface(resolvedDevices, direction),
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      config: config,
+      hoverKey: hoverKey,
+      touchKey: touchKey,
+      defaultTextStyle: defaultTextStyle,
+      primaryColor: primaryColor,
+      gestureBuilder: gestureBuilder,
+    );
+  }, tags: ['golden']);
 }
 
 @isTest
@@ -63,47 +144,139 @@ void testDeviceComponent({
   required String name,
   required List<Component> scenarios,
   String? groupName,
+  List<TestDevice>? devices,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
-  List<Device>? devices,
-  Size surfaceSize = const Size(800, 740),
   Key? touchKey,
+  Key? hoverKey,
   Widget Function(Widget child)? wrap,
-  bool? autoHeight = true,
-  double? textScaleSize,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
   WildnessProperties? config,
   TextStyle? defaultTextStyle,
   Color? primaryColor,
 }) {
-  testGoldens(name, (WidgetTester tester) async {
-    final builder = DeviceBuilder(wrap: wrap);
-    if (devices != null) {
-      builder.overrideDevicesForAllScenarios(devices: devices);
-    }
+  final resolvedDevices = devices ?? Devices.all;
 
-    for (final scenario in scenarios) {
-      builder.addScenario(name: scenario.name, widget: scenario.widget);
-    }
-
-    await tester.pumpDeviceAndMatch(
-      groupTitle: 'components/${(groupName ?? name).toLowerCase()}',
-      builder: builder,
-      autoHeight: true,
-      config: config,
-      defaultTextStyle: defaultTextStyle,
-      localizationsDelegates: localizationsDelegates,
-      primaryColor: primaryColor,
-      supportedLocales: supportedLocales,
-      gestureBuilder: () async {
-        if (touchKey != null) {
-          await tester.startGesture(
-            tester.getRect(find.byKey(touchKey)).center,
+  for (final device in resolvedDevices) {
+    testWidgets('$name – ${device.name}', (tester) async {
+      final content = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: scenarios.map((s) {
+          final widget = wrap != null ? wrap(s.widget) : s.widget;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: widget,
           );
-        }
+        }).toList(),
+      );
 
-        await gestureBuilder?.call(tester);
-      },
-    );
+      await tester.pumpDeviceAndMatch(
+        device: device,
+        widget: content,
+        groupTitle:
+            'components/$groupName/${(groupName ?? name).toLowerCase()}_${device.name.toLowerCase()}',
+        localizationsDelegates: localizationsDelegates,
+        supportedLocales: supportedLocales,
+        config: config,
+        defaultTextStyle: defaultTextStyle,
+        primaryColor: primaryColor,
+        gestureBuilder: gestureBuilder,
+        touchKey: touchKey,
+        hoverKey: hoverKey,
+      );
+    }, tags: ['golden']);
+  }
+}
+
+class _DeviceScenarioView extends StatelessWidget {
+  const _DeviceScenarioView({
+    required this.device,
+    required this.scenarios,
+    this.wrap,
   });
+
+  final TestDevice device;
+  final List<Component> scenarios;
+  final Widget Function(Widget child)? wrap;
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: SizedBox(
+        width: device.size.width,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                device.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              ...scenarios.map((scenario) {
+                var child = scenario.widget;
+
+                if (wrap != null) {
+                  child = wrap!(child);
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: SizedBox(
+                    width: device.size.width,
+                    height: device.size.height,
+                    child: MediaQuery(
+                      data: MediaQueryData(
+                        size: device.size,
+                        devicePixelRatio: device.devicePixelRatio,
+                        textScaler: TextScaler.linear(device.textScale),
+                        platformBrightness: device.brightness,
+                        padding: device.safeArea,
+                      ),
+                      child: child,
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+const _kGoldenSafetyPadding = 32.0;
+const _kHeaderHeight = 28.0;
+const _kTextCompensation = 16.0;
+
+Size _calculateSurface(List<TestDevice> devices, Axis direction) {
+  if (direction == Axis.horizontal) {
+    final width =
+        devices.fold<double>(0, (sum, d) => sum + d.size.width) +
+        (devices.length * 24);
+
+    final maxHeight = devices
+        .map((d) => d.size.height)
+        .reduce((a, b) => a > b ? a : b);
+
+    return Size(
+      width + _kGoldenSafetyPadding,
+      maxHeight + _kHeaderHeight + _kGoldenSafetyPadding + _kTextCompensation,
+    );
+  } else {
+    final height =
+        devices.fold<double>(0, (sum, d) => sum + d.size.height) +
+        (devices.length * 24);
+
+    final maxWidth = devices
+        .map((d) => d.size.width)
+        .reduce((a, b) => a > b ? a : b);
+
+    return Size(
+      maxWidth + _kGoldenSafetyPadding,
+      height + _kHeaderHeight + _kGoldenSafetyPadding + _kTextCompensation,
+    );
+  }
 }

@@ -1,21 +1,19 @@
-library;
-
 import 'dart:io' show Platform;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
 import 'package:wildness_ui/wildness.dart';
+import 'package:wildness_ui_golden_toolkit/src/font_loader.dart';
 
 export 'package:flutter_test/flutter_test.dart';
-export 'package:golden_toolkit/golden_toolkit.dart';
 
 part 'src/component.dart';
 part 'src/list_devices.dart';
 part 'src/test_component.dart';
 part 'src/tester_extended.dart';
-part 'src/wrapper.dart';
+part 'src/wildness_wrapper.dart';
 
 /// create a [flutter_test_config.dart]
 /// and set [testExecutable] function for add default config
@@ -25,14 +23,13 @@ part 'src/wrapper.dart';
 /// }
 /// ```
 Future<void> runWithConfiguration(Future<void> Function() testMain) async {
-  return GoldenToolkit.runWithConfiguration(
-    () async {
-      await loadAppFonts();
-      await testMain();
-    },
-    config: GoldenToolkitConfiguration(
-      skipGoldenAssertion: () => !Platform.isMacOS,
-      defaultDevices: const [Device.phone, Device.iphone11],
-    ),
-  );
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  await loadAppFonts();
+
+  if (!Platform.isMacOS) {
+    return;
+  }
+
+  await testMain();
 }

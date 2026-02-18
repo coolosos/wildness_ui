@@ -1,19 +1,20 @@
 library;
 
-import 'package:collection/collection.dart';
 import 'dart:io' show Platform;
+
+import 'package:collection/collection.dart';
 
 import '../library.dart';
 import 'theme/custom_default_theme.dart';
 
 export '../library.dart';
 
-part 'wildness/wildness_properties.dart';
-part 'configuration.dart';
-part 'wildness/wildness_app.dart';
-part 'wildness/wildness_provider.dart';
 part 'base/component_theme.dart';
 part 'base/wildness_base.dart';
+part 'configuration.dart';
+part 'wildness/wildness_app.dart';
+part 'wildness/wildness_properties.dart';
+part 'wildness/wildness_provider.dart';
 part 'wildness_builder.dart';
 
 @immutable
@@ -28,11 +29,12 @@ class Wildness extends Equatable with Diagnosticable {
   static Wildness of(BuildContext context, {bool listen = true}) {
     final inheritedTheme = listen
         ? //searches only for InheritedWidget
-        context.dependOnInheritedWidgetOfExactType<WildnessProvider>()
+          context.dependOnInheritedWidgetOfExactType<WildnessProvider>()
         : //does not establish a relationship with the target in the way that dependOnInheritedWidgetOfExactType does.
-        (context
-            .getElementForInheritedWidgetOfExactType<WildnessProvider>()
-            ?.widget as WildnessProvider?);
+          (context
+                  .getElementForInheritedWidgetOfExactType<WildnessProvider>()
+                  ?.widget
+              as WildnessProvider?);
     //expensive, searches for any Widget subclass
     // context.findAncestorWidgetOfExactType<_InheritedWildnessTheme>();
 
@@ -57,9 +59,7 @@ class Wildness extends Equatable with Diagnosticable {
   T? component<T>() => components[T] as T?;
 
   WildnessBase<dynamic>? componentByName(String name) =>
-      components.values.firstWhereOrNull(
-        (element) => element.name == name,
-      );
+      components.values.firstWhereOrNull((element) => element.name == name);
 
   T? componentByNameCast<T extends WildnessBase<dynamic>>(String name) {
     final component = componentByName(name);
@@ -83,20 +83,21 @@ class Wildness extends Equatable with Diagnosticable {
     double t,
   ) {
     // Lerp [a].
-    final newComponents = components.map((id, componentA) {
-      final componentB = elementsBase[id];
-      return MapEntry<Type, WildnessBase<dynamic>>(
-        id,
-        componentA.lerp(componentB, t),
-      );
-    })
-      // Add [b]-only components.
-      ..addEntries(
-        elementsBase.entries.where(
-          (MapEntry<Type, WildnessBase<dynamic>> entry) =>
-              !components.containsKey(entry.key),
-        ),
-      );
+    final newComponents =
+        components.map((id, componentA) {
+            final componentB = elementsBase[id];
+            return MapEntry<Type, WildnessBase<dynamic>>(
+              id,
+              componentA.lerp(componentB, t),
+            );
+          })
+          // Add [b]-only components.
+          ..addEntries(
+            elementsBase.entries.where(
+              (MapEntry<Type, WildnessBase<dynamic>> entry) =>
+                  !components.containsKey(entry.key),
+            ),
+          );
 
     return newComponents;
   }

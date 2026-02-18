@@ -1,12 +1,14 @@
 part of '../wildness_ui_golden_toolkit.dart';
 
+const double textScaleFactorMaxSupported = 3.2;
+
 /// This [wildnessAppWrapper] is a convenience function to wrap your widget in [wildnessApp]
 /// Wraps your widget in MaterialApp, inject  custom theme, localizations, override  surfaceSize and platform
 ///
 /// [localizationsDelegates] is list of [LocalizationsDelegate] that is required for this test
 ///
 /// [supportedLocales] will set supported supportedLocales, defaults to [Locale('en')]
-WidgetWrapper wildnessWidgetWrapper({
+Widget Function(Widget child) wildnessWidgetWrapper({
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
   WildnessProperties? config,
@@ -14,13 +16,13 @@ WidgetWrapper wildnessWidgetWrapper({
   Color? primaryColor = const Color.fromARGB(255, 3, 85, 3),
 }) {
   return (child) => wildnessApp(
-        child: child,
-        config: config,
-        supportedLocales: supportedLocales,
-        localizationsDelegates: localizationsDelegates,
-        defaultTextStyle: defaultTextStyle,
-        primaryColor: primaryColor,
-      );
+    child: child,
+    config: config,
+    supportedLocales: supportedLocales,
+    localizationsDelegates: localizationsDelegates,
+    defaultTextStyle: defaultTextStyle,
+    primaryColor: primaryColor,
+  );
 }
 
 WildnessApp wildnessApp({
@@ -40,21 +42,15 @@ WildnessApp wildnessApp({
       builder: (context, themeData) => WidgetsApp(
         debugShowCheckedModeBanner: false,
         title: 'Test App',
-        initialRoute: 'root',
+        color: Theme.of(context).colorScheme.primary,
         home: child,
+        localizationsDelegates: localizationsDelegates,
+        supportedLocales: supportedLocales ?? const [Locale('es')],
         pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
             PageRouteBuilder<T>(
-          settings: settings,
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              builder(context),
-        ),
-        localizationsDelegates: localizationsDelegates,
-        color: Theme.of(context).colorScheme.primary,
-        supportedLocales: supportedLocales ?? const [Locale('es')],
+              settings: settings,
+              pageBuilder: (_, _, _) => builder(context),
+            ),
       ),
     ),
   );
