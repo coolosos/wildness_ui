@@ -4,6 +4,7 @@ import 'package:wildness_ui_golden_toolkit/wildness_ui_golden_toolkit.dart';
 void main() {
   group('group_name', () {
     testColumnComponent(
+      groupName: "test_component_column_group",
       name: 'test_component_column',
       surfaceSize: const Size(800, 300),
       scenarios: [
@@ -18,12 +19,11 @@ void main() {
       ],
     );
     testDeviceComponent(
+      groupName: "test_device_component_group",
       name: 'test_device_component',
-      surfaceSize: const Size(800, 300),
-
       devices: [
-        Device(name: 'iPhone 12', size: const Size(390, 844)),
-        Device(name: 'iPad Pro', size: const Size(1024, 1366)),
+        TestDevice(name: 'iPhone 12', size: const Size(390, 844)),
+        TestDevice(name: 'iPad Pro', size: const Size(1024, 1366)),
       ],
       scenarios: [
         Component(

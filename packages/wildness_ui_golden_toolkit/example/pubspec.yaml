@@ -10,7 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  wildness_ui_golden_toolkit: any
+  wildness_ui_golden_toolkit:
+    path: ../
 
 dev_dependencies:
   flutter_test:
