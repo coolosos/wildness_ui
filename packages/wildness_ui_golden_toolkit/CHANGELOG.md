@@ -1,3 +1,9 @@
+## 1.0.0
+- Stable release.
+- Improved touch gesture simulation support in component tests.
+- Prepared package for public release on pub.dev.
+- **Major Refactoring:** Migrated from the deprecated `golden_toolkit` dependency to an internal, custom golden test solution. This change significantly updates the underlying golden testing infrastructure.
+
 ## 0.1.7
 - Updated dependencies to ensure compatibility with `wildness_ui` version 1.1.0.
 - General project formatting.
