@@ -10,8 +10,6 @@ void testColumnComponent({
   Key? touchKey,
   Key? hoverKey,
   Widget Function(Widget child)? wrap,
-  bool autoHeight = true,
-  double? textScaleSize,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
   WildnessProperties? config,
@@ -149,8 +147,8 @@ void testDeviceComponent({
   List<TestDevice>? devices,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   Key? touchKey,
+  Key? hoverKey,
   Widget Function(Widget child)? wrap,
-  bool autoHeight = true,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
   WildnessProperties? config,
@@ -183,6 +181,8 @@ void testDeviceComponent({
         defaultTextStyle: defaultTextStyle,
         primaryColor: primaryColor,
         gestureBuilder: gestureBuilder,
+        touchKey: touchKey,
+        hoverKey: hoverKey,
       );
     }, tags: ['golden']);
   }
