@@ -1,7 +1,7 @@
 part of 'wildness.dart';
 
-typedef ValueWildnessBuilder = Widget Function(
-    BuildContext context, Wildness themeData);
+typedef ValueWildnessBuilder =
+    Widget Function(BuildContext context, Wildness themeData);
 
 class WildnessBuilder extends StatelessWidget {
   const WildnessBuilder({required this.builder, super.key});
@@ -11,6 +11,6 @@ class WildnessBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wildness = Wildness.of(context, listen: true);
-    return builder.call(context, wildness);
+    return builder(context, wildness);
   }
 }

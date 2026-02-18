@@ -17,8 +17,8 @@ class CustomDefaultTheme extends SingleChildStatelessWidget {
     required TextStyle? defaultTextStyle,
     super.key,
     super.child,
-  })  : _primaryColor = primaryColor,
-        _defaultTextStyle = defaultTextStyle;
+  }) : _primaryColor = primaryColor,
+       _defaultTextStyle = defaultTextStyle;
 
   final Color? _primaryColor;
   final TextStyle? _defaultTextStyle;
