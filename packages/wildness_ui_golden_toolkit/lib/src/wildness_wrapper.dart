@@ -2,6 +2,12 @@ part of '../wildness_ui_golden_toolkit.dart';
 
 const double textScaleFactorMaxSupported = 3.2;
 
+/// This [wildnessAppWrapper] is a convenience function to wrap your widget in [wildnessApp]
+/// Wraps your widget in MaterialApp, inject  custom theme, localizations, override  surfaceSize and platform
+///
+/// [localizationsDelegates] is list of [LocalizationsDelegate] that is required for this test
+///
+/// [supportedLocales] will set supported supportedLocales, defaults to [Locale('en')]
 Widget Function(Widget child) wildnessWidgetWrapper({
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
