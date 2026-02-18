@@ -31,11 +31,11 @@ Future<void> loadAppFonts() async {
 /// GoldenToolkit supplies Roboto because it is free to use.
 ///
 /// However, when a downstream package includes a font, the font family will be prefixed with
-/// /packages/<package name>/<fontFamily> in order to disambiguate when multiple packages include
+/// `/packages/<package name>/<fontFamily>` in order to disambiguate when multiple packages include
 /// fonts with the same name.
 ///
 /// Ultimately, the font loader will load whatever we tell it, so if we see a font that looks like
-/// a Material or Cupertino font family, let's treat it as the main font family
+/// a `Material or Cupertino font family`, let's treat it as the main font family
 @visibleForTesting
 String derivedFontFamily(Map<String, dynamic> fontDefinition) {
   if (!fontDefinition.containsKey('family')) {
