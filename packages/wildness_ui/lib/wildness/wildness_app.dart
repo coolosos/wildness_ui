@@ -90,8 +90,7 @@ class WildnessApp extends SingleChildStatelessWidget {
       color: Color(0xFF000000),
       textBaseline: TextBaseline.alphabetic,
     );
-    if (kDebugMode &&
-        (!kIsWeb && !Platform.environment.containsKey('FLUTTER_TEST'))) {
+    if (kDebugMode) {
       return defaultTextStyle.copyWith(
         color: const Color(0xffFF2323),
         decorationColor: const Color(0xffFFCE51),

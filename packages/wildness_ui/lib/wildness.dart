@@ -1,7 +1,3 @@
-library;
-
-import 'dart:io' show Platform;
-
 import 'package:collection/collection.dart';
 
 import '../library.dart';
