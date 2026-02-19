@@ -65,4 +65,22 @@ class WildnessProperties {
         eBase.runtimeType: eBase,
     });
   }
+
+  WildnessProperties copyWith({
+    Brightness? forceThemeMode,
+    Configuration? components,
+    Configuration? resources,
+    ScrollPhysics? physics,
+    double? minScaleFactor,
+    double? maxScaleFactor,
+  }) {
+    return WildnessProperties(
+      forceThemeMode: forceThemeMode ?? this.forceThemeMode,
+      components: components ?? _components,
+      resources: resources ?? _resources,
+      physics: physics ?? this.physics,
+      minScaleFactor: minScaleFactor ?? this.minScaleFactor,
+      maxScaleFactor: maxScaleFactor ?? this.maxScaleFactor,
+    );
+  }
 }

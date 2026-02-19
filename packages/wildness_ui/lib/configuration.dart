@@ -9,4 +9,14 @@ class Configuration {
 
   final Iterable<WildnessBase<dynamic>> dark;
   final Iterable<WildnessBase<dynamic>> light;
+
+  Configuration copyWith({
+    Iterable<WildnessBase<dynamic>>? light,
+    Iterable<WildnessBase<dynamic>>? dark,
+  }) {
+    return Configuration(
+      light: light ?? this.light,
+      dark: dark ?? this.dark,
+    );
+  }
 }
