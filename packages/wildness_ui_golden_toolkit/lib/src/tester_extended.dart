@@ -32,8 +32,9 @@ extension GoldenTesterExt on WidgetTester {
     WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
-    Key? touchKey,
     Key? hoverKey,
+    Key? pressKey,
+    Key? tapKey,
     Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   }) {
     return _pumpAndMatchInternal(
@@ -46,7 +47,8 @@ extension GoldenTesterExt on WidgetTester {
       config: config,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
-      touchKey: touchKey,
+      pressKey: pressKey,
+      tapKey: tapKey,
       hoverKey: hoverKey,
       gestureBuilder: gestureBuilder,
     );
@@ -61,8 +63,9 @@ extension GoldenTesterExt on WidgetTester {
     WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
-    Key? touchKey,
     Key? hoverKey,
+    Key? pressKey,
+    Key? tapKey,
     Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   }) {
     return _pumpAndMatchInternal(
@@ -75,7 +78,8 @@ extension GoldenTesterExt on WidgetTester {
       config: config,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
-      touchKey: touchKey,
+      pressKey: pressKey,
+      tapKey: tapKey,
       hoverKey: hoverKey,
       gestureBuilder: gestureBuilder,
     );
@@ -91,8 +95,9 @@ extension GoldenTesterExt on WidgetTester {
     WildnessProperties? config,
     TextStyle? defaultTextStyle,
     Color? primaryColor,
-    Key? touchKey,
     Key? hoverKey,
+    Key? pressKey,
+    Key? tapKey,
     Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   }) async {
     _setSurfaceSize(
@@ -113,7 +118,7 @@ extension GoldenTesterExt on WidgetTester {
 
     await tester.pumpAndSettle();
 
-    await _manageKeys(touchKey, hoverKey, tester);
+    await _manageKeys(hoverKey, pressKey, tapKey, tester);
     await gestureBuilder?.call(tester);
 
     await tester.pump();
@@ -149,13 +154,26 @@ extension GoldenTesterExt on WidgetTester {
   }
 
   Future<void> _manageKeys(
-    Key? touchKey,
     Key? hoverKey,
+    Key? pressKey,
+    Key? tapKey,
     WidgetTester tester,
   ) async {
-    if (touchKey != null) {
+    if (pressKey != null) {
       final gesture = await tester.startGesture(
-        tester.getCenter(find.byKey(touchKey)),
+        tester.getCenter(find.byKey(pressKey)),
+        kind: PointerDeviceKind.touch,
+      );
+
+      await tester.pump(const Duration(milliseconds: 300));
+
+      await gesture.up();
+      await tester.pump();
+    }
+
+    if (tapKey != null) {
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.byKey(tapKey)),
         kind: PointerDeviceKind.touch,
       );
 

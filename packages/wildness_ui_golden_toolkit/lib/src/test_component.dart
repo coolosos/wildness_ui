@@ -7,8 +7,9 @@ void testColumnComponent({
   String? groupName,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
   Size surfaceSize = const Size(800, 740),
-  Key? touchKey,
   Key? hoverKey,
+  Key? pressKey,
+  Key? tapKey,
   Widget Function(Widget child)? wrap,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
@@ -71,7 +72,8 @@ void testColumnComponent({
       supportedLocales: supportedLocales,
       config: config,
       hoverKey: hoverKey,
-      touchKey: touchKey,
+      pressKey: pressKey,
+      tapKey: tapKey,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
       gestureBuilder: gestureBuilder,
@@ -94,7 +96,8 @@ void testDevicesGolden({
   TextStyle? defaultTextStyle,
   Color? primaryColor,
   Key? hoverKey,
-  Key? touchKey,
+  Key? pressKey,
+  Key? tapKey,
 }) {
   final resolvedDevices = devices ?? Devices.all;
 
@@ -131,7 +134,8 @@ void testDevicesGolden({
       supportedLocales: supportedLocales,
       config: config,
       hoverKey: hoverKey,
-      touchKey: touchKey,
+      pressKey: pressKey,
+      tapKey: tapKey,
       defaultTextStyle: defaultTextStyle,
       primaryColor: primaryColor,
       gestureBuilder: gestureBuilder,
@@ -146,8 +150,9 @@ void testDeviceComponent({
   String? groupName,
   List<TestDevice>? devices,
   Future<TestGesture?> Function(WidgetTester tester)? gestureBuilder,
-  Key? touchKey,
   Key? hoverKey,
+  Key? pressKey,
+  Key? tapKey,
   Widget Function(Widget child)? wrap,
   Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
   Iterable<Locale>? supportedLocales,
@@ -181,7 +186,8 @@ void testDeviceComponent({
         defaultTextStyle: defaultTextStyle,
         primaryColor: primaryColor,
         gestureBuilder: gestureBuilder,
-        touchKey: touchKey,
+        pressKey: pressKey,
+        tapKey: tapKey,
         hoverKey: hoverKey,
       );
     }, tags: ['golden']);
@@ -207,6 +213,7 @@ class _DeviceScenarioView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(right: 24),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
