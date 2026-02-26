@@ -1,4 +1,1 @@
-include: package:coolint/coolint.yaml
-analyzer:
-  errors:
-    document_ignores: ignore
+include: package:coolint/flutter.yaml

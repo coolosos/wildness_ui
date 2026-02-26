@@ -14,8 +14,8 @@ class WildnessProperties {
     this.physics = const ClampingScrollPhysics(),
     this.minScaleFactor = 0.5,
     this.maxScaleFactor = 1.2,
-  })  : _resources = resources,
-        _components = components;
+  }) : _resources = resources,
+       _components = components;
 
   /// Components of this theme.
   ///
@@ -64,5 +64,23 @@ class WildnessProperties {
       for (final WildnessBase<dynamic> eBase in resolvedTheme.toSet())
         eBase.runtimeType: eBase,
     });
+  }
+
+  WildnessProperties copyWith({
+    Brightness? forceThemeMode,
+    Configuration? components,
+    Configuration? resources,
+    ScrollPhysics? physics,
+    double? minScaleFactor,
+    double? maxScaleFactor,
+  }) {
+    return WildnessProperties(
+      forceThemeMode: forceThemeMode ?? this.forceThemeMode,
+      components: components ?? _components,
+      resources: resources ?? _resources,
+      physics: physics ?? this.physics,
+      minScaleFactor: minScaleFactor ?? this.minScaleFactor,
+      maxScaleFactor: maxScaleFactor ?? this.maxScaleFactor,
+    );
   }
 }

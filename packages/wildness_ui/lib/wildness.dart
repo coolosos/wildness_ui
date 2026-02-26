@@ -1,7 +1,3 @@
-library;
-
-import 'dart:io' show Platform;
-
 import 'package:collection/collection.dart';
 
 import '../library.dart';
@@ -25,6 +21,10 @@ class Wildness extends Equatable with Diagnosticable {
     this.resources = const {},
   });
 
+  /// Obtains the nearest [Wildness] instance from the [BuildContext].
+  ///
+  /// If `listen` is true (default), the widget will rebuild when the [Wildness] changes.
+  /// If `listen` is false, it will not rebuild, suitable for one-off reads.
   // ignore: prefer_constructors_over_static_methods
   static Wildness of(BuildContext context, {bool listen = true}) {
     final inheritedTheme = listen
