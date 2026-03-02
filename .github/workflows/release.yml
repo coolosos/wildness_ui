@@ -3,8 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "*@*"
-
+      - "*-*"
 env:
   FLUTTER_VERSION: 3.38.5
   MELOS_VERSION: 7.4.0
@@ -18,6 +17,12 @@ jobs:
     name: publish
     runs-on: ubuntu-latest
     steps:
+      - name: Validate tag
+        run: |
+          if ! echo "$TAG" | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*-[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9\.-]+)?$'; then
+            echo "Invalid tag format"
+            exit 1
+          fi
       - name: Checkout
         uses: actions/checkout@v6.0.2
       - name: 🎯 Setup flutter
@@ -29,29 +34,25 @@ jobs:
       - name: Extract package and version from tag
         id: tag
         run: |
-          PACKAGE=${TAG%@*}
-          VERSION=${TAG#*@}
-
+          PACKAGE=${TAG%%-*}
+          VERSION=${TAG#*-}  
           echo "package=$PACKAGE" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Publish package
+      - name: Set version
         run: |
           PACKAGE=${{ steps.tag.outputs.package }}
           VERSION=${{ steps.tag.outputs.version }}
-
           echo "Publishing $PACKAGE version $VERSION"
-
           cd packages/$PACKAGE
-          sed -i "s/version: .*/version: $VERSION/" pubspec.yaml
+          sed -i "s/^version:.*/version: $VERSION/" pubspec.yaml
 
-          dart pub get
-          dart pub publish --force
-          
-      # - name: Melos action
-      #   uses: bluefireteam/melos-action@v3
-      #   with:
-      #     melos-version: ${{ env.MELOS_VERSION }}
-      #     run-bootstrap: true
+      - name: Melos action
+        uses: bluefireteam/melos-action@v3
+        with:
+          melos-version: ${{ env.MELOS_VERSION }}
+          run-bootstrap: true
+          publish: true
+          publish-dry-run: false
 
       # - run: melos publish --no-dry-run
