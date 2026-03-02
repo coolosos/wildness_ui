@@ -7,8 +7,8 @@ class WildnessApp extends SingleChildStatelessWidget {
     TextStyle? defaultTextStyle,
     super.key,
     super.child,
-  })  : _wildnessProperties = wildnessProperties,
-        _defaultTextStyle = defaultTextStyle;
+  }) : _wildnessProperties = wildnessProperties,
+       _defaultTextStyle = defaultTextStyle;
 
   factory WildnessApp.withDefaultTheme({
     required WildnessProperties wildnessProperties,
