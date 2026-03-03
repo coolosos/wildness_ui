@@ -23,6 +23,7 @@ void testColumnComponent({
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: scenarios.map((scenario) {
             var child = scenario.widget;
@@ -39,26 +40,25 @@ void testColumnComponent({
               );
             }
 
-            final scenarioWidget = SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      scenario.name +
-                          ((scenario.textScaleFactor != null)
-                              ? ' ${scenario.textScaleFactor}'
-                              : ''),
-                    ),
+            final scenarioWidget = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    scenario.name +
+                        ((scenario.textScaleFactor != null)
+                            ? ' ${scenario.textScaleFactor}'
+                            : ''),
                   ),
-                  const SizedBox(height: 8),
-                  child,
-                  const SizedBox(height: 24),
-                ],
-              ),
+                ),
+                const SizedBox(height: 8),
+                if (wrap == null) child else wrap(child),
+                const SizedBox(height: 24),
+              ],
             );
 
-            return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
+            return scenarioWidget;
           }).toList(),
         ),
       ),
