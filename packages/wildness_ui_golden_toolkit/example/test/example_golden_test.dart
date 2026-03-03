@@ -44,6 +44,7 @@ void main() {
     testDevicesGolden(
       groupName: "test_devices_group",
       name: 'test_devices_golden',
+      scenarioAxisAlignment: MainAxisAlignment.start,
       devices: [
         TestDevice(name: 'iPhone 12', size: const Size(390, 844)),
         TestDevice(name: 'iPad Pro', size: const Size(1024, 1366)),
