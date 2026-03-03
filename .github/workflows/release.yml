@@ -54,4 +54,4 @@ jobs:
           run-bootstrap: false
    
 
-      - run: melos publish --no-dry-run
+      - run: melos publish --no-dry-run -y
