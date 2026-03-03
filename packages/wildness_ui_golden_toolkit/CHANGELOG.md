@@ -1,3 +1,7 @@
+## 1.0.2
+- **Fix**: Golden test failures are now properly reported in the console.
+
+
 ## 1.0.1
 - Change gesture keys to better reflect what they do
 - You can now configure the axis of the images generated on devices

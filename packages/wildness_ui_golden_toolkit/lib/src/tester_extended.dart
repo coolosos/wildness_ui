@@ -127,7 +127,7 @@ extension GoldenTesterExt on WidgetTester {
     await tester.pumpAndSettle();
     await tester.pump();
 
-    expect(
+    await expectLater(
       find.byWidget(widget),
       matchesGoldenFile(tester._screenName(groupTitle)),
     );

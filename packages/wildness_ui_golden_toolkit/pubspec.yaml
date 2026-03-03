@@ -5,11 +5,11 @@ repository: https://github.com/coolosos/wildness_ui
 issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
-version: 1.0.1
+version: 1.0.2
 
 environment:
   sdk: ">=3.8.0 <4.0.0"
-  
+
 resolution: workspace
 
 dependencies:
