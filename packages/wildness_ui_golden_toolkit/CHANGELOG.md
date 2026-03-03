@@ -1,4 +1,4 @@
-## 1.1.1
+## 1.0.2
 - **Fix**: Golden test failures are now properly reported in the console.
 
 
