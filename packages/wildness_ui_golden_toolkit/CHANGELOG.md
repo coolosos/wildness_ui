@@ -1,6 +1,8 @@
+## 1.0.3
+- **Fix**: wrap is only applied to child in test column component
+
 ## 1.0.2
 - **Fix**: Golden test failures are now properly reported in the console.
-
 
 ## 1.0.1
 - Change gesture keys to better reflect what they do
