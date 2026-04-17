@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
       - name: 🎯 Setup flutter
-        uses: subosito/flutter-action@v2.21.0
+        uses: subosito/flutter-action@v2.23.0
         with:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
