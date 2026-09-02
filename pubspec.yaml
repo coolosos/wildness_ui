@@ -14,7 +14,7 @@ workspace:
   - packages/wildness_ui_golden_toolkit
 
 dev_dependencies:
-  melos: ^7.4.0
+  melos: ^8.6.0
   coolint: 2.1.2
 
 melos:
