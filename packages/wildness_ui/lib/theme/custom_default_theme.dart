@@ -13,12 +13,11 @@ import '../library.dart';
 
 class CustomDefaultTheme extends SingleChildStatelessWidget {
   const CustomDefaultTheme({
-    required Color? primaryColor,
-    required TextStyle? defaultTextStyle,
+    required this._primaryColor,
+    required this._defaultTextStyle,
     super.key,
     super.child,
-  }) : _primaryColor = primaryColor,
-       _defaultTextStyle = defaultTextStyle;
+  });
 
   final Color? _primaryColor;
   final TextStyle? _defaultTextStyle;

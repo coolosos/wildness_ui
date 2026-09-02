@@ -3,12 +3,11 @@ part of '../wildness.dart';
 @immutable
 class WildnessApp extends SingleChildStatelessWidget {
   const WildnessApp({
-    required WildnessProperties wildnessProperties,
-    TextStyle? defaultTextStyle,
+    required this._wildnessProperties,
+    this._defaultTextStyle,
     super.key,
     super.child,
-  }) : _wildnessProperties = wildnessProperties,
-       _defaultTextStyle = defaultTextStyle;
+  });
 
   factory WildnessApp.withDefaultTheme({
     required WildnessProperties wildnessProperties,
