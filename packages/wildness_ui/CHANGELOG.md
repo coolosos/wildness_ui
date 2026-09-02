@@ -1,3 +1,9 @@
+## 1.2.0
+- update to flutter 3.47.2
+- update packages to last version
+- remove material_ui dependency
+
+
 ## 1.1.0
 
 - **feat**: Added `name` property to `WildnessBase` to allow searching for a component by name.

@@ -1,3 +1,8 @@
+## 1.1.0
+- update to flutter 3.47.2
+- update packages to last version
+- remove material_ui dependency
+
 ## 1.0.3
 - **Fix**: wrap is only applied to child in test column component
 
