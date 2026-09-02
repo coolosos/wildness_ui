@@ -25,7 +25,9 @@ melos:
 
     test:
       description: Run tests in all packages
-      run: dart test
+      exec: flutter test
+      packageFilters:
+        dirExists: test
 
     format:
       description: Format all packages
