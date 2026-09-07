@@ -30,3 +30,8 @@ packages/wildness_ui_golden_toolkit/melos_wildness_ui_golden_toolkit.iml
 .flutter-plugins
 .flutter-plugins-dependencies
 *pubspec_overrides.yaml
+
+# macOS system files
+.DS_Store
+*.DS_Store
+

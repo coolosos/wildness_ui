@@ -42,7 +42,7 @@ WildnessApp wildnessApp({
       builder: (context, themeData) => WidgetsApp(
         debugShowCheckedModeBanner: false,
         title: 'Test App',
-        color: Theme.of(context).colorScheme.primary,
+        color: primaryColor ?? const Color.fromARGB(255, 3, 85, 3),
         home: child,
         localizationsDelegates: localizationsDelegates,
         supportedLocales: supportedLocales ?? const [Locale('es')],

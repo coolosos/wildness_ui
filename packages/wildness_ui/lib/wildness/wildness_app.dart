@@ -3,12 +3,11 @@ part of '../wildness.dart';
 @immutable
 class WildnessApp extends SingleChildStatelessWidget {
   const WildnessApp({
-    required WildnessProperties wildnessProperties,
-    TextStyle? defaultTextStyle,
+    required this._wildnessProperties,
+    this._defaultTextStyle,
     super.key,
     super.child,
-  }) : _wildnessProperties = wildnessProperties,
-       _defaultTextStyle = defaultTextStyle;
+  });
 
   factory WildnessApp.withDefaultTheme({
     required WildnessProperties wildnessProperties,
@@ -36,49 +35,35 @@ class WildnessApp extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) {
     final mediaQuery = MediaQuery.maybeOf(context) ?? const MediaQueryData();
 
-    final defaultTextStyle = _defaultTextStyle ?? _defaultTestStyle();
+    final defaultTextStyle = _defaultTestStyle();
 
     final platformBrightness =
         _wildnessProperties.forceThemeMode ?? mediaQuery.platformBrightness;
 
-    final wildness = Wildness(
-      components: _wildnessProperties.components(
-        brightness: platformBrightness,
-      ),
-      resources: _wildnessProperties.resources(brightness: platformBrightness),
-      physics: _wildnessProperties.physics,
-    );
-
-    Widget current = MediaQuery(
-      data: mediaQuery.copyWith(
-        textScaler: mediaQuery.textScaler.clamp(
-          minScaleFactor: _wildnessProperties.minScaleFactor,
-          maxScaleFactor: _wildnessProperties.maxScaleFactor,
+    return WildnessProvider(
+      data: Wildness(
+        components: _wildnessProperties.components(
+          brightness: platformBrightness,
         ),
-        platformBrightness: platformBrightness,
+        resources: _wildnessProperties.resources(
+          brightness: platformBrightness,
+        ),
+        physics: _wildnessProperties.physics,
       ),
-      child: DefaultTextStyle(
-        style: defaultTextStyle,
-        child: child ?? const SizedBox.shrink(),
+      child: MediaQuery(
+        data: mediaQuery.copyWith(
+          textScaler: mediaQuery.textScaler.clamp(
+            minScaleFactor: _wildnessProperties.minScaleFactor,
+            maxScaleFactor: _wildnessProperties.maxScaleFactor,
+          ),
+          platformBrightness: platformBrightness,
+        ),
+        child: DefaultTextStyle(
+          style: defaultTextStyle,
+          child: child ?? const SizedBox.shrink(),
+        ),
       ),
     );
-
-    for (final entry in wildness.components.entries) {
-      current = WildnessComponentProvider(
-        key: ValueKey(entry.key),
-        data: entry.value,
-        child: current,
-      );
-    }
-    for (final entry in wildness.resources.entries) {
-      current = WildnessComponentProvider(
-        key: ValueKey(entry.key),
-        data: entry.value,
-        child: current,
-      );
-    }
-
-    return WildnessProvider(data: wildness, child: current);
   }
 
   TextStyle _defaultTestStyle() {
@@ -90,14 +75,15 @@ class WildnessApp extends SingleChildStatelessWidget {
       color: Color(0xFF000000),
       textBaseline: TextBaseline.alphabetic,
     );
-    if (kDebugMode) {
+    if (kDebugMode &&
+        (!kIsWeb && !Platform.environment.containsKey('FLUTTER_TEST'))) {
       return defaultTextStyle.copyWith(
         color: const Color(0xffFF2323),
         decorationColor: const Color(0xffFFCE51),
         decoration: TextDecoration.lineThrough,
       );
     }
-    return defaultTextStyle;
+    return _defaultTextStyle ?? defaultTextStyle;
   }
 
   @override

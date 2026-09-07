@@ -9,13 +9,12 @@ class WildnessProperties {
   /// fallback is light
   const WildnessProperties({
     this.forceThemeMode,
-    Configuration components = const Configuration(),
-    Configuration resources = const Configuration(),
+    this._components = const Configuration(),
+    this._resources = const Configuration(),
     this.physics = const ClampingScrollPhysics(),
     this.minScaleFactor = 0.5,
     this.maxScaleFactor = 1.2,
-  }) : _resources = resources,
-       _components = components;
+  });
 
   /// Components of this theme.
   ///

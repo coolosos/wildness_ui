@@ -23,6 +23,7 @@ void testColumnComponent({
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: scenarios.map((scenario) {
             var child = scenario.widget;
@@ -39,26 +40,25 @@ void testColumnComponent({
               );
             }
 
-            final scenarioWidget = SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      scenario.name +
-                          ((scenario.textScaleFactor != null)
-                              ? ' ${scenario.textScaleFactor}'
-                              : ''),
-                    ),
+            final scenarioWidget = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    scenario.name +
+                        ((scenario.textScaleFactor != null)
+                            ? ' ${scenario.textScaleFactor}'
+                            : ''),
                   ),
-                  const SizedBox(height: 8),
-                  child,
-                  const SizedBox(height: 24),
-                ],
-              ),
+                ),
+                const SizedBox(height: 8),
+                if (wrap == null) child else wrap(child),
+                const SizedBox(height: 24),
+              ],
             );
 
-            return wrap != null ? wrap(scenarioWidget) : scenarioWidget;
+            return scenarioWidget;
           }).toList(),
         ),
       ),
@@ -97,14 +97,19 @@ void testDevicesGolden({
   Color? primaryColor,
   Key? hoverKey,
   Key? pressKey,
+  MainAxisAlignment? scenarioAxisAlignment,
   Key? tapKey,
 }) {
   final resolvedDevices = devices ?? Devices.all;
+
+  final resolvedScenarioAxisAlignment =
+      scenarioAxisAlignment ?? MainAxisAlignment.center;
 
   testWidgets(name, (tester) async {
     final deviceWidgets = resolvedDevices.map((device) {
       return _DeviceScenarioView(
         device: device,
+        scenarioAxisAlignment: resolvedScenarioAxisAlignment,
         scenarios: scenarios,
         wrap: wrap,
       );
@@ -198,11 +203,13 @@ class _DeviceScenarioView extends StatelessWidget {
   const _DeviceScenarioView({
     required this.device,
     required this.scenarios,
+    this.scenarioAxisAlignment = MainAxisAlignment.center,
     this.wrap,
   });
 
   final TestDevice device;
   final List<Component> scenarios;
+  final MainAxisAlignment scenarioAxisAlignment;
   final Widget Function(Widget child)? wrap;
 
   @override
@@ -213,7 +220,7 @@ class _DeviceScenarioView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(right: 24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: scenarioAxisAlignment,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(

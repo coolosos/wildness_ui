@@ -6,9 +6,29 @@ issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
 environment:
-  sdk: ">=3.8.0 <4.0.0"
-  flutter: ">3.32.0"
+  sdk: ">=3.13.2 <4.0.0"
+  flutter: ">=3.47.2"
+
+workspace:
+  - packages/wildness_ui
+  - packages/wildness_ui_golden_toolkit
 
 dev_dependencies:
-  melos: ^6.3.2
+  melos: ^8.6.0
   coolint: 2.1.2
+
+melos:
+  scripts:
+    analyze:
+      description: Analyze all packages
+      run: dart analyze .
+
+    test:
+      description: Run tests in all packages
+      exec: flutter test
+      packageFilters:
+        dirExists: test
+
+    format:
+      description: Format all packages
+      run: dart format .
