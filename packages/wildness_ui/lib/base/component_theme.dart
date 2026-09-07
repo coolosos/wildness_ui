@@ -19,8 +19,8 @@ abstract base class ComponentTheme<T extends WildnessBase<T>>
   ) => context.dependOnInheritedWidgetOfExactType<W>();
 
   static Kind? kindThemeData<Kind extends WildnessBase>(BuildContext context) {
-    final componentProvider =
-        context.dependOnInheritedWidgetOfExactType<WildnessComponentProvider<Kind>>();
+    final componentProvider = context
+        .dependOnInheritedWidgetOfExactType<WildnessComponentProvider<Kind>>();
     if (componentProvider != null) {
       return componentProvider.data;
     }

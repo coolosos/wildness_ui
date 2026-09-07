@@ -14,9 +14,6 @@ class Configuration {
     Iterable<WildnessBase<dynamic>>? light,
     Iterable<WildnessBase<dynamic>>? dark,
   }) {
-    return Configuration(
-      light: light ?? this.light,
-      dark: dark ?? this.dark,
-    );
+    return Configuration(light: light ?? this.light, dark: dark ?? this.dark);
   }
 }

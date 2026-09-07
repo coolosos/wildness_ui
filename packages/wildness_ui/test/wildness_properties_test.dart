@@ -84,15 +84,77 @@ void main() {
     test('type of kind no found base', () {
       const config = WildnessProperties(
         forceThemeMode: Brightness.dark,
-        // components: [
-        //   Configuration<CoolButtonThemeData>.same(
-        //     normal,
-        //   ),
-        // ],
         components: Configuration(light: [normal]),
       );
 
       expect(config.components()[CoolKindButtonThemeData], isNull);
     });
+
+    test('Configuration copyWith', () {
+      const config = Configuration(light: [normal]);
+      final updated = config.copyWith(dark: [replica]);
+
+      expect(updated.light, [normal]);
+      expect(updated.dark, [replica]);
+    });
+
+    test('WildnessProperties copyWith', () {
+      const properties = WildnessProperties(
+        forceThemeMode: Brightness.light,
+        components: Configuration(light: [normal]),
+      );
+      final updated = properties.copyWith(
+        forceThemeMode: Brightness.dark,
+        minScaleFactor: 0.8,
+      );
+
+      expect(updated.forceThemeMode, Brightness.dark);
+      expect(updated.minScaleFactor, 0.8);
+      expect(updated.maxScaleFactor, 1.2);
+    });
+
+    testWidgets(
+      'kindThemeData resolves from WildnessApp and WildnessComponentProvider override',
+      (WidgetTester tester) async {
+        CoolButtonThemeData? themeFromRoot;
+        CoolButtonThemeData? themeFromOverride;
+
+        const rootTheme = CoolButtonThemeData(
+          decoration: BoxDecoration(color: Colors.blue),
+        );
+        const overriddenTheme = CoolButtonThemeData(
+          decoration: BoxDecoration(color: Colors.green),
+        );
+
+        await tester.pumpWidget(
+          WildnessApp(
+            wildnessProperties: const WildnessProperties(
+              components: Configuration(light: [rootTheme]),
+            ),
+            child: Builder(
+              builder: (context) {
+                themeFromRoot =
+                    ComponentTheme.kindThemeData<CoolButtonThemeData>(context);
+                return WildnessComponentProvider<CoolButtonThemeData>(
+                  data: overriddenTheme,
+                  child: Builder(
+                    builder: (innerContext) {
+                      themeFromOverride =
+                          ComponentTheme.kindThemeData<CoolButtonThemeData>(
+                            innerContext,
+                          );
+                      return const SizedBox();
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+
+        expect(themeFromRoot?.decoration?.color, Colors.blue);
+        expect(themeFromOverride?.decoration?.color, Colors.green);
+      },
+    );
   });
 }
