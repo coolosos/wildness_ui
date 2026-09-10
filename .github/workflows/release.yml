@@ -4,17 +4,18 @@ on:
   push:
     tags:
       - "*-*"
+
 env:
   FLUTTER_VERSION: 3.47.2
-  MELOS_VERSION: 8.6.0
   RUNID: ${{ github.run_number }}
   TAG: ${{ github.ref_name }}
 
 jobs:
   publish:
     permissions:
-      id-token: write 
-    name: publish
+      id-token: write
+      contents: read
+    name: Publish to pub.dev
     runs-on: ubuntu-latest
     steps:
       - name: Validate tag
@@ -23,14 +24,20 @@ jobs:
             echo "Invalid tag format"
             exit 1
           fi
+
       - name: Checkout
         uses: actions/checkout@v7.0.1
-      - name: 🎯 Setup flutter
+
+      - name: 🎯 Setup Flutter
         uses: subosito/flutter-action@v2.23.0
         with:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: false
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
       - name: Extract package from tag
         id: pkg
         run: |
@@ -38,11 +45,7 @@ jobs:
           echo "package=$PACKAGE" >> "$GITHUB_OUTPUT"
           echo "Publishing package: $PACKAGE from tag $TAG"
 
-      - name: Melos action
-        uses: bluefireteam/melos-action@v3
-        with:
-          melos-version: ${{ env.MELOS_VERSION }}
-          run-bootstrap: false
-
-      - name: Publish package
-        run: melos publish --no-dry-run -y --verbose --scope "${{ steps.pkg.outputs.package }}"
+      - name: 🚀 Publish to pub.dev
+        run: |
+          cd "packages/${{ steps.pkg.outputs.package }}"
+          dart pub publish --force
