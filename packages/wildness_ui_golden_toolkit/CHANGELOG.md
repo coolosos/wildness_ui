@@ -1,3 +1,13 @@
+## 2.0.0-rc.1
+
+- **Feat**: Added `const` constructor and `@immutable` to `Component` for compile-time test scenario allocation.
+- **Modernization**: Converted `Devices` to `abstract final class Devices` and `TestDevice` / `GoldenRenderConfig` to `final class`.
+- **Modernization**: Refactored `FontLoader` with Dart 3 pattern matching (`whereType` & `case`), eliminating dynamic casts.
+- **Chore**: Updated dependency `wildness_ui` to `^2.0.0-rc.1`.
+- **Chore**: Removed unused dependencies (`equatable`, `nested`, `build_runner`).
+- **Chore**: Updated `coolint` to `^3.0.0-rc.1`.
+- **Chore**: Upgraded SDK environment to Flutter `>=3.47.2` and Dart `>=3.13.2`.
+
 ## 1.1.0
 - update to flutter 3.47.2
 - update packages to last version

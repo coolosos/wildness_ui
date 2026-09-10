@@ -19,8 +19,7 @@ Future<void> loadAppFonts() async {
   for (final font in fontManifest.whereType<Map<String, Object?>>()) {
     final fontLoader = FontLoader(derivedFontFamily(font));
     final fonts =
-        (font['fonts'] as List<Object?>?)
-            ?.whereType<Map<String, Object?>>() ??
+        (font['fonts'] as List<Object?>?)?.whereType<Map<String, Object?>>() ??
         const [];
     for (final fontType in fonts) {
       if (fontType['asset'] case final String asset) {

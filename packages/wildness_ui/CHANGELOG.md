@@ -1,3 +1,13 @@
+## 2.0.0-rc.1
+
+- **Breaking**: Introduced F-bounded polymorphism `WildnessBase<T extends WildnessBase<T>>` and `ComponentTheme<T extends WildnessBase<T>>` for complete compile-time type safety without `dynamic`.
+- **Feat**: Introduced `WildnessComponentProvider` (`InheritedWidget`) to enable **granular rebuilds** — only widgets that depend on a modified component rebuild when its configuration changes.
+- **Feat**: Added polymorphic `wrapProvider` on `WildnessBase` for automatic concrete provider injection.
+- **Feat**: Added `ComponentTheme.kindThemeData<Kind>(context)` and `ComponentTheme.wrappedThemeData<W>(context)` helpers.
+- **Modernization**: Upgraded codebase to Dart 3 class modifiers (`final class`, `abstract base class`), map comprehensions with pattern destructuring, and immutable collection spreads.
+- **Chore**: Updated `coolint` to `^3.0.0-rc.1` and configured `package:coolint/flutter.yaml`.
+- **Chore**: Upgraded minimum SDK environment to Flutter `>=3.47.2` and Dart `>=3.13.2`.
+
 ## 1.2.0
 - update to flutter 3.47.2
 - update packages to last version
