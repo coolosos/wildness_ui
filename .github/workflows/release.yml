@@ -31,27 +31,18 @@ jobs:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: false
-      # - name: Extract package and version from tag
-      #   id: tag
-      #   run: |
-      #     PACKAGE=${TAG%%-*}
-      #     VERSION=${TAG#*-}  
-      #     echo "package=$PACKAGE" >> $GITHUB_OUTPUT
-      #     echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      # - name: Set version
-      #   run: |
-      #     PACKAGE=${{ steps.tag.outputs.package }}
-      #     VERSION=${{ steps.tag.outputs.version }}
-      #     echo "Publishing $PACKAGE version $VERSION"
-      #     cd packages/$PACKAGE
-      #     sed -i "s/^version:.*/version: $VERSION/" pubspec.yaml
+      - name: Extract package from tag
+        id: pkg
+        run: |
+          PACKAGE="${TAG%%-[0-9]*}"
+          echo "package=$PACKAGE" >> "$GITHUB_OUTPUT"
+          echo "Publishing package: $PACKAGE from tag $TAG"
 
       - name: Melos action
         uses: bluefireteam/melos-action@v3
         with:
           melos-version: ${{ env.MELOS_VERSION }}
           run-bootstrap: false
-   
 
-      - run: melos publish --no-dry-run -y
+      - name: Publish package
+        run: melos publish --no-dry-run -y --scope "${{ steps.pkg.outputs.package }}"
