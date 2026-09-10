@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wildness_ui/wildness.dart';
 
 base class CoolButtonThemeData extends WildnessBase<CoolButtonThemeData> {
-  const CoolButtonThemeData({required this.decoration});
+  const new({required this.decoration});
 
   final BoxDecoration? decoration;
 
@@ -27,7 +27,7 @@ base class CoolButtonThemeData extends WildnessBase<CoolButtonThemeData> {
 }
 
 final class CoolKindButtonThemeData extends CoolButtonThemeData {
-  const CoolKindButtonThemeData({
+  const new({
     super.decoration = const BoxDecoration(
       color: Colors.amber,
       shape: BoxShape.rectangle,
@@ -37,11 +37,7 @@ final class CoolKindButtonThemeData extends CoolButtonThemeData {
 
 final class CoolButtonComponentTheme
     extends ComponentTheme<CoolButtonThemeData> {
-  const CoolButtonComponentTheme({
-    required super.data,
-    required super.child,
-    super.key,
-  });
+  const new({required super.data, required super.child, super.key});
 
   @override
   Widget wrap(BuildContext context, Widget child) {
@@ -61,7 +57,7 @@ const coolKind = CoolKindButtonThemeData(
 );
 
 base class CoolCardThemeData extends WildnessBase<CoolCardThemeData> {
-  const CoolCardThemeData({required this.elevation});
+  const new({required this.elevation});
 
   final double elevation;
 
@@ -83,7 +79,7 @@ base class CoolCardThemeData extends WildnessBase<CoolCardThemeData> {
 }
 
 class ButtonConsumer extends StatelessWidget {
-  const ButtonConsumer({required this.onBuild, super.key});
+  const new({required this.onBuild, super.key});
   final VoidCallback onBuild;
 
   @override
@@ -95,7 +91,7 @@ class ButtonConsumer extends StatelessWidget {
 }
 
 class CardConsumer extends StatelessWidget {
-  const CardConsumer({required this.onBuild, super.key});
+  const new({required this.onBuild, super.key});
   final VoidCallback onBuild;
 
   @override
@@ -175,7 +171,7 @@ void main() {
 
     testWidgets(
       'kindThemeData resolves from WildnessApp and WildnessComponentProvider override',
-      (WidgetTester tester) async {
+      (tester) async {
         CoolButtonThemeData? themeFromRoot;
         CoolButtonThemeData? themeFromOverride;
 
@@ -219,7 +215,7 @@ void main() {
 
     testWidgets(
       'granular rebuilds: only widgets depending on changed component rebuild',
-      (WidgetTester tester) async {
+      (tester) async {
         var buttonBuildCount = 0;
         var cardBuildCount = 0;
 
@@ -275,7 +271,7 @@ void main() {
     );
 
     testWidgets('wrappedThemeData resolves typed ComponentTheme', (
-      WidgetTester tester,
+      tester,
     ) async {
       CoolButtonComponentTheme? resolvedTheme;
       const themeData = CoolButtonThemeData(

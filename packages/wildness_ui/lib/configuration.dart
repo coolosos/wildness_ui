@@ -1,8 +1,8 @@
 part of 'wildness.dart';
 
 @immutable
-class Configuration {
-  const Configuration({
+final class Configuration {
+  const new({
     this.light = const Iterable<WildnessBase<dynamic>>.empty(),
     this.dark = const Iterable<WildnessBase<dynamic>>.empty(),
   });

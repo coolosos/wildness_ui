@@ -11,8 +11,8 @@ import 'package:flutter/material.dart'
 
 import '../library.dart';
 
-class CustomDefaultTheme extends SingleChildStatelessWidget {
-  const CustomDefaultTheme({
+final class CustomDefaultTheme extends SingleChildStatelessWidget {
+  const new({
     required this._primaryColor,
     required this._defaultTextStyle,
     super.key,

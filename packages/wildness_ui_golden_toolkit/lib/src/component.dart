@@ -1,7 +1,8 @@
 part of '../wildness_ui_golden_toolkit.dart';
 
-class Component {
-  Component({required this.name, required this.widget, this.textScaleFactor});
+@immutable
+final class Component {
+  const new({required this.name, required this.widget, this.textScaleFactor});
 
   final String name;
   final Widget widget;

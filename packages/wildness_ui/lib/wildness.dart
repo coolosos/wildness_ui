@@ -2,10 +2,10 @@ import 'dart:io' show Platform;
 
 import 'package:collection/collection.dart';
 
-import '../library.dart';
+import 'library.dart';
 import 'theme/custom_default_theme.dart';
 
-export '../library.dart';
+export 'library.dart';
 
 part 'base/component_theme.dart';
 part 'base/wildness_base.dart';
@@ -16,8 +16,8 @@ part 'wildness/wildness_provider.dart';
 part 'wildness_builder.dart';
 
 @immutable
-class Wildness extends Equatable with Diagnosticable {
-  const Wildness({
+final class Wildness extends Equatable with Diagnosticable {
+  const new({
     required this.physics,
     this.components = const {},
     this.resources = const {},
@@ -77,31 +77,19 @@ class Wildness extends Equatable with Diagnosticable {
 
   /// Linearly interpolate between two [components].
   ///
-  /// Includes all theme components in [a] and [b].
+  /// Includes all theme components in [components] and [elementsBase].
   ///
   /// {@macro dart.ui.shadow.lerp}
   Map<Type, WildnessBase<dynamic>> _lerpWildnessBase(
     Map<Type, WildnessBase<dynamic>> elementsBase,
     double t,
   ) {
-    // Lerp [a].
-    final newComponents =
-        components.map((id, componentA) {
-            final componentB = elementsBase[id];
-            return MapEntry<Type, WildnessBase<dynamic>>(
-              id,
-              componentA.lerp(componentB, t),
-            );
-          })
-          // Add [b]-only components.
-          ..addEntries(
-            elementsBase.entries.where(
-              (MapEntry<Type, WildnessBase<dynamic>> entry) =>
-                  !components.containsKey(entry.key),
-            ),
-          );
-
-    return newComponents;
+    return {
+      for (final MapEntry(:key, :value) in components.entries)
+        key: value.lerp(elementsBase[key], t),
+      for (final MapEntry(:key, :value) in elementsBase.entries)
+        if (!components.containsKey(key)) key: value,
+    };
   }
 
   /// Linearly interpolate between two themes.
@@ -135,7 +123,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///You can replace one by one using [replaceKind], however if you only want to change a kind in the current context
   ///must be recommended to use wildness(KindToReplace)Theme.
   ///
-  ///Usually use in [wildnessAnimatedTheme] widget.
+  ///Usually use in `wildnessAnimatedTheme` widget.
   Wildness replaceMultipleKind({
     required Map<Type, WildnessBase<dynamic>> kinds,
   }) {
@@ -148,9 +136,7 @@ class Wildness extends Equatable with Diagnosticable {
     }
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
     //for being sure of no modifications and no repeat hash
-    return copyWith(
-      components: Map.unmodifiable(Map.from(components)..addAll(kinds)),
-    );
+    return copyWith(components: Map.unmodifiable({...components, ...kinds}));
   }
 
   ///Replace current kind in the wildnessThemeData.
@@ -159,7 +145,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///of the provide [Kind] then replace the [Kind] type for the new kind.
   ///
   ///
-  ///Usually use in [wildnessAnimatedTheme] widget. If you want to change the
+  ///Usually use in `wildnessAnimatedTheme` widget. If you want to change the
   ///current context for instance it's recommended to use wildness(KindToReplace)Theme.
   Wildness replaceKind<Kind extends WildnessBase<Kind>>({
     required WildnessBase<dynamic> kind,
@@ -171,9 +157,7 @@ class Wildness extends Equatable with Diagnosticable {
     );
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
     //for being sure of no modifications and no repeat hash
-    return copyWith(
-      components: Map.unmodifiable(Map.from(components)..addAll({Kind: kind})),
-    );
+    return copyWith(components: Map.unmodifiable({...components, Kind: kind}));
   }
 
   Wildness copyWith({

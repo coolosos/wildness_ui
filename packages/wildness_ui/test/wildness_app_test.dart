@@ -4,9 +4,7 @@ import 'package:wildness_ui/wildness.dart';
 
 void main() {
   group('Widget', () {
-    testWidgets('Verify only one DefaultTestStyle', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('Verify only one DefaultTestStyle', (tester) async {
       const config = WildnessProperties(forceThemeMode: Brightness.dark);
       const app = WildnessApp(
         wildnessProperties: config,
@@ -20,9 +18,7 @@ void main() {
       expect(fab, findsOneWidget);
     });
 
-    testWidgets('Verify only one DefaultTestStyle', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('Verify only one DefaultTestStyle', (tester) async {
       const config = WildnessProperties(
         forceThemeMode: Brightness.dark,
         // TextStyle(fontFamily: 'test')
@@ -47,9 +43,7 @@ void main() {
       expect(fontFamily, 'test');
     });
 
-    testWidgets('MediaQuery set forced brightness', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('MediaQuery set forced brightness', (tester) async {
       Brightness? brightness;
 
       await tester.pumpWidget(
@@ -86,7 +80,7 @@ void main() {
     });
 
     testWidgets('theme set forced brightness with custom theme', (
-      WidgetTester tester,
+      tester,
     ) async {
       Brightness? brightness;
 

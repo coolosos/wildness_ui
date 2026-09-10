@@ -4,7 +4,7 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ">=3.10.4 <4.0.0"
+  sdk: ">=3.13.2 <4.0.0"
   flutter: ">=3.47.2"
 
 dependencies:
@@ -17,7 +17,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  coolint: 2.1.2
+  coolint: 3.0.0-rc.1
 
 flutter:
   uses-material-design: true

@@ -14,8 +14,8 @@ part 'src/test_component.dart';
 part 'src/tester_extended.dart';
 part 'src/wildness_wrapper.dart';
 
-/// create a [flutter_test_config.dart]
-/// and set [testExecutable] function for add default config
+/// Create a `flutter_test_config.dart`
+/// and set `testExecutable` function for add default config
 /// ```dart
 /// Future<void> testExecutable(Future<void> Function() testMain) async {
 ///   return runWithConfiguration(testMain);

@@ -11,15 +11,21 @@ import 'package:flutter_test/flutter_test.dart';
 ///packages you depend on.
 Future<void> loadAppFonts() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final fontManifest = await rootBundle.loadStructuredData<Iterable<dynamic>>(
+  final fontManifest = await rootBundle.loadStructuredData<List<Object?>>(
     'FontManifest.json',
-    (string) async => json.decode(string),
+    (string) async => json.decode(string) as List<Object?>,
   );
 
-  for (final Map<String, dynamic> font in fontManifest) {
+  for (final font in fontManifest.whereType<Map<String, Object?>>()) {
     final fontLoader = FontLoader(derivedFontFamily(font));
-    for (final Map<String, dynamic> fontType in font['fonts']) {
-      fontLoader.addFont(rootBundle.load(fontType['asset']));
+    final fonts =
+        (font['fonts'] as List<Object?>?)
+            ?.whereType<Map<String, Object?>>() ??
+        const [];
+    for (final fontType in fonts) {
+      if (fontType['asset'] case final String asset) {
+        fontLoader.addFont(rootBundle.load(asset));
+      }
     }
     await fontLoader.load();
   }
@@ -36,39 +42,41 @@ Future<void> loadAppFonts() async {
 ///
 /// Ultimately, the font loader will load whatever we tell it, so if we see a font that looks like
 /// a `Material or Cupertino font family`, let's treat it as the main font family
+String derivedFontFamily(Map<String, Object?> fontDefinition) {
+  if (fontDefinition['family'] case final String fontFamily
+      when fontFamily.isNotEmpty) {
+    if (_overridableFonts.contains(fontFamily)) {
+      return fontFamily;
+    }
 
-String derivedFontFamily(Map<String, dynamic> fontDefinition) {
-  if (!fontDefinition.containsKey('family')) {
-    return '';
-  }
-
-  final String fontFamily = fontDefinition['family'];
-
-  if (_overridableFonts.contains(fontFamily)) {
+    if (fontFamily.startsWith('packages/')) {
+      final fontFamilyName = fontFamily.split('/').last;
+      if (_overridableFonts.contains(fontFamilyName)) {
+        return fontFamilyName;
+      }
+    } else {
+      final fonts =
+          (fontDefinition['fonts'] as List<Object?>?)
+              ?.whereType<Map<String, Object?>>() ??
+          const [];
+      for (final fontType in fonts) {
+        if (fontType['asset'] case final String asset
+            when asset.startsWith('packages')) {
+          final packageName = asset.split('/')[1];
+          return 'packages/$packageName/$fontFamily';
+        }
+      }
+    }
     return fontFamily;
   }
 
-  if (fontFamily.startsWith('packages/')) {
-    final fontFamilyName = fontFamily.split('/').last;
-    if (_overridableFonts.any((font) => font == fontFamilyName)) {
-      return fontFamilyName;
-    }
-  } else {
-    for (final Map<String, dynamic> fontType in fontDefinition['fonts']) {
-      final String? asset = fontType['asset'];
-      if (asset != null && asset.startsWith('packages')) {
-        final packageName = asset.split('/')[1];
-        return 'packages/$packageName/$fontFamily';
-      }
-    }
-  }
-  return fontFamily;
+  return '';
 }
 
-const List<String> _overridableFonts = [
+const Set<String> _overridableFonts = {
   'Roboto',
   '.SF UI Display',
   '.SF UI Text',
   '.SF Pro Text',
   '.SF Pro Display',
-];
+};

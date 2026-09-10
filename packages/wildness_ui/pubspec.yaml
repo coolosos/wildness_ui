@@ -25,4 +25,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  coolint: ^2.1.2
+  coolint: ^3.0.0-rc.1

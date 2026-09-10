@@ -5,7 +5,7 @@ part of '../wildness.dart';
 abstract base class WildnessBase<T extends WildnessBase<T>> extends Equatable
     with Diagnosticable {
   /// Enable const constructor for subclasses.
-  const WildnessBase();
+  const new();
 
   ///Name of the wildness base.
   ///
