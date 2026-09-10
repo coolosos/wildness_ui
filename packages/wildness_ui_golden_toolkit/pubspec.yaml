@@ -1,11 +1,11 @@
 name: wildness_ui_golden_toolkit
-description: "A tools for create golden test on wildness components."
+description: "Tools for creating golden tests on Wildness UI components."
 
 repository: https://github.com/coolosos/wildness_ui
 issue_tracker: https://github.com/coolosos/wildness_ui/issues
 homepage: https://github.com/coolosos
 
-version: 1.1.0
+version: 2.0.0-rc.1
 
 environment:
   sdk: ">=3.13.2 <4.0.0"
@@ -22,7 +22,7 @@ dependencies:
   flutter_test:
     sdk: flutter
 
-  wildness_ui: ^1.1.0
+  wildness_ui: ^2.0.0-rc.1
 
 dev_dependencies:
   coolint: ^3.0.0-rc.1

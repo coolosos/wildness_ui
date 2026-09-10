@@ -23,21 +23,20 @@ Add to your `dev_dependencies`:
 
 ```yaml
 dev_dependencies:
-  wildness_ui_golden_toolkit: ^latest_version
+  wildness_ui_golden_toolkit: ^2.0.0-rc.1
 ```
 
 ---
 
 ## 🧪 Writing Your First Test
 
-Wrap your components in Component definitions and choose how you want to render them.
+Wrap your components in `Component` definitions and choose how you want to render them.
 
 ---
 
 ## 📐 Column-Based Testing
 
-Use testColumnComponent when you want to compare multiple scenarios vertically.
-
+Use `testColumnComponent` when you want to compare multiple scenarios vertically.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -48,7 +47,7 @@ void main() {
     testColumnComponent(
       name: 'test_component_column',
       surfaceSize: const Size(800, 300),
-      scenarios: [
+      scenarios: const [
         Component(
           name: 'test',
           widget: LinearProgressIndicator(
@@ -62,12 +61,12 @@ void main() {
   });
 }
 ```
+
 ---
 
 ## 📱 Device-Based Testing
 
-Use testDeviceComponent to validate how a component behaves across multiple screen sizes.
-
+Use `testDeviceComponent` to validate how a component behaves across multiple screen sizes.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -77,12 +76,11 @@ void main() {
   group('group_name', () {
     testDeviceComponent(
       name: 'test_device_component',
-      surfaceSize: const Size(800, 300),
-      devices: [
-        Device(name: 'iPhone 12', size: const Size(390, 844)),
-        Device(name: 'iPad Pro', size: const Size(1024, 1366)),
+      devices: const [
+        TestDevice(name: 'iPhone 12', size: Size(390, 844)),
+        TestDevice(name: 'iPad Pro', size: Size(1024, 1366)),
       ],
-      scenarios: [
+      scenarios: const [
         Component(
           name: 'test',
           widget: Column(
@@ -101,6 +99,7 @@ void main() {
   });
 }
 ```
+
 ---
 
 ## 🧩 Core Concepts
@@ -113,17 +112,20 @@ Represents a single UI state you want to validate.
 |----------|-------------|
 | `name`   | Identifier used in the golden output |
 | `widget` | The widget to render |
+| `textScaleFactor` | Optional text scale override |
 
 ---
 
-### `Device`
+### `TestDevice` and `Devices`
 
-Defines a virtual screen configuration.
+Defines a virtual screen configuration. Use predefined devices from `Devices.all`, `Devices.phones`, `Devices.tablets`, or create custom `TestDevice` instances.
 
 | Property | Description |
 |----------|-------------|
 | `name`   | Label shown in the golden test |
 | `size`   | Logical screen size |
+| `devicePixelRatio` | Device pixel ratio (default: 1.0) |
+| `safeArea` | Safe area insets (default: EdgeInsets.zero) |
 
 ---
 
