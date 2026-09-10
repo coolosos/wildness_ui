@@ -40,30 +40,42 @@ class WildnessApp extends SingleChildStatelessWidget {
     final platformBrightness =
         _wildnessProperties.forceThemeMode ?? mediaQuery.platformBrightness;
 
-    return WildnessProvider(
-      data: Wildness(
-        components: _wildnessProperties.components(
-          brightness: platformBrightness,
-        ),
-        resources: _wildnessProperties.resources(
-          brightness: platformBrightness,
-        ),
-        physics: _wildnessProperties.physics,
+    final wildness = Wildness(
+      components: _wildnessProperties.components(
+        brightness: platformBrightness,
       ),
-      child: MediaQuery(
-        data: mediaQuery.copyWith(
-          textScaler: mediaQuery.textScaler.clamp(
-            minScaleFactor: _wildnessProperties.minScaleFactor,
-            maxScaleFactor: _wildnessProperties.maxScaleFactor,
-          ),
-          platformBrightness: platformBrightness,
+      resources: _wildnessProperties.resources(brightness: platformBrightness),
+      physics: _wildnessProperties.physics,
+    );
+
+    Widget current = MediaQuery(
+      data: mediaQuery.copyWith(
+        textScaler: mediaQuery.textScaler.clamp(
+          minScaleFactor: _wildnessProperties.minScaleFactor,
+          maxScaleFactor: _wildnessProperties.maxScaleFactor,
         ),
-        child: DefaultTextStyle(
-          style: defaultTextStyle,
-          child: child ?? const SizedBox.shrink(),
-        ),
+        platformBrightness: platformBrightness,
+      ),
+      child: DefaultTextStyle(
+        style: defaultTextStyle,
+        child: child ?? const SizedBox.shrink(),
       ),
     );
+
+    for (final entry in wildness.components.entries) {
+      current = entry.value.wrapProvider(
+        key: ValueKey(entry.key),
+        child: current,
+      );
+    }
+    for (final entry in wildness.resources.entries) {
+      current = entry.value.wrapProvider(
+        key: ValueKey(entry.key),
+        child: current,
+      );
+    }
+
+    return WildnessProvider(data: wildness, child: current);
   }
 
   TextStyle _defaultTestStyle() {

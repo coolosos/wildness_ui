@@ -14,11 +14,12 @@ abstract base class ComponentTheme<T extends WildnessBase<T>>
   bool updateShouldNotify(ComponentTheme<T> oldWidget) =>
       data != oldWidget.data;
 
-  static W? wrappedThemeData<W extends ComponentTheme<WildnessBase>>(
-    BuildContext context,
-  ) => context.dependOnInheritedWidgetOfExactType<W>();
+  static W? wrappedThemeData<W extends InheritedTheme>(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<W>();
 
-  static Kind? kindThemeData<Kind extends WildnessBase>(BuildContext context) {
+  static Kind? kindThemeData<Kind extends WildnessBase<Kind>>(
+    BuildContext context,
+  ) {
     final componentProvider = context
         .dependOnInheritedWidgetOfExactType<WildnessComponentProvider<Kind>>();
     if (componentProvider != null) {

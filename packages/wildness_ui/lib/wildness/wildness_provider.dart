@@ -11,7 +11,7 @@ class WildnessProvider extends InheritedWidget {
 }
 
 @immutable
-class WildnessComponentProvider<T extends WildnessBase>
+class WildnessComponentProvider<T extends WildnessBase<T>>
     extends InheritedWidget {
   const WildnessComponentProvider({
     required this.data,

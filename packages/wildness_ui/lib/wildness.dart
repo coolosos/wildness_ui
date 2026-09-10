@@ -161,7 +161,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///
   ///Usually use in [wildnessAnimatedTheme] widget. If you want to change the
   ///current context for instance it's recommended to use wildness(KindToReplace)Theme.
-  Wildness replaceKind<Kind extends WildnessBase>({
+  Wildness replaceKind<Kind extends WildnessBase<Kind>>({
     required WildnessBase<dynamic> kind,
   }) {
     //Check if the component kind exists in the provide theme components and is the type
