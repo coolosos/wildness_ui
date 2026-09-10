@@ -200,7 +200,7 @@ void testDeviceComponent({
 }
 
 class _DeviceScenarioView extends StatelessWidget {
-  const _DeviceScenarioView({
+  const new({
     required this.device,
     required this.scenarios,
     this.scenarioAxisAlignment = MainAxisAlignment.center,

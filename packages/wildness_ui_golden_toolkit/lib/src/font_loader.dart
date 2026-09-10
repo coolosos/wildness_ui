@@ -11,15 +11,21 @@ import 'package:flutter_test/flutter_test.dart';
 ///packages you depend on.
 Future<void> loadAppFonts() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final fontManifest = await rootBundle.loadStructuredData<Iterable<dynamic>>(
+  final fontManifest = await rootBundle.loadStructuredData<List<dynamic>>(
     'FontManifest.json',
-    (string) async => json.decode(string),
+    (string) async => json.decode(string) as List<dynamic>,
   );
 
-  for (final Map<String, dynamic> font in fontManifest) {
+  for (final font in fontManifest.cast<Map<String, dynamic>>()) {
     final fontLoader = FontLoader(derivedFontFamily(font));
-    for (final Map<String, dynamic> fontType in font['fonts']) {
-      fontLoader.addFont(rootBundle.load(fontType['asset']));
+    final fonts =
+        (font['fonts'] as List<dynamic>?)?.cast<Map<String, dynamic>>() ??
+        const [];
+    for (final fontType in fonts) {
+      final asset = fontType['asset'] as String?;
+      if (asset != null) {
+        fontLoader.addFont(rootBundle.load(asset));
+      }
     }
     await fontLoader.load();
   }
@@ -36,13 +42,12 @@ Future<void> loadAppFonts() async {
 ///
 /// Ultimately, the font loader will load whatever we tell it, so if we see a font that looks like
 /// a `Material or Cupertino font family`, let's treat it as the main font family
-
 String derivedFontFamily(Map<String, dynamic> fontDefinition) {
   if (!fontDefinition.containsKey('family')) {
     return '';
   }
 
-  final String fontFamily = fontDefinition['family'];
+  final fontFamily = fontDefinition['family'] as String? ?? '';
 
   if (_overridableFonts.contains(fontFamily)) {
     return fontFamily;
@@ -54,8 +59,12 @@ String derivedFontFamily(Map<String, dynamic> fontDefinition) {
       return fontFamilyName;
     }
   } else {
-    for (final Map<String, dynamic> fontType in fontDefinition['fonts']) {
-      final String? asset = fontType['asset'];
+    final fonts =
+        (fontDefinition['fonts'] as List<dynamic>?)
+            ?.cast<Map<String, dynamic>>() ??
+        const [];
+    for (final fontType in fonts) {
+      final asset = fontType['asset'] as String?;
       if (asset != null && asset.startsWith('packages')) {
         final packageName = asset.split('/')[1];
         return 'packages/$packageName/$fontFamily';

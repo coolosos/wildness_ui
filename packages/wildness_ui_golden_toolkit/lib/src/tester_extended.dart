@@ -3,13 +3,13 @@ part of '../wildness_ui_golden_toolkit.dart';
 const Size _defaultSize = Size(800, 600);
 
 class GoldenRenderConfig {
-  const GoldenRenderConfig({
+  const new({
     this.size = _defaultSize,
     this.devicePixelRatio = 1.0,
     this.additionalPump = const Duration(milliseconds: 16),
   });
 
-  factory GoldenRenderConfig.device(TestDevice device) {
+  factory device(TestDevice device) {
     return GoldenRenderConfig(
       size: device.size,
       devicePixelRatio: device.devicePixelRatio,

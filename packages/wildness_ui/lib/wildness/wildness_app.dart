@@ -2,14 +2,14 @@ part of '../wildness.dart';
 
 @immutable
 class WildnessApp extends SingleChildStatelessWidget {
-  const WildnessApp({
+  const new({
     required this._wildnessProperties,
     this._defaultTextStyle,
     super.key,
     super.child,
   });
 
-  factory WildnessApp.withDefaultTheme({
+  factory withDefaultTheme({
     required WildnessProperties wildnessProperties,
     TextStyle? defaultTextStyle,
     Color? primaryColor,

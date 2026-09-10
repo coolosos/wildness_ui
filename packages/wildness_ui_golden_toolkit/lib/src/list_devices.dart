@@ -1,7 +1,7 @@
 part of '../wildness_ui_golden_toolkit.dart';
 
 class Devices {
-  Devices._();
+  new _();
 
   static const TestDevice phone = TestDevice(
     name: 'phone',
@@ -86,13 +86,13 @@ class Devices {
 }
 
 class TestDevice {
-  const TestDevice({
+  const new({
     required this.size,
     required this.name,
     this.devicePixelRatio = 1.0,
     this.textScale = 1.0,
     this.brightness = Brightness.light,
-    this.safeArea = const EdgeInsets.all(0),
+    this.safeArea = EdgeInsets.zero,
   });
   final String name;
 
@@ -111,7 +111,7 @@ class TestDevice {
   /// [safeArea] specify insets to define a safe area
   final EdgeInsets safeArea;
 
-  /// [copyWith] convenience function for [Device] modification
+  /// [copyWith] convenience function for [TestDevice] modification
   TestDevice copyWith({
     Size? size,
     double? devicePixelRatio,

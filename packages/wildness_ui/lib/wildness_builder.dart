@@ -6,7 +6,7 @@ typedef ValueWildnessBuilder = Widget Function(
 );
 
 class WildnessBuilder extends StatelessWidget {
-  const WildnessBuilder({required this.builder, super.key});
+  const new({required this.builder, super.key});
 
   final ValueWildnessBuilder builder;
 

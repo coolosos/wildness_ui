@@ -3,7 +3,7 @@ part of '../wildness.dart';
 @immutable
 abstract base class ComponentTheme<T extends WildnessBase<T>>
     extends InheritedTheme {
-  const ComponentTheme({required this.data, required super.child, super.key});
+  const new({required this.data, required super.child, super.key});
 
   final T data;
 

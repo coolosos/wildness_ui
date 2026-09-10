@@ -27,7 +27,7 @@ dependencies:
   wildness_ui: ^1.1.0
 
 dev_dependencies:
-  coolint: ^2.1.2
+  coolint: ^3.0.0-rc.1
 
 flutter:
   fonts:

@@ -2,10 +2,10 @@ import 'dart:io' show Platform;
 
 import 'package:collection/collection.dart';
 
-import '../library.dart';
+import 'library.dart';
 import 'theme/custom_default_theme.dart';
 
-export '../library.dart';
+export 'library.dart';
 
 part 'base/component_theme.dart';
 part 'base/wildness_base.dart';
@@ -17,7 +17,7 @@ part 'wildness_builder.dart';
 
 @immutable
 class Wildness extends Equatable with Diagnosticable {
-  const Wildness({
+  const new({
     required this.physics,
     this.components = const {},
     this.resources = const {},
@@ -77,14 +77,14 @@ class Wildness extends Equatable with Diagnosticable {
 
   /// Linearly interpolate between two [components].
   ///
-  /// Includes all theme components in [a] and [b].
+  /// Includes all theme components in [components] and [elementsBase].
   ///
   /// {@macro dart.ui.shadow.lerp}
   Map<Type, WildnessBase<dynamic>> _lerpWildnessBase(
     Map<Type, WildnessBase<dynamic>> elementsBase,
     double t,
   ) {
-    // Lerp [a].
+    // Lerp components.
     final newComponents =
         components.map((id, componentA) {
             final componentB = elementsBase[id];
@@ -93,11 +93,10 @@ class Wildness extends Equatable with Diagnosticable {
               componentA.lerp(componentB, t),
             );
           })
-          // Add [b]-only components.
+          // Add elementsBase-only components.
           ..addEntries(
             elementsBase.entries.where(
-              (MapEntry<Type, WildnessBase<dynamic>> entry) =>
-                  !components.containsKey(entry.key),
+              (entry) => !components.containsKey(entry.key),
             ),
           );
 
@@ -135,7 +134,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///You can replace one by one using [replaceKind], however if you only want to change a kind in the current context
   ///must be recommended to use wildness(KindToReplace)Theme.
   ///
-  ///Usually use in [wildnessAnimatedTheme] widget.
+  ///Usually use in `wildnessAnimatedTheme` widget.
   Wildness replaceMultipleKind({
     required Map<Type, WildnessBase<dynamic>> kinds,
   }) {
@@ -159,7 +158,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///of the provide [Kind] then replace the [Kind] type for the new kind.
   ///
   ///
-  ///Usually use in [wildnessAnimatedTheme] widget. If you want to change the
+  ///Usually use in `wildnessAnimatedTheme` widget. If you want to change the
   ///current context for instance it's recommended to use wildness(KindToReplace)Theme.
   Wildness replaceKind<Kind extends WildnessBase<Kind>>({
     required WildnessBase<dynamic> kind,
