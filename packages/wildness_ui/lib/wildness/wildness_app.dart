@@ -1,7 +1,7 @@
 part of '../wildness.dart';
 
 @immutable
-class WildnessApp extends SingleChildStatelessWidget {
+final class WildnessApp extends SingleChildStatelessWidget {
   const new({
     required this._wildnessProperties,
     this._defaultTextStyle,

@@ -199,7 +199,7 @@ void testDeviceComponent({
   }
 }
 
-class _DeviceScenarioView extends StatelessWidget {
+final class _DeviceScenarioView extends StatelessWidget {
   const new({
     required this.device,
     required this.scenarios,

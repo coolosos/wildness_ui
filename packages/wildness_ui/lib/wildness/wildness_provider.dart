@@ -1,7 +1,7 @@
 part of '../wildness.dart';
 
 @immutable
-class WildnessProvider extends InheritedWidget {
+final class WildnessProvider extends InheritedWidget {
   const new({required this.data, required super.child, super.key});
 
   final Wildness data;
@@ -11,7 +11,7 @@ class WildnessProvider extends InheritedWidget {
 }
 
 @immutable
-class WildnessComponentProvider<T extends WildnessBase<T>>
+final class WildnessComponentProvider<T extends WildnessBase<T>>
     extends InheritedWidget {
   const new({required this.data, required super.child, super.key});
 

@@ -9,6 +9,7 @@ version: 1.1.0
 
 environment:
   sdk: ">=3.13.2 <4.0.0"
+  flutter: ">=3.47.2"
 
 resolution: workspace
 
@@ -18,11 +19,8 @@ dependencies:
 
   meta: ^1.19.0
   collection: ^1.19.1
-  equatable: ^2.1.0
-  nested: ^1.0.0
   flutter_test:
     sdk: flutter
-  build_runner: ^2.16.0
 
   wildness_ui: ^1.1.0
 

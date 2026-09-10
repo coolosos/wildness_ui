@@ -1,8 +1,6 @@
 part of '../wildness_ui_golden_toolkit.dart';
 
-class Devices {
-  new _();
-
+abstract final class Devices {
   static const TestDevice phone = TestDevice(
     name: 'phone',
     size: Size(375, 667),
@@ -85,7 +83,8 @@ class Devices {
   }
 }
 
-class TestDevice {
+@immutable
+final class TestDevice {
   const new({
     required this.size,
     required this.name,

@@ -16,7 +16,7 @@ part 'wildness/wildness_provider.dart';
 part 'wildness_builder.dart';
 
 @immutable
-class Wildness extends Equatable with Diagnosticable {
+final class Wildness extends Equatable with Diagnosticable {
   const new({
     required this.physics,
     this.components = const {},
@@ -84,23 +84,12 @@ class Wildness extends Equatable with Diagnosticable {
     Map<Type, WildnessBase<dynamic>> elementsBase,
     double t,
   ) {
-    // Lerp components.
-    final newComponents =
-        components.map((id, componentA) {
-            final componentB = elementsBase[id];
-            return MapEntry<Type, WildnessBase<dynamic>>(
-              id,
-              componentA.lerp(componentB, t),
-            );
-          })
-          // Add elementsBase-only components.
-          ..addEntries(
-            elementsBase.entries.where(
-              (entry) => !components.containsKey(entry.key),
-            ),
-          );
-
-    return newComponents;
+    return {
+      for (final MapEntry(:key, :value) in components.entries)
+        key: value.lerp(elementsBase[key], t),
+      for (final MapEntry(:key, :value) in elementsBase.entries)
+        if (!components.containsKey(key)) key: value,
+    };
   }
 
   /// Linearly interpolate between two themes.
@@ -147,9 +136,7 @@ class Wildness extends Equatable with Diagnosticable {
     }
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
     //for being sure of no modifications and no repeat hash
-    return copyWith(
-      components: Map.unmodifiable(Map.from(components)..addAll(kinds)),
-    );
+    return copyWith(components: Map.unmodifiable({...components, ...kinds}));
   }
 
   ///Replace current kind in the wildnessThemeData.
@@ -170,9 +157,7 @@ class Wildness extends Equatable with Diagnosticable {
     );
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
     //for being sure of no modifications and no repeat hash
-    return copyWith(
-      components: Map.unmodifiable(Map.from(components)..addAll({Kind: kind})),
-    );
+    return copyWith(components: Map.unmodifiable({...components, Kind: kind}));
   }
 
   Wildness copyWith({

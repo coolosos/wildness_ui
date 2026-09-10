@@ -2,7 +2,8 @@ part of '../wildness_ui_golden_toolkit.dart';
 
 const Size _defaultSize = Size(800, 600);
 
-class GoldenRenderConfig {
+@immutable
+final class GoldenRenderConfig {
   const new({
     this.size = _defaultSize,
     this.devicePixelRatio = 1.0,

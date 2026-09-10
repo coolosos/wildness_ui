@@ -1,7 +1,7 @@
 part of '../wildness.dart';
 
 @immutable
-class WildnessProperties {
+final class WildnessProperties {
   /// Creates a [WildnessProperties] that's used to configure wildnessUI
   ///
   /// The [forceThemeMode] will be used to set the theme,
