@@ -1,5 +1,3 @@
-library;
-
 import 'dart:io' show Platform;
 
 import 'package:collection/collection.dart';
@@ -25,6 +23,10 @@ class Wildness extends Equatable with Diagnosticable {
     this.resources = const {},
   });
 
+  /// Obtains the nearest [Wildness] instance from the [BuildContext].
+  ///
+  /// If `listen` is true (default), the widget will rebuild when the [Wildness] changes.
+  /// If `listen` is false, it will not rebuild, suitable for one-off reads.
   // ignore: prefer_constructors_over_static_methods
   static Wildness of(BuildContext context, {bool listen = true}) {
     final inheritedTheme = listen
@@ -159,7 +161,7 @@ class Wildness extends Equatable with Diagnosticable {
   ///
   ///Usually use in [wildnessAnimatedTheme] widget. If you want to change the
   ///current context for instance it's recommended to use wildness(KindToReplace)Theme.
-  Wildness replaceKind<Kind extends WildnessBase>({
+  Wildness replaceKind<Kind extends WildnessBase<Kind>>({
     required WildnessBase<dynamic> kind,
   }) {
     //Check if the component kind exists in the provide theme components and is the type

@@ -2,7 +2,8 @@ part of '../wildness.dart';
 
 /// An interface that defines components to a [Wildness] object.
 @immutable
-abstract base class WildnessBase<T> extends Equatable with Diagnosticable {
+abstract base class WildnessBase<T extends WildnessBase<T>> extends Equatable
+    with Diagnosticable {
   /// Enable const constructor for subclasses.
   const WildnessBase();
 
@@ -22,4 +23,13 @@ abstract base class WildnessBase<T> extends Equatable with Diagnosticable {
   ///
   /// {@macro dart.ui.shadow.lerp}
   WildnessBase<T> lerp(WildnessBase<T>? other, double t);
+
+  /// Wraps [child] with a typed [WildnessComponentProvider] for this component.
+  Widget wrapProvider({required Widget child, Key? key}) {
+    return WildnessComponentProvider<T>(
+      key: key,
+      data: this as T,
+      child: child,
+    );
+  }
 }

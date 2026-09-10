@@ -13,6 +13,6 @@ class WildnessBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wildness = Wildness.of(context, listen: true);
-    return builder.call(context, wildness);
+    return builder(context, wildness);
   }
 }

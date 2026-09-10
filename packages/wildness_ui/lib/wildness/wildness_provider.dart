@@ -9,3 +9,20 @@ class WildnessProvider extends InheritedWidget {
   @override
   bool updateShouldNotify(WildnessProvider oldWidget) => data != oldWidget.data;
 }
+
+@immutable
+class WildnessComponentProvider<T extends WildnessBase<T>>
+    extends InheritedWidget {
+  const WildnessComponentProvider({
+    required this.data,
+    required super.child,
+    super.key,
+  });
+
+  final T data;
+
+  @override
+  bool updateShouldNotify(covariant WildnessComponentProvider<T> oldWidget) {
+    return data != oldWidget.data;
+  }
+}
