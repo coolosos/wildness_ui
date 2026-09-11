@@ -1,3 +1,7 @@
+## 2.0.0-rc.2
+
+- **Refactor**: Relax type bounds on `WildnessBase<T extends WildnessBase<dynamic>>` and `ComponentTheme<T extends WildnessBase<dynamic>>` to support polymorphic base component themes without requiring self-referential generic boilerplate.
+
 ## 2.0.0-rc.1
 
 - **Breaking**: Introduced F-bounded polymorphism `WildnessBase<T extends WildnessBase<T>>` and `ComponentTheme<T extends WildnessBase<T>>` for complete compile-time type safety without `dynamic`.

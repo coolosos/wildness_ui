@@ -1,7 +1,7 @@
 part of '../wildness.dart';
 
 @immutable
-abstract base class ComponentTheme<T extends WildnessBase<T>>
+abstract base class ComponentTheme<T extends WildnessBase<dynamic>>
     extends InheritedTheme {
   const new({required this.data, required super.child, super.key});
 
@@ -17,7 +17,7 @@ abstract base class ComponentTheme<T extends WildnessBase<T>>
   static W? wrappedThemeData<W extends InheritedTheme>(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<W>();
 
-  static Kind? kindThemeData<Kind extends WildnessBase<Kind>>(
+  static Kind? kindThemeData<Kind extends WildnessBase<dynamic>>(
     BuildContext context,
   ) {
     final componentProvider = context
