@@ -1,3 +1,6 @@
+/// Foundational re-exports required across Wildness UI components.
+library;
+
 export 'dart:ui' show Brightness;
 
 export 'package:equatable/equatable.dart';

@@ -1,3 +1,6 @@
+/// Default Material theme configuration applied when integrating with Wildness.
+library;
+
 import 'package:flutter/material.dart'
     show
         BottomSheetThemeData,
@@ -11,7 +14,10 @@ import 'package:flutter/material.dart'
 
 import '../library.dart';
 
+/// A wrapper widget that applies customized Material [ThemeData] styles
+/// harmonized with Wildness configuration properties like primary color and default text style.
 final class CustomDefaultTheme extends SingleChildStatelessWidget {
+  /// Creates a [CustomDefaultTheme].
   const new({
     required this._primaryColor,
     required this._defaultTextStyle,

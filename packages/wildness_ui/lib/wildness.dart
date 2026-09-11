@@ -1,3 +1,6 @@
+/// Core library for Wildness UI: a modular, type-safe, granular theme engine for Flutter.
+library;
+
 import 'dart:io' show Platform;
 
 import 'package:collection/collection.dart';
