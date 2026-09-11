@@ -1,6 +1,7 @@
 ## 2.0.0-rc.2
 
 - **Chore**: Updated dependency `wildness_ui` to `^2.0.0-rc.2`.
+- **Test**: Added comprehensive test coverage for `GoldenRenderConfig`, `Component`, `TestDevice`, and `Devices`.
 
 ## 2.0.0-rc.1
 

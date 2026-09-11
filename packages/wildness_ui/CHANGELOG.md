@@ -1,6 +1,9 @@
 ## 2.0.0-rc.2
 
 - **Refactor**: Relax type bounds on `WildnessBase<T extends WildnessBase<dynamic>>` and `ComponentTheme<T extends WildnessBase<dynamic>>` to support polymorphic base component themes without requiring self-referential generic boilerplate.
+- **Docs**: Added standalone, runnable pure Flutter example package (`packages/wildness_ui/example`) demonstrating multi-kind architecture, zero-provider consumption, and dynamic light/dark mode.
+- **Docs**: Added comprehensive library and public API documentation comments across all exported symbols.
+- **Test**: Expanded unit and widget test suite across core classes, achieving 98.7% code coverage.
 
 ## 2.0.0-rc.1
 
