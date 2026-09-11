@@ -11,7 +11,7 @@ final class WildnessProvider extends InheritedWidget {
 }
 
 @immutable
-final class WildnessComponentProvider<T extends WildnessBase<T>>
+final class WildnessComponentProvider<T extends WildnessBase<dynamic>>
     extends InheritedWidget {
   const new({required this.data, required super.child, super.key});
 

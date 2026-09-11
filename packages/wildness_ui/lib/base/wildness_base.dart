@@ -2,7 +2,7 @@ part of '../wildness.dart';
 
 /// An interface that defines components to a [Wildness] object.
 @immutable
-abstract base class WildnessBase<T extends WildnessBase<T>> extends Equatable
+abstract base class WildnessBase<T extends WildnessBase<dynamic>> extends Equatable
     with Diagnosticable {
   /// Enable const constructor for subclasses.
   const new();
