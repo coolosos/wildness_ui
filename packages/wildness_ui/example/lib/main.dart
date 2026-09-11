@@ -1,165 +1,358 @@
 import 'package:wildness_ui/wildness.dart';
 
-// ---------------------------------------------------------------------------
-// 1. Custom Button Component Theme
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// STEP 1: Define Base Theme and Kinds (Variants) using F-Bounded Polymorphism
+// ===========================================================================
 
-base class ButtonThemeData extends WildnessBase<ButtonThemeData> {
+/// Base class defining common properties for all Button kinds.
+abstract base class ButtonThemeData<T extends ButtonThemeData<T>>
+    extends WildnessBase<T> {
   const new({
     required this.backgroundColor,
     required this.textColor,
-    required this.borderRadius,
-    required this.padding,
+    this.borderColor,
+    this.borderRadius = 8.0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
   });
 
   final Color backgroundColor;
   final Color textColor;
+  final Color? borderColor;
   final double borderRadius;
   final EdgeInsetsGeometry padding;
 
   @override
-  ButtonThemeData copyWith({
+  List<Object?> get props => [
+        backgroundColor,
+        textColor,
+        borderColor,
+        borderRadius,
+        padding,
+      ];
+}
+
+/// Kind: Primary button variant.
+final class PrimaryButtonThemeData
+    extends ButtonThemeData<PrimaryButtonThemeData> {
+  const new({
+    required super.backgroundColor,
+    required super.textColor,
+    super.borderColor,
+    super.borderRadius,
+    super.padding,
+  });
+
+  @override
+  PrimaryButtonThemeData copyWith({
     Color? backgroundColor,
     Color? textColor,
+    Color? borderColor,
     double? borderRadius,
     EdgeInsetsGeometry? padding,
   }) {
-    return ButtonThemeData(
+    return PrimaryButtonThemeData(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       textColor: textColor ?? this.textColor,
+      borderColor: borderColor ?? this.borderColor,
       borderRadius: borderRadius ?? this.borderRadius,
       padding: padding ?? this.padding,
     );
   }
 
   @override
-  ButtonThemeData lerp(WildnessBase<ButtonThemeData>? other, double t) {
-    if (other is! ButtonThemeData) return this;
-    return ButtonThemeData(
+  PrimaryButtonThemeData lerp(
+    WildnessBase<PrimaryButtonThemeData>? other,
+    double t,
+  ) {
+    if (other is! PrimaryButtonThemeData) return this;
+    return PrimaryButtonThemeData(
       backgroundColor:
           Color.lerp(backgroundColor, other.backgroundColor, t) ??
           backgroundColor,
       textColor: Color.lerp(textColor, other.textColor, t) ?? textColor,
+      borderColor: Color.lerp(borderColor, other.borderColor, t) ?? borderColor,
       borderRadius:
           borderRadius + (other.borderRadius - borderRadius) * t,
       padding:
           EdgeInsetsGeometry.lerp(padding, other.padding, t) ?? padding,
     );
   }
-
-  @override
-  List<Object?> get props => [
-        backgroundColor,
-        textColor,
-        borderRadius,
-        padding,
-      ];
 }
 
-final class ButtonComponentTheme extends ComponentTheme<ButtonThemeData> {
-  const new({required super.data, required super.child, super.key});
+/// Kind: Secondary button variant (outline style).
+final class SecondaryButtonThemeData
+    extends ButtonThemeData<SecondaryButtonThemeData> {
+  const new({
+    required super.backgroundColor,
+    required super.textColor,
+    required super.borderColor,
+    super.borderRadius,
+    super.padding,
+  });
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return ButtonComponentTheme(data: data, child: child);
+  SecondaryButtonThemeData copyWith({
+    Color? backgroundColor,
+    Color? textColor,
+    Color? borderColor,
+    double? borderRadius,
+    EdgeInsetsGeometry? padding,
+  }) {
+    return SecondaryButtonThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      textColor: textColor ?? this.textColor,
+      borderColor: borderColor ?? this.borderColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      padding: padding ?? this.padding,
+    );
+  }
+
+  @override
+  SecondaryButtonThemeData lerp(
+    WildnessBase<SecondaryButtonThemeData>? other,
+    double t,
+  ) {
+    if (other is! SecondaryButtonThemeData) return this;
+    return SecondaryButtonThemeData(
+      backgroundColor:
+          Color.lerp(backgroundColor, other.backgroundColor, t) ??
+          backgroundColor,
+      textColor: Color.lerp(textColor, other.textColor, t) ?? textColor,
+      borderColor: Color.lerp(borderColor, other.borderColor, t) ?? borderColor,
+      borderRadius:
+          borderRadius + (other.borderRadius - borderRadius) * t,
+      padding:
+          EdgeInsetsGeometry.lerp(padding, other.padding, t) ?? padding,
+    );
+  }
+}
+
+/// Kind: Danger / Destructive button variant.
+final class DangerButtonThemeData
+    extends ButtonThemeData<DangerButtonThemeData> {
+  const new({
+    required super.backgroundColor,
+    required super.textColor,
+    super.borderColor,
+    super.borderRadius,
+    super.padding,
+  });
+
+  @override
+  DangerButtonThemeData copyWith({
+    Color? backgroundColor,
+    Color? textColor,
+    Color? borderColor,
+    double? borderRadius,
+    EdgeInsetsGeometry? padding,
+  }) {
+    return DangerButtonThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      textColor: textColor ?? this.textColor,
+      borderColor: borderColor ?? this.borderColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      padding: padding ?? this.padding,
+    );
+  }
+
+  @override
+  DangerButtonThemeData lerp(
+    WildnessBase<DangerButtonThemeData>? other,
+    double t,
+  ) {
+    if (other is! DangerButtonThemeData) return this;
+    return DangerButtonThemeData(
+      backgroundColor:
+          Color.lerp(backgroundColor, other.backgroundColor, t) ??
+          backgroundColor,
+      textColor: Color.lerp(textColor, other.textColor, t) ?? textColor,
+      borderColor: Color.lerp(borderColor, other.borderColor, t) ?? borderColor,
+      borderRadius:
+          borderRadius + (other.borderRadius - borderRadius) * t,
+      padding:
+          EdgeInsetsGeometry.lerp(padding, other.padding, t) ?? padding,
+    );
   }
 }
 
 // ---------------------------------------------------------------------------
-// 2. Custom Card Component Theme
-// ---------------------------------------------------------------------------
 
-base class CardThemeData extends WildnessBase<CardThemeData> {
+/// Base class defining common properties for all Card kinds.
+abstract base class CardThemeData<T extends CardThemeData<T>>
+    extends WildnessBase<T> {
   const new({
     required this.backgroundColor,
     required this.borderColor,
-    required this.borderRadius,
     required this.titleColor,
     required this.bodyColor,
+    this.borderRadius = 12.0,
+    this.borderWidth = 1.0,
   });
 
   final Color backgroundColor;
   final Color borderColor;
-  final double borderRadius;
   final Color titleColor;
   final Color bodyColor;
-
-  @override
-  CardThemeData copyWith({
-    Color? backgroundColor,
-    Color? borderColor,
-    double? borderRadius,
-    Color? titleColor,
-    Color? bodyColor,
-  }) {
-    return CardThemeData(
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      borderColor: borderColor ?? this.borderColor,
-      borderRadius: borderRadius ?? this.borderRadius,
-      titleColor: titleColor ?? this.titleColor,
-      bodyColor: bodyColor ?? this.bodyColor,
-    );
-  }
-
-  @override
-  CardThemeData lerp(WildnessBase<CardThemeData>? other, double t) {
-    if (other is! CardThemeData) return this;
-    return CardThemeData(
-      backgroundColor:
-          Color.lerp(backgroundColor, other.backgroundColor, t) ??
-          backgroundColor,
-      borderColor:
-          Color.lerp(borderColor, other.borderColor, t) ?? borderColor,
-      borderRadius:
-          borderRadius + (other.borderRadius - borderRadius) * t,
-      titleColor: Color.lerp(titleColor, other.titleColor, t) ?? titleColor,
-      bodyColor: Color.lerp(bodyColor, other.bodyColor, t) ?? bodyColor,
-    );
-  }
+  final double borderRadius;
+  final double borderWidth;
 
   @override
   List<Object?> get props => [
         backgroundColor,
         borderColor,
-        borderRadius,
         titleColor,
         bodyColor,
+        borderRadius,
+        borderWidth,
       ];
 }
 
-final class CardComponentTheme extends ComponentTheme<CardThemeData> {
-  const new({required super.data, required super.child, super.key});
+/// Kind: Standard card variant.
+final class StandardCardThemeData extends CardThemeData<StandardCardThemeData> {
+  const new({
+    required super.backgroundColor,
+    required super.borderColor,
+    required super.titleColor,
+    required super.bodyColor,
+    super.borderRadius,
+    super.borderWidth,
+  });
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return CardComponentTheme(data: data, child: child);
+  StandardCardThemeData copyWith({
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? titleColor,
+    Color? bodyColor,
+    double? borderRadius,
+    double? borderWidth,
+  }) {
+    return StandardCardThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      borderColor: borderColor ?? this.borderColor,
+      titleColor: titleColor ?? this.titleColor,
+      bodyColor: bodyColor ?? this.bodyColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      borderWidth: borderWidth ?? this.borderWidth,
+    );
+  }
+
+  @override
+  StandardCardThemeData lerp(
+    WildnessBase<StandardCardThemeData>? other,
+    double t,
+  ) {
+    if (other is! StandardCardThemeData) return this;
+    return StandardCardThemeData(
+      backgroundColor:
+          Color.lerp(backgroundColor, other.backgroundColor, t) ??
+          backgroundColor,
+      borderColor:
+          Color.lerp(borderColor, other.borderColor, t) ?? borderColor,
+      titleColor: Color.lerp(titleColor, other.titleColor, t) ?? titleColor,
+      bodyColor: Color.lerp(bodyColor, other.bodyColor, t) ?? bodyColor,
+      borderRadius:
+          borderRadius + (other.borderRadius - borderRadius) * t,
+      borderWidth:
+          borderWidth + (other.borderWidth - borderWidth) * t,
+    );
   }
 }
 
-// ---------------------------------------------------------------------------
-// 3. Pure Standalone Widgets (Zero Material Dependencies)
-// ---------------------------------------------------------------------------
+/// Kind: Featured / Highlighted card variant.
+final class FeaturedCardThemeData extends CardThemeData<FeaturedCardThemeData> {
+  const new({
+    required super.backgroundColor,
+    required super.borderColor,
+    required super.titleColor,
+    required super.bodyColor,
+    super.borderRadius = 16.0,
+    super.borderWidth = 2.0,
+  });
+
+  @override
+  FeaturedCardThemeData copyWith({
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? titleColor,
+    Color? bodyColor,
+    double? borderRadius,
+    double? borderWidth,
+  }) {
+    return FeaturedCardThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      borderColor: borderColor ?? this.borderColor,
+      titleColor: titleColor ?? this.titleColor,
+      bodyColor: bodyColor ?? this.bodyColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      borderWidth: borderWidth ?? this.borderWidth,
+    );
+  }
+
+  @override
+  FeaturedCardThemeData lerp(
+    WildnessBase<FeaturedCardThemeData>? other,
+    double t,
+  ) {
+    if (other is! FeaturedCardThemeData) return this;
+    return FeaturedCardThemeData(
+      backgroundColor:
+          Color.lerp(backgroundColor, other.backgroundColor, t) ??
+          backgroundColor,
+      borderColor:
+          Color.lerp(borderColor, other.borderColor, t) ?? borderColor,
+      titleColor: Color.lerp(titleColor, other.titleColor, t) ?? titleColor,
+      bodyColor: Color.lerp(bodyColor, other.bodyColor, t) ?? bodyColor,
+      borderRadius:
+          borderRadius + (other.borderRadius - borderRadius) * t,
+      borderWidth:
+          borderWidth + (other.borderWidth - borderWidth) * t,
+    );
+  }
+}
+
+// ===========================================================================
+// STEP 2: Create Pure UI Widgets with Zero Material Dependencies
+// ===========================================================================
+
+enum ButtonKind { primary, secondary, danger }
 
 class WildButton extends StatelessWidget {
   const new({
     required this.label,
     required this.onTap,
+    this.kind = ButtonKind.primary,
     super.key,
   });
 
   final String label;
   final VoidCallback onTap;
+  final ButtonKind kind;
 
   @override
   Widget build(BuildContext context) {
-    final theme =
-        ComponentTheme.kindThemeData<ButtonThemeData>(context) ??
-        const ButtonThemeData(
-          backgroundColor: Color(0xFF3B82F6),
-          textColor: Color(0xFFFFFFFF),
-          borderRadius: 8,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        );
+    // Resolve the appropriate kind token from the Wildness theme tree
+    final ButtonThemeData<dynamic> theme = switch (kind) {
+      ButtonKind.danger =>
+        ComponentTheme.kindThemeData<DangerButtonThemeData>(context) ??
+            const DangerButtonThemeData(
+              backgroundColor: Color(0xFFEF4444),
+              textColor: Color(0xFFFFFFFF),
+            ),
+      ButtonKind.secondary =>
+        ComponentTheme.kindThemeData<SecondaryButtonThemeData>(context) ??
+            const SecondaryButtonThemeData(
+              backgroundColor: Color(0x00000000),
+              textColor: Color(0xFF3B82F6),
+              borderColor: Color(0xFF3B82F6),
+            ),
+      ButtonKind.primary =>
+        ComponentTheme.kindThemeData<PrimaryButtonThemeData>(context) ??
+            const PrimaryButtonThemeData(
+              backgroundColor: Color(0xFF3B82F6),
+              textColor: Color(0xFFFFFFFF),
+            ),
+    };
 
     return GestureDetector(
       onTap: onTap,
@@ -168,6 +361,9 @@ class WildButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: theme.backgroundColor,
           borderRadius: BorderRadius.circular(theme.borderRadius),
+          border: theme.borderColor != null
+              ? Border.all(color: theme.borderColor!, width: 1.5)
+              : null,
         ),
         alignment: Alignment.center,
         child: Text(
@@ -187,44 +383,76 @@ class WildCard extends StatelessWidget {
   const new({
     required this.title,
     required this.subtitle,
+    this.badge,
+    this.isFeatured = false,
     super.key,
   });
 
   final String title;
   final String subtitle;
+  final String? badge;
+  final bool isFeatured;
 
   @override
   Widget build(BuildContext context) {
-    final theme =
-        ComponentTheme.kindThemeData<CardThemeData>(context) ??
-        const CardThemeData(
-          backgroundColor: Color(0xFFFFFFFF),
-          borderColor: Color(0xFFE5E7EB),
-          borderRadius: 12,
-          titleColor: Color(0xFF111827),
-          bodyColor: Color(0xFF6B7280),
-        );
+    // Resolves FeaturedCardThemeData or StandardCardThemeData automatically
+    final CardThemeData<dynamic> theme = isFeatured
+        ? ComponentTheme.kindThemeData<FeaturedCardThemeData>(context) ??
+            const FeaturedCardThemeData(
+              backgroundColor: Color(0xFF312E81),
+              borderColor: Color(0xFF6366F1),
+              titleColor: Color(0xFFEEF2FF),
+              bodyColor: Color(0xFFC7D2FE),
+            )
+        : ComponentTheme.kindThemeData<StandardCardThemeData>(context) ??
+            const StandardCardThemeData(
+              backgroundColor: Color(0xFFFFFFFF),
+              borderColor: Color(0xFFE5E7EB),
+              titleColor: Color(0xFF111827),
+              bodyColor: Color(0xFF6B7280),
+            );
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: theme.backgroundColor,
         borderRadius: BorderRadius.circular(theme.borderRadius),
-        border: Border.all(color: theme.borderColor, width: 1.5),
+        border: Border.all(color: theme.borderColor, width: theme.borderWidth),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: theme.titleColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  color: theme.titleColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              if (badge != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: theme.borderColor.withAlpha(50),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    badge!,
+                    style: TextStyle(
+                      color: theme.titleColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+            ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Text(
             subtitle,
             style: TextStyle(
@@ -239,9 +467,9 @@ class WildCard extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// 4. Pure WidgetsApp Application
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// STEP 3: Configure Wildness Theme with Light and Dark Token Palettes
+// ===========================================================================
 
 void main() {
   runApp(const ExampleApp());
@@ -267,89 +495,106 @@ class _ExampleAppState extends State<ExampleApp> {
 
   @override
   Widget build(BuildContext context) {
-    const lightButtonTheme = ButtonThemeData(
+    // 1. Light Mode Tokens for all Kinds
+    const lightPrimaryBtn = PrimaryButtonThemeData(
       backgroundColor: Color(0xFF2563EB),
       textColor: Color(0xFFFFFFFF),
-      borderRadius: 10,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     );
-
-    const darkButtonTheme = ButtonThemeData(
-      backgroundColor: Color(0xFF3B82F6),
+    const lightSecondaryBtn = SecondaryButtonThemeData(
+      backgroundColor: Color(0x00000000),
+      textColor: Color(0xFF2563EB),
+      borderColor: Color(0xFF2563EB),
+    );
+    const lightDangerBtn = DangerButtonThemeData(
+      backgroundColor: Color(0xFFDC2626),
       textColor: Color(0xFFFFFFFF),
-      borderRadius: 10,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     );
 
-    const lightCardTheme = CardThemeData(
+    const lightStandardCard = StandardCardThemeData(
       backgroundColor: Color(0xFFF9FAFB),
       borderColor: Color(0xFFE5E7EB),
-      borderRadius: 12,
       titleColor: Color(0xFF111827),
       bodyColor: Color(0xFF4B5563),
     );
+    const lightFeaturedCard = FeaturedCardThemeData(
+      backgroundColor: Color(0xFFEEF2FF),
+      borderColor: Color(0xFF6366F1),
+      titleColor: Color(0xFF312E81),
+      bodyColor: Color(0xFF4338CA),
+    );
 
-    const darkCardTheme = CardThemeData(
+    // 2. Dark Mode Tokens for all Kinds
+    const darkPrimaryBtn = PrimaryButtonThemeData(
+      backgroundColor: Color(0xFF3B82F6),
+      textColor: Color(0xFFFFFFFF),
+    );
+    const darkSecondaryBtn = SecondaryButtonThemeData(
+      backgroundColor: Color(0x00000000),
+      textColor: Color(0xFF93C5FD),
+      borderColor: Color(0xFF3B82F6),
+    );
+    const darkDangerBtn = DangerButtonThemeData(
+      backgroundColor: Color(0xFFEF4444),
+      textColor: Color(0xFFFFFFFF),
+    );
+
+    const darkStandardCard = StandardCardThemeData(
       backgroundColor: Color(0xFF1F2937),
       borderColor: Color(0xFF374151),
-      borderRadius: 12,
       titleColor: Color(0xFFF9FAFB),
       bodyColor: Color(0xFF9CA3AF),
     );
-
-    const accentCardTheme = CardThemeData(
-      backgroundColor: Color(0xFF312E81),
-      borderColor: Color(0xFF6366F1),
-      borderRadius: 16,
-      titleColor: Color(0xFFEEF2FF),
+    const darkFeaturedCard = FeaturedCardThemeData(
+      backgroundColor: Color(0xFF1E1B4B),
+      borderColor: Color(0xFF818CF8),
+      titleColor: Color(0xFFE0E7FF),
       bodyColor: Color(0xFFC7D2FE),
     );
 
-    const successCardTheme = CardThemeData(
-      backgroundColor: Color(0xFF064E3B),
-      borderColor: Color(0xFF10B981),
-      borderRadius: 16,
-      titleColor: Color(0xFFECFDF5),
-      bodyColor: Color(0xFFA7F3D0),
-    );
-
-    const customButtonTheme = ButtonThemeData(
-      backgroundColor: Color(0xFF059669),
-      textColor: Color(0xFFFFFFFF),
-      borderRadius: 20,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-    );
-
+    // 3. Assemble all Component Kinds into WildnessProperties
     final wildnessProperties = WildnessProperties(
       forceThemeMode: _brightness,
       components: const Configuration(
-        light: [lightButtonTheme, lightCardTheme],
-        dark: [darkButtonTheme, darkCardTheme],
+        light: [
+          lightPrimaryBtn,
+          lightSecondaryBtn,
+          lightDangerBtn,
+          lightStandardCard,
+          lightFeaturedCard,
+        ],
+        dark: [
+          darkPrimaryBtn,
+          darkSecondaryBtn,
+          darkDangerBtn,
+          darkStandardCard,
+          darkFeaturedCard,
+        ],
       ),
     );
 
     final isDark = _brightness == Brightness.dark;
-    final surfaceColor = isDark ? const Color(0xFF111827) : const Color(0xFFFFFFFF);
-    final headerTextColor = isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
+    final surfaceBg = isDark ? const Color(0xFF111827) : const Color(0xFFFFFFFF);
+    final headerColor = isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
 
     return WildnessApp(
       wildnessProperties: wildnessProperties,
       child: WidgetsApp(
-        title: 'Wildness UI Pure Design System Example',
+        title: 'Wildness UI Multi-Kind Showcase',
         color: const Color(0xFF2563EB),
         debugShowCheckedModeBanner: false,
         home: Directionality(
           textDirection: TextDirection.ltr,
           child: Container(
-            color: surfaceColor,
+            color: surfaceBg,
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 480),
+              constraints: const BoxConstraints(maxWidth: 520),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // Header Bar
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -358,68 +603,82 @@ class _ExampleAppState extends State<ExampleApp> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: headerTextColor,
+                            color: headerColor,
                           ),
                         ),
-                        ButtonComponentTheme(
-                          data: customButtonTheme,
+                        WildButton(
+                          label: isDark ? '☀ Light' : '🌙 Dark',
+                          kind: ButtonKind.secondary,
+                          onTap: _toggleTheme,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+
+                    // Section 1: Button Kinds
+                    Text(
+                      'BUTTON KINDS (Variants):',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                        color: headerColor,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
                           child: WildButton(
-                            label: isDark ? 'Light Mode' : 'Dark Mode',
-                            onTap: _toggleTheme,
+                            label: 'Primary',
+                            onTap: () {},
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: WildButton(
+                            label: 'Secondary',
+                            kind: ButtonKind.secondary,
+                            onTap: () {},
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: WildButton(
+                            label: 'Danger',
+                            kind: ButtonKind.danger,
+                            onTap: () {},
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+
+                    const SizedBox(height: 32),
+
+                    // Section 2: Card Kinds
                     Text(
-                      'Global Theme Consumer:',
+                      'CARD KINDS (Variants):',
                       style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: headerTextColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                        color: headerColor,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     const WildCard(
-                      title: 'Standard Component',
+                      title: 'Standard Card',
                       subtitle:
-                          'Inherits colors, borders, and styles automatically from root WildnessApp.',
+                          'A default clean card consuming StandardCardThemeData.',
+                      badge: 'Base',
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Subtree Override (WildnessComponentProvider):',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: headerTextColor,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const WildnessComponentProvider<CardThemeData>(
-                      data: accentCardTheme,
-                      child: WildCard(
-                        title: 'Overridden Accent Theme',
-                        subtitle:
-                            'Only this subtree receives the custom indigo styling.',
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Inherited Wrapper (CardComponentTheme):',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: headerTextColor,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const CardComponentTheme(
-                      data: successCardTheme,
-                      child: WildCard(
-                        title: 'Custom ComponentTheme Wrapper',
-                        subtitle:
-                            'Seamless integration using typed InheritedTheme hierarchy.',
-                      ),
+                    const SizedBox(height: 12),
+                    const WildCard(
+                      title: 'Featured Card',
+                      subtitle:
+                          'Specialized kind consuming FeaturedCardThemeData with custom borders and accent colors.',
+                      isFeatured: true,
+                      badge: 'Kind',
                     ),
                   ],
                 ),

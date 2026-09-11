@@ -2,20 +2,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wildness_ui_example/main.dart';
 
 void main() {
-  testWidgets('ExampleApp renders and toggles theme mode without Material dependencies', (
+  testWidgets('ExampleApp renders all button and card kinds and toggles theme', (
     tester,
   ) async {
     await tester.pumpWidget(const ExampleApp());
-    expect(find.text('Wildness UI'), findsOneWidget);
-    expect(find.text('Standard Component'), findsOneWidget);
-    expect(find.text('Overridden Accent Theme'), findsOneWidget);
-    expect(find.text('Custom ComponentTheme Wrapper'), findsOneWidget);
-    expect(find.text('Dark Mode'), findsOneWidget);
 
-    // Toggle theme to dark mode via pure WildButton
-    await tester.tap(find.text('Dark Mode'));
+    // Verify header and button kinds
+    expect(find.text('Wildness UI'), findsOneWidget);
+    expect(find.text('Primary'), findsOneWidget);
+    expect(find.text('Secondary'), findsOneWidget);
+    expect(find.text('Danger'), findsOneWidget);
+
+    // Verify card kinds
+    expect(find.text('Standard Card'), findsOneWidget);
+    expect(find.text('Featured Card'), findsOneWidget);
+
+    // Toggle theme to dark mode
+    await tester.tap(find.text('🌙 Dark'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Light Mode'), findsOneWidget);
+    expect(find.text('☀ Light'), findsOneWidget);
   });
 }

@@ -1,14 +1,32 @@
-# Wildness UI Example
+# Wildness UI Example: Multi-Kind Design System
 
-This example demonstrates how to build and consume custom, type-safe component themes using `wildness_ui`.
+This example demonstrates the core power of `wildness_ui`: building a **100% pure Flutter design system (without Material dependencies)** with **multi-kind component variants** and automatic **Light/Dark mode token switching**.
 
-## Features Demonstrated
+## Key Concepts Demonstrated
 
-1. **Defining Custom Component Themes:** Implementing `WildnessBase<T>` and `ComponentTheme<T>`.
-2. **Configuring `WildnessApp`:** Registering light and dark themes with `Configuration` and `WildnessProperties`.
-3. **Consuming Themes:** Reading theme properties with `ComponentTheme.kindThemeData<T>(context)`.
-4. **Local Theme Overrides:** Overriding a specific component theme for a subtree with `WildnessComponentProvider`.
-5. **Theme Switching:** Switching between Light and Dark mode dynamically.
+### 1. Component Kinds (Variants)
+In Wildness, you define a base component theme and specialize it into multiple strongly-typed **Kinds** (e.g., `ButtonThemeData` $\rightarrow$ `SecondaryButtonThemeData`, `DangerButtonThemeData`).
+
+```dart
+// Base Theme
+base class ButtonThemeData extends WildnessBase<ButtonThemeData> { ... }
+
+// Kinds (Variants)
+final class SecondaryButtonThemeData extends ButtonThemeData { ... }
+final class DangerButtonThemeData extends ButtonThemeData { ... }
+```
+
+### 2. Zero-Provider Consumption
+`WildnessApp` automatically registers all component themes and kinds at the root. Widgets consume their tokens directly with `ComponentTheme.kindThemeData<T>(context)` without needing manual nested providers:
+
+```dart
+WildButton(label: 'Primary')
+WildButton.secondary(label: 'Secondary')
+WildButton.danger(label: 'Danger')
+```
+
+### 3. Light & Dark Mode Token Resolution
+Tokens are defined in `Configuration` for both Light and Dark modes. Switching `forceThemeMode` updates all kinds across the app instantly.
 
 ## Running the Example
 
