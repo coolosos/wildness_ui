@@ -1,32 +1,84 @@
-# Wildness UI Example: Multi-Kind Design System
+# Wildness UI Example: Multi-Kind Component
 
-This example demonstrates the core power of `wildness_ui`: building a **100% pure Flutter design system (without Material dependencies)** with **multi-kind component variants** and automatic **Light/Dark mode token switching**.
+This example demonstrates how to build a **100% pure Flutter component with multiple kinds (variants)** using `wildness_ui` with zero Material dependencies.
 
 ## Key Concepts Demonstrated
 
-### 1. Component Kinds (Variants)
-In Wildness, you define a base component theme and specialize it into multiple strongly-typed **Kinds** (e.g., `ButtonThemeData` $\rightarrow$ `SecondaryButtonThemeData`, `DangerButtonThemeData`).
+### 1. Base Theme with Reusable `copyWith` and `lerp`
+The base class `ButtonThemeData<T>` defines all properties, `copyWith`, and `lerp` once using F-bounded polymorphism and a `create` factory method. Concrete kinds do not need to duplicate them:
 
 ```dart
-// Base Theme
-base class ButtonThemeData extends WildnessBase<ButtonThemeData> { ... }
+abstract base class ButtonThemeData<T extends ButtonThemeData<T>> extends WildnessBase<T> {
+  const new({
+    required this.backgroundColor,
+    required this.textColor,
+    this.borderColor,
+    this.borderRadius = 8.0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+  });
 
-// Kinds (Variants)
-final class SecondaryButtonThemeData extends ButtonThemeData { ... }
-final class DangerButtonThemeData extends ButtonThemeData { ... }
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? borderColor;
+  final double borderRadius;
+  final EdgeInsetsGeometry padding;
+
+  /// Subclasses only implement create to instantiate their concrete kind.
+  T create({
+    required Color backgroundColor,
+    required Color textColor,
+    Color? borderColor,
+    double borderRadius,
+    EdgeInsetsGeometry padding,
+  });
+
+  @override
+  T copyWith({ ... }) => create( ... );
+
+  @override
+  T lerp(WildnessBase<T>? other, double t) { ... }
+}
 ```
 
-### 2. Zero-Provider Consumption
-`WildnessApp` automatically registers all component themes and kinds at the root. Widgets consume their tokens directly with `ComponentTheme.kindThemeData<T>(context)` without needing manual nested providers:
+### 2. Concrete Kinds (Variants)
+Each kind simply extends the base theme:
 
 ```dart
-WildButton(label: 'Primary')
-WildButton.secondary(label: 'Secondary')
-WildButton.danger(label: 'Danger')
+final class PrimaryButtonThemeData extends ButtonThemeData<PrimaryButtonThemeData> { ... }
+final class SecondaryButtonThemeData extends ButtonThemeData<SecondaryButtonThemeData> { ... }
 ```
 
-### 3. Light & Dark Mode Token Resolution
-Tokens are defined in `Configuration` for both Light and Dark modes. Switching `forceThemeMode` updates all kinds across the app instantly.
+### 3. One Component, Multiple Kinds
+The same widget (`WildButton`) renders different variants depending on the `kind` parameter using `ComponentTheme.kindThemeData<T>(context)`:
+
+```dart
+// Primary Kind
+WildButton(
+  label: 'Primary Button',
+  kind: ButtonKind.primary,
+  onTap: () {},
+)
+
+// Secondary Kind
+WildButton(
+  label: 'Secondary Button',
+  kind: ButtonKind.secondary,
+  onTap: () {},
+)
+```
+
+### 4. Global Configuration and Light/Dark Mode
+All kinds are registered in `WildnessProperties` and resolved automatically for Light and Dark modes without boilerplate:
+
+```dart
+WildnessProperties(
+  forceThemeMode: brightness,
+  components: const Configuration(
+    light: [lightPrimary, lightSecondary],
+    dark: [darkPrimary, darkSecondary],
+  ),
+);
+```
 
 ## Running the Example
 
