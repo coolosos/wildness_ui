@@ -75,29 +75,28 @@ final class Wildness extends Equatable with Diagnosticable {
 
   T? resource<T>() => resources[T] as T?;
 
-  /// Linearly interpolate between two [components].
+  /// Linearly interpolate between two collections of [WildnessBase] elements.
   ///
-  /// Includes all theme components in [components] and [elementsBase].
-  ///
-  /// {@macro dart.ui.shadow.lerp}
-  Map<Type, WildnessBase<dynamic>> _lerpWildnessBase(
-    Map<Type, WildnessBase<dynamic>> elementsBase,
+  /// Combines all entries from [current] and [other], linearly interpolating overlapping keys.
+  static Map<Type, WildnessBase<dynamic>> _lerpWildnessBase(
+    Map<Type, WildnessBase<dynamic>> current,
+    Map<Type, WildnessBase<dynamic>> other,
     double t,
   ) {
     return {
-      for (final MapEntry(:key, :value) in components.entries)
-        key: value.lerp(elementsBase[key], t),
-      for (final MapEntry(:key, :value) in elementsBase.entries)
-        if (!components.containsKey(key)) key: value,
+      for (final MapEntry(:key, :value) in current.entries)
+        key: value.lerp(other[key], t),
+      for (final MapEntry(:key, :value) in other.entries)
+        if (!current.containsKey(key)) key: value,
     };
   }
 
-  /// Linearly interpolate between two themes.
-  Wildness lerp(Wildness b, double t) {
+  /// Linearly interpolate between two [Wildness] themes.
+  Wildness lerp(Wildness other, double t) {
     return Wildness(
-      components: _lerpWildnessBase(b.components, t),
-      physics: t < 0.5 ? physics : b.physics,
-      resources: _lerpWildnessBase(b.resources, t),
+      components: _lerpWildnessBase(components, other.components, t),
+      physics: t < 0.5 ? physics : other.physics,
+      resources: _lerpWildnessBase(resources, other.resources, t),
     );
   }
 
@@ -130,8 +129,8 @@ final class Wildness extends Equatable with Diagnosticable {
     //Check if the component kind exists in the provide theme components
     for (final kind in kinds.entries) {
       assert(
-        components[kind.key]?.runtimeType != null,
-        'Kind must be the same Type or Covariant as the replacement kind',
+        components.containsKey(kind.key),
+        'Kind must exist in current theme components to be replaced',
       );
     }
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable
@@ -152,7 +151,7 @@ final class Wildness extends Equatable with Diagnosticable {
   }) {
     //Check if the component kind exists in the provide theme components and is the type
     assert(
-      components[kind.type] is Kind,
+      components.containsKey(Kind) && kind is Kind,
       'Kind must be the same Type or Covariant as the replacement kind',
     );
     //Return copyWith of the [wildnessThemeData] components must be unmodifiable

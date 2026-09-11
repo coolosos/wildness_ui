@@ -7,6 +7,7 @@ import 'package:wildness_ui/wildness.dart';
 import 'package:wildness_ui_golden_toolkit/src/font_loader.dart';
 
 export 'package:flutter_test/flutter_test.dart';
+export 'package:wildness_ui/wildness.dart';
 
 part 'src/component.dart';
 part 'src/list_devices.dart';
