@@ -139,58 +139,46 @@ final class SecondaryButtonThemeData
 }
 
 // =============================================================================
-// 2. Component Widget (Pure Flutter, Zero Material Dependencies)
+// 2. Component Widget (Generic Kind T, Zero Material Dependencies)
 // =============================================================================
 
-enum ButtonKind { primary, secondary }
-
-class WildButton extends StatelessWidget {
+class WildButton<K extends ButtonThemeData<K>> extends StatelessWidget {
   const new({
     required this.label,
     required this.onTap,
-    this.kind = ButtonKind.primary,
     super.key,
   });
 
   final String label;
   final VoidCallback onTap;
-  final ButtonKind kind;
 
   @override
   Widget build(BuildContext context) {
-    // Resolve the theme data for the selected kind directly from the Wildness theme tree
-    final ButtonThemeData theme = switch (kind) {
-      ButtonKind.primary =>
-        ComponentTheme.kindThemeData<PrimaryButtonThemeData>(context) ??
-            const PrimaryButtonThemeData(
-              backgroundColor: Color(0xFF2563EB),
-              textColor: Color(0xFFFFFFFF),
-            ),
-      ButtonKind.secondary =>
-        ComponentTheme.kindThemeData<SecondaryButtonThemeData>(context) ??
-            const SecondaryButtonThemeData(
-              backgroundColor: Color(0x00000000),
-              textColor: Color(0xFF2563EB),
-              borderColor: Color(0xFF2563EB),
-            ),
-    };
+    // Resolve the theme data for generic kind K directly from the Wildness theme tree
+    final theme = ComponentTheme.kindThemeData<K>(context);
+    final backgroundColor = theme?.backgroundColor ?? const Color(0xFF2563EB);
+    final textColor = theme?.textColor ?? const Color(0xFFFFFFFF);
+    final borderColor = theme?.borderColor;
+    final borderRadius = theme?.borderRadius ?? 8.0;
+    final padding = theme?.padding ??
+        const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: theme.padding,
+        padding: padding,
         decoration: BoxDecoration(
-          color: theme.backgroundColor,
-          borderRadius: BorderRadius.circular(theme.borderRadius),
-          border: theme.borderColor != null
-              ? Border.all(color: theme.borderColor!, width: 1.5)
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(borderRadius),
+          border: borderColor != null
+              ? Border.all(color: borderColor, width: 1.5)
               : null,
         ),
         alignment: Alignment.center,
         child: Text(
           label,
           style: TextStyle(
-            color: theme.textColor,
+            color: textColor,
             fontWeight: FontWeight.w600,
             fontSize: 15,
           ),
@@ -304,7 +292,7 @@ class _ExampleAppState extends State<ExampleApp> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'One component (WildButton) with 2 kinds (Primary & Secondary)',
+                      'One component (WildButton<T>) parameterized by theme kind',
                       style: TextStyle(
                         fontSize: 14,
                         color: subtitleColor,
@@ -313,28 +301,25 @@ class _ExampleAppState extends State<ExampleApp> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Same component: Primary Kind
-                    WildButton(
+                    // Kind 1: Primary Button Kind
+                    WildButton<PrimaryButtonThemeData>(
                       label: 'Primary Button',
-                      kind: ButtonKind.primary,
                       onTap: () {},
                     ),
                     const SizedBox(height: 16),
 
-                    // Same component: Secondary Kind
-                    WildButton(
+                    // Kind 2: Secondary Button Kind
+                    WildButton<SecondaryButtonThemeData>(
                       label: 'Secondary Button',
-                      kind: ButtonKind.secondary,
                       onTap: () {},
                     ),
                     const SizedBox(height: 32),
 
-                    // Theme toggle
-                    WildButton(
+                    // Theme toggle using Secondary Button Kind
+                    WildButton<SecondaryButtonThemeData>(
                       label: isDark
                           ? '☀ Switch to Light Mode'
                           : '🌙 Switch to Dark Mode',
-                      kind: ButtonKind.secondary,
                       onTap: _toggleTheme,
                     ),
                   ],

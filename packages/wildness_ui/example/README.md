@@ -1,6 +1,6 @@
 # Wildness UI Example: Multi-Kind Component
 
-This example demonstrates how to build a **100% pure Flutter component with multiple kinds (variants)** using `wildness_ui` with zero Material dependencies.
+This example demonstrates how to build a **100% pure Flutter component parameterized by theme kinds** using `wildness_ui` with zero Material dependencies.
 
 ## Key Concepts Demonstrated
 
@@ -41,28 +41,26 @@ abstract base class ButtonThemeData<T extends ButtonThemeData<T>> extends Wildne
 ```
 
 ### 2. Concrete Kinds (Variants)
-Each kind simply extends the base theme:
+Each kind simply extends the base theme and implements `create`:
 
 ```dart
 final class PrimaryButtonThemeData extends ButtonThemeData<PrimaryButtonThemeData> { ... }
 final class SecondaryButtonThemeData extends ButtonThemeData<SecondaryButtonThemeData> { ... }
 ```
 
-### 3. One Component, Multiple Kinds
-The same widget (`WildButton`) renders different variants depending on the `kind` parameter using `ComponentTheme.kindThemeData<T>(context)`:
+### 3. Strongly-Typed Generic Component (`WildButton<K>`)
+`WildButton<K extends ButtonThemeData<K>>` takes the concrete kind type directly as a type parameter, resolving its tokens via `ComponentTheme.kindThemeData<K>(context)`:
 
 ```dart
-// Primary Kind
-WildButton(
+// Kind 1: Primary Button
+WildButton<PrimaryButtonThemeData>(
   label: 'Primary Button',
-  kind: ButtonKind.primary,
   onTap: () {},
 )
 
-// Secondary Kind
-WildButton(
+// Kind 2: Secondary Button
+WildButton<SecondaryButtonThemeData>(
   label: 'Secondary Button',
-  kind: ButtonKind.secondary,
   onTap: () {},
 )
 ```
