@@ -1,3 +1,11 @@
+## 2.0.0-rc.3
+
+- **Feat**: Migrated `WildnessProvider` to an `InheritedModel<Type>` for native aspect-based granular rebuilds with a flat, single-level widget tree.
+- **Feat**: Added official `Components` and `Resources` abstract interfaces and `WildnessProperties.fromTheme` factory constructor for unified component and design resource aggregation.
+- **Feat**: Added `ComponentTheme.componentByName` and `ComponentTheme.componentByNameCast` for dynamic and type-safe component lookup by name with local override awareness.
+- **Fix**: Resolved theme shadowing where multiple polymorphic subthemes sharing a common base class collided in the InheritedWidget tree.
+- **Test**: Added comprehensive test suite for multi-variant component builders, polymorphic inheritance, granular rebuilds, and local scoped overrides.
+
 ## 2.0.0-rc.2
 
 - **Refactor**: Relax type bounds on `WildnessBase<T extends WildnessBase<dynamic>>` and `ComponentTheme<T extends WildnessBase<dynamic>>` to support polymorphic base component themes without requiring self-referential generic boilerplate.

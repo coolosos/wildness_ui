@@ -137,9 +137,57 @@ void main() {
       expect(updated.light, [normalButton]);
       expect(updated.dark, [replicaButton]);
     });
+
+    test('fromComponents and fromResources instantiate configurations cleanly', () {
+      const componentsLight = _TestComponents(componentsList: [normalButton]);
+      const componentsDark = _TestComponents(componentsList: [replicaButton]);
+      const resourcesLight = _TestResources(resourcesList: [resourceLight]);
+      const resourcesDark = _TestResources(resourcesList: [resourceDark]);
+
+      final configComponents = Configuration.fromComponents(
+        light: componentsLight,
+        dark: componentsDark,
+      );
+      final configResources = Configuration.fromResources(
+        light: resourcesLight,
+        dark: resourcesDark,
+      );
+
+      expect(configComponents.light, [normalButton]);
+      expect(configComponents.dark, [replicaButton]);
+      expect(configResources.light, [resourceLight]);
+      expect(configResources.dark, [resourceDark]);
+    });
   });
 
   group('WildnessProperties', () {
+    test('fromTheme instantiates components and resources cleanly', () {
+      const componentsLight = _TestComponents(componentsList: [normalButton]);
+      const componentsDark = _TestComponents(componentsList: [replicaButton]);
+      const resourcesLight = _TestResources(resourcesList: [resourceLight]);
+      const resourcesDark = _TestResources(resourcesList: [resourceDark]);
+
+      final propsLight = WildnessProperties.fromTheme(
+        forceThemeMode: Brightness.light,
+        lightComponents: componentsLight,
+        darkComponents: componentsDark,
+        lightResources: resourcesLight,
+        darkResources: resourcesDark,
+      );
+
+      final propsDark = WildnessProperties.fromTheme(
+        forceThemeMode: Brightness.dark,
+        lightComponents: componentsLight,
+        darkComponents: componentsDark,
+        lightResources: resourcesLight,
+        darkResources: resourcesDark,
+      );
+
+      expect(propsLight.components()[CoolButtonThemeData], normalButton);
+      expect(propsLight.resources()[CoolResourceData], resourceLight);
+      expect(propsDark.components()[CoolButtonThemeData], replicaButton);
+      expect(propsDark.resources()[CoolResourceData], resourceDark);
+    });
     test('components size and deduplication by type', () {
       const properties = WildnessProperties(
         forceThemeMode: Brightness.light,
@@ -409,5 +457,122 @@ void main() {
 
       expect(resolvedTheme?.data.decoration?.color, Colors.cyan);
     });
+
+    testWidgets(
+      'resolves base default theme and polymorphic subtypes correctly without shadowing',
+      (tester) async {
+        const defaultButton = CoolButtonThemeData(
+          decoration: BoxDecoration(color: Colors.grey),
+        );
+        const specializedButton = CoolKindButtonThemeData(
+          decoration: BoxDecoration(color: Colors.purple),
+        );
+
+        CoolButtonThemeData? resolvedDefault;
+        CoolKindButtonThemeData? resolvedSpecialized;
+
+        const components = _TestComponents(
+          componentsList: [specializedButton, defaultButton],
+        );
+
+        await tester.pumpWidget(
+          WildnessApp(
+            wildnessProperties: WildnessProperties.fromTheme(
+              lightComponents: components,
+            ),
+            child: Builder(
+              builder: (context) {
+                resolvedDefault =
+                    ComponentTheme.kindThemeData<CoolButtonThemeData>(context);
+                resolvedSpecialized =
+                    ComponentTheme.kindThemeData<CoolKindButtonThemeData>(
+                      context,
+                    );
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        );
+
+        // Base type resolution gets defaultButton, NOT specializedButton (no shadowing!)
+        expect(resolvedDefault?.decoration?.color, Colors.grey);
+        // Subtype resolution gets specializedButton
+        expect(resolvedSpecialized?.decoration?.color, Colors.purple);
+      },
+    );
+
+    testWidgets('componentByName and componentByNameCast resolve from ComponentTheme', (
+      tester,
+    ) async {
+      WildnessBase<dynamic>? byNameRoot;
+      CoolButtonThemeData? byNameCastRoot;
+      CoolButtonThemeData? byNameCastOverridden;
+
+      const rootButton = CoolButtonThemeData(
+        decoration: BoxDecoration(color: Colors.blue),
+      );
+      const overrideButton = CoolButtonThemeData(
+        decoration: BoxDecoration(color: Colors.green),
+      );
+
+      await tester.pumpWidget(
+        WildnessApp(
+          wildnessProperties: const WildnessProperties(
+            components: Configuration(light: [rootButton]),
+          ),
+          child: Column(
+            children: [
+              Builder(
+                builder: (context) {
+                  byNameRoot = ComponentTheme.componentByName(
+                    context,
+                    'CoolButtonThemeData',
+                  );
+                  byNameCastRoot =
+                      ComponentTheme.componentByNameCast<CoolButtonThemeData>(
+                        context,
+                        'CoolButtonThemeData',
+                      );
+                  return const SizedBox.shrink();
+                },
+              ),
+              WildnessComponentProvider<CoolButtonThemeData>(
+                data: overrideButton,
+                child: Builder(
+                  builder: (innerContext) {
+                    byNameCastOverridden =
+                        ComponentTheme.componentByNameCast<CoolButtonThemeData>(
+                          innerContext,
+                          'CoolButtonThemeData',
+                        );
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      expect(byNameRoot, rootButton);
+      expect(byNameCastRoot?.decoration?.color, Colors.blue);
+      expect(byNameCastOverridden?.decoration?.color, Colors.green);
+    });
   });
+}
+
+class _TestComponents extends Components {
+  const new({required this.componentsList});
+  final List<WildnessBase<dynamic>> componentsList;
+
+  @override
+  List<WildnessBase<dynamic>> get components => componentsList;
+}
+
+class _TestResources extends Resources {
+  const new({required this.resourcesList});
+  final List<WildnessBase<dynamic>> resourcesList;
+
+  @override
+  List<WildnessBase<dynamic>> get resources => resourcesList;
 }
