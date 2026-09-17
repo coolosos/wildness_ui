@@ -188,7 +188,7 @@ void main() {
       expect(resolvedScaler?.scale(10), 15.0); // 10 * 1.5
     });
 
-    testWidgets('wraps resources into WildnessComponentProvider hierarchy', (
+    testWidgets('resolves resources from Wildness.of', (
       tester,
     ) async {
       const testResource = TestAppResourceData(configName: 'production');
@@ -202,7 +202,7 @@ void main() {
           child: Builder(
             builder: (context) {
               resolvedResource =
-                  ComponentTheme.kindThemeData<TestAppResourceData>(context);
+                  Wildness.of(context).resource<TestAppResourceData>();
               return const SizedBox.shrink();
             },
           ),

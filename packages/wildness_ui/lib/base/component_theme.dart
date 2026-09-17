@@ -29,7 +29,7 @@ abstract base class ComponentTheme<T extends WildnessBase<dynamic>>
       context,
       aspect: Kind,
     );
-    return provider?.data.component<Kind>() ?? provider?.data.resource<Kind>();
+    return provider?.data.component<Kind>();
   }
 
   /// Obtains a [WildnessBase] component matching [name] from the nearest [WildnessProvider].

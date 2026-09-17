@@ -16,23 +16,57 @@ final class WildnessProperties {
     this.maxScaleFactor = 1.2,
   });
 
+  /// Creates a [WildnessProperties] from [Components] and optional [Resources] for light and dark modes.
+  factory fromTheme({
+    Brightness? forceThemeMode,
+    Components? lightComponents,
+    Components? darkComponents,
+    Resources? lightResources,
+    Resources? darkResources,
+    ScrollPhysics physics = const ClampingScrollPhysics(),
+    double minScaleFactor = 0.5,
+    double maxScaleFactor = 1.2,
+  }) =>
+      WildnessProperties(
+        forceThemeMode: forceThemeMode,
+        components: Configuration.fromComponents(
+          light: lightComponents,
+          dark: darkComponents,
+        ),
+        resources: Configuration.fromResources(
+          light: lightResources,
+          dark: darkResources,
+        ),
+        physics: physics,
+        minScaleFactor: minScaleFactor,
+        maxScaleFactor: maxScaleFactor,
+      );
+
   /// Creates a [WildnessProperties] from [Components] instances for light and dark modes.
   factory fromComponents({
     Brightness? forceThemeMode,
     Components? light,
     Components? dark,
     Configuration resources = const Configuration(),
+    Resources? lightResources,
+    Resources? darkResources,
     ScrollPhysics physics = const ClampingScrollPhysics(),
     double minScaleFactor = 0.5,
     double maxScaleFactor = 1.2,
-  }) => WildnessProperties(
-    forceThemeMode: forceThemeMode,
-    components: Configuration.fromComponents(light: light, dark: dark),
-    resources: resources,
-    physics: physics,
-    minScaleFactor: minScaleFactor,
-    maxScaleFactor: maxScaleFactor,
-  );
+  }) =>
+      WildnessProperties(
+        forceThemeMode: forceThemeMode,
+        components: Configuration.fromComponents(light: light, dark: dark),
+        resources: lightResources != null || darkResources != null
+            ? Configuration.fromResources(
+                light: lightResources,
+                dark: darkResources,
+              )
+            : resources,
+        physics: physics,
+        minScaleFactor: minScaleFactor,
+        maxScaleFactor: maxScaleFactor,
+      );
 
   /// Components of this theme.
   ///

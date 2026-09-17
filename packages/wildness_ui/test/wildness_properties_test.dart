@@ -137,9 +137,42 @@ void main() {
       expect(updated.light, [normalButton]);
       expect(updated.dark, [replicaButton]);
     });
+
+    test('fromComponents and fromResources instantiate configurations cleanly', () {
+      const componentsLight = _TestComponents(componentsList: [normalButton]);
+      const componentsDark = _TestComponents(componentsList: [replicaButton]);
+      const resourcesLight = _TestResources(resourcesList: [resourceLight]);
+      const resourcesDark = _TestResources(resourcesList: [resourceDark]);
+
+      final configComponents = Configuration.fromComponents(
+        light: componentsLight,
+        dark: componentsDark,
+      );
+      final configResources = Configuration.fromResources(
+        light: resourcesLight,
+        dark: resourcesDark,
+      );
+
+      expect(configComponents.light, [normalButton]);
+      expect(configComponents.dark, [replicaButton]);
+      expect(configResources.light, [resourceLight]);
+      expect(configResources.dark, [resourceDark]);
+    });
   });
 
   group('WildnessProperties', () {
+    test('fromTheme instantiates components and resources cleanly', () {
+      const componentsLight = _TestComponents(componentsList: [normalButton]);
+      const resourcesLight = _TestResources(resourcesList: [resourceLight]);
+
+      final props = WildnessProperties.fromTheme(
+        lightComponents: componentsLight,
+        lightResources: resourcesLight,
+      );
+
+      expect(props.components()[CoolButtonThemeData], normalButton);
+      expect(props.resources()[CoolResourceData], resourceLight);
+    });
     test('components size and deduplication by type', () {
       const properties = WildnessProperties(
         forceThemeMode: Brightness.light,
@@ -519,4 +552,12 @@ class _TestComponents extends Components {
 
   @override
   List<WildnessBase<dynamic>> get components => componentsList;
+}
+
+class _TestResources extends Resources {
+  const new({required this.resourcesList});
+  final List<WildnessBase<dynamic>> resourcesList;
+
+  @override
+  List<WildnessBase<dynamic>> get resources => resourcesList;
 }
