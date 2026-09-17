@@ -16,6 +16,24 @@ final class WildnessProperties {
     this.maxScaleFactor = 1.2,
   });
 
+  /// Creates a [WildnessProperties] from [Components] instances for light and dark modes.
+  factory fromComponents({
+    Brightness? forceThemeMode,
+    Components? light,
+    Components? dark,
+    Configuration resources = const Configuration(),
+    ScrollPhysics physics = const ClampingScrollPhysics(),
+    double minScaleFactor = 0.5,
+    double maxScaleFactor = 1.2,
+  }) => WildnessProperties(
+    forceThemeMode: forceThemeMode,
+    components: Configuration.fromComponents(light: light, dark: dark),
+    resources: resources,
+    physics: physics,
+    minScaleFactor: minScaleFactor,
+    maxScaleFactor: maxScaleFactor,
+  );
+
   /// Components of this theme.
   ///
   /// To define components, pass an [Iterable] containing one or more [WildnessBase] and their kinds

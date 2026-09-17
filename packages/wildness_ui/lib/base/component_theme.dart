@@ -25,6 +25,33 @@ abstract base class ComponentTheme<T extends WildnessBase<dynamic>>
     if (componentProvider != null) {
       return componentProvider.data;
     }
-    return Wildness.of(context, listen: true).component<Kind>();
+    final provider = InheritedModel.inheritFrom<WildnessProvider>(
+      context,
+      aspect: Kind,
+    );
+    return provider?.data.component<Kind>() ?? provider?.data.resource<Kind>();
+  }
+
+  /// Obtains a [WildnessBase] component matching [name] from the nearest [WildnessProvider].
+  static WildnessBase<dynamic>? componentByName(
+    BuildContext context,
+    String name,
+  ) {
+    return Wildness.of(context, listen: true).componentByName(name);
+  }
+
+  /// Obtains a [WildnessBase] component matching [name] cast to [T] from the nearest [WildnessProvider].
+  ///
+  /// Also checks if an overriding [WildnessComponentProvider<T>] matching [name] is in the local context.
+  static T? componentByNameCast<T extends WildnessBase<dynamic>>(
+    BuildContext context,
+    String name,
+  ) {
+    final componentProvider = context
+        .dependOnInheritedWidgetOfExactType<WildnessComponentProvider<T>>();
+    if (componentProvider != null && componentProvider.data.name == name) {
+      return componentProvider.data;
+    }
+    return Wildness.of(context, listen: true).componentByNameCast<T>(name);
   }
 }
