@@ -163,15 +163,30 @@ void main() {
   group('WildnessProperties', () {
     test('fromTheme instantiates components and resources cleanly', () {
       const componentsLight = _TestComponents(componentsList: [normalButton]);
+      const componentsDark = _TestComponents(componentsList: [replicaButton]);
       const resourcesLight = _TestResources(resourcesList: [resourceLight]);
+      const resourcesDark = _TestResources(resourcesList: [resourceDark]);
 
-      final props = WildnessProperties.fromTheme(
+      final propsLight = WildnessProperties.fromTheme(
+        forceThemeMode: Brightness.light,
         lightComponents: componentsLight,
+        darkComponents: componentsDark,
         lightResources: resourcesLight,
+        darkResources: resourcesDark,
       );
 
-      expect(props.components()[CoolButtonThemeData], normalButton);
-      expect(props.resources()[CoolResourceData], resourceLight);
+      final propsDark = WildnessProperties.fromTheme(
+        forceThemeMode: Brightness.dark,
+        lightComponents: componentsLight,
+        darkComponents: componentsDark,
+        lightResources: resourcesLight,
+        darkResources: resourcesDark,
+      );
+
+      expect(propsLight.components()[CoolButtonThemeData], normalButton);
+      expect(propsLight.resources()[CoolResourceData], resourceLight);
+      expect(propsDark.components()[CoolButtonThemeData], replicaButton);
+      expect(propsDark.resources()[CoolResourceData], resourceDark);
     });
     test('components size and deduplication by type', () {
       const properties = WildnessProperties(
@@ -462,8 +477,8 @@ void main() {
 
         await tester.pumpWidget(
           WildnessApp(
-            wildnessProperties: WildnessProperties.fromComponents(
-              light: components,
+            wildnessProperties: WildnessProperties.fromTheme(
+              lightComponents: components,
             ),
             child: Builder(
               builder: (context) {

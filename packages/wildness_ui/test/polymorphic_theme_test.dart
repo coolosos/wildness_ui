@@ -277,8 +277,8 @@ void main() {
 
         await tester.pumpWidget(
           WildnessApp(
-            wildnessProperties: WildnessProperties.fromComponents(
-              light: appComponents,
+            wildnessProperties: WildnessProperties.fromTheme(
+              lightComponents: appComponents,
             ),
             child: Builder(
               builder: (context) {
@@ -331,7 +331,7 @@ void main() {
         var buttonBuildCount = 0;
 
         final propertiesNotifier = ValueNotifier<WildnessProperties>(
-          WildnessProperties.fromComponents(light: appComponents),
+          WildnessProperties.fromTheme(lightComponents: appComponents),
         );
 
         final testTree = Column(
@@ -373,8 +373,8 @@ void main() {
           minimalCard: MinimalCardThemeData(),
         );
 
-        propertiesNotifier.value = WildnessProperties.fromComponents(
-          light: const AppComponents(
+        propertiesNotifier.value = WildnessProperties.fromTheme(
+          lightComponents: const AppComponents(
             cards: updatedCards1,
             buttonTheme: CustomButtonThemeData(color: Colors.black),
           ),
@@ -406,8 +406,8 @@ void main() {
           minimalCard: MinimalCardThemeData(),
         );
 
-        propertiesNotifier.value = WildnessProperties.fromComponents(
-          light: const AppComponents(
+        propertiesNotifier.value = WildnessProperties.fromTheme(
+          lightComponents: const AppComponents(
             cards: updatedCards2,
             buttonTheme: CustomButtonThemeData(color: Colors.black),
           ),
@@ -420,8 +420,8 @@ void main() {
         expect(buttonBuildCount, 1);
 
         // 3. Update ONLY ButtonTheme
-        propertiesNotifier.value = WildnessProperties.fromComponents(
-          light: const AppComponents(
+        propertiesNotifier.value = WildnessProperties.fromTheme(
+          lightComponents: const AppComponents(
             cards: updatedCards2,
             buttonTheme: CustomButtonThemeData(color: Colors.pink),
           ),
@@ -449,8 +449,8 @@ void main() {
 
         await tester.pumpWidget(
           WildnessApp(
-            wildnessProperties: WildnessProperties.fromComponents(
-              light: appComponents,
+            wildnessProperties: WildnessProperties.fromTheme(
+              lightComponents: appComponents,
             ),
             child: Column(
               children: [
