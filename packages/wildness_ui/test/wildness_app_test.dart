@@ -39,30 +39,31 @@ void main() {
       expect(textStyleFinder, findsOneWidget);
     });
 
-    testWidgets('Propagates custom defaultTextStyle fontFamily to child context', (
-      tester,
-    ) async {
-      const config = WildnessProperties(forceThemeMode: Brightness.dark);
-      String? resolvedFontFamily;
+    testWidgets(
+      'Propagates custom defaultTextStyle fontFamily to child context',
+      (tester) async {
+        const config = WildnessProperties(forceThemeMode: Brightness.dark);
+        String? resolvedFontFamily;
 
-      final app = WildnessApp(
-        wildnessProperties: config,
-        defaultTextStyle: const TextStyle(fontFamily: 'CustomFont'),
-        child: Builder(
-          builder: (context) {
-            resolvedFontFamily = context
-                .dependOnInheritedWidgetOfExactType<DefaultTextStyle>()
-                ?.style
-                .fontFamily;
-            return const SizedBox.shrink();
-          },
-        ),
-      );
+        final app = WildnessApp(
+          wildnessProperties: config,
+          defaultTextStyle: const TextStyle(fontFamily: 'CustomFont'),
+          child: Builder(
+            builder: (context) {
+              resolvedFontFamily = context
+                  .dependOnInheritedWidgetOfExactType<DefaultTextStyle>()
+                  ?.style
+                  .fontFamily;
+              return const SizedBox.shrink();
+            },
+          ),
+        );
 
-      await tester.pumpWidget(app);
+        await tester.pumpWidget(app);
 
-      expect(resolvedFontFamily, 'CustomFont');
-    });
+        expect(resolvedFontFamily, 'CustomFont');
+      },
+    );
 
     testWidgets('MediaQuery applies forced platform brightness correctly', (
       tester,
@@ -188,9 +189,7 @@ void main() {
       expect(resolvedScaler?.scale(10), 15.0); // 10 * 1.5
     });
 
-    testWidgets('resolves resources from Wildness.of', (
-      tester,
-    ) async {
+    testWidgets('resolves resources from Wildness.of', (tester) async {
       const testResource = TestAppResourceData(configName: 'production');
       TestAppResourceData? resolvedResource;
 
@@ -201,8 +200,8 @@ void main() {
           ),
           child: Builder(
             builder: (context) {
-              resolvedResource =
-                  Wildness.of(context).resource<TestAppResourceData>();
+              resolvedResource = Wildness.of(context)
+                  .resource<TestAppResourceData>();
               return const SizedBox.shrink();
             },
           ),
@@ -213,9 +212,7 @@ void main() {
     });
 
     testWidgets('renders safely with null child', (tester) async {
-      const app = WildnessApp(
-        wildnessProperties: WildnessProperties(),
-      );
+      const app = WildnessApp(wildnessProperties: WildnessProperties());
 
       await tester.pumpWidget(app);
       expect(find.byType(SizedBox), findsOneWidget);

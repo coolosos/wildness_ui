@@ -1,3 +1,9 @@
+## 2.0.0
+
+- Stable 2.0.0 release.
+- Updated `coolint` to `^3.0.0`.
+- Updated `equatable` to `^3.0.0`.
+
 ## 2.0.0-rc.3
 
 - **Feat**: Migrated `WildnessProvider` to an `InheritedModel<Type>` for native aspect-based granular rebuilds with a flat, single-level widget tree.

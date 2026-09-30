@@ -8,7 +8,10 @@ void main() {
 
       expect(Devices.iphone11.name, 'iphone11');
       expect(Devices.iphone11.size, const Size(414, 896));
-      expect(Devices.iphone11.safeArea, const EdgeInsets.only(top: 44, bottom: 34));
+      expect(
+        Devices.iphone11.safeArea,
+        const EdgeInsets.only(top: 44, bottom: 34),
+      );
 
       expect(Devices.iphoneSE.name, 'iphone_se');
       expect(Devices.iphoneSE.size, const Size(320, 568));
@@ -35,7 +38,14 @@ void main() {
       expect(Devices.tablets.length, 2);
       expect(Devices.ci.length, 3);
 
-      expect(Devices.ci, containsAll([Devices.iphone11, Devices.pixel2xl, Devices.tabletPortrait]));
+      expect(
+        Devices.ci,
+        containsAll([
+          Devices.iphone11,
+          Devices.pixel2xl,
+          Devices.tabletPortrait,
+        ]),
+      );
     });
 
     test('Devices.select returns the passed list unchanged', () {
@@ -46,7 +56,14 @@ void main() {
     test('Devices.where filters devices according to predicate', () {
       final largeDevices = Devices.where((device) => device.size.width >= 768);
 
-      expect(largeDevices, containsAll([Devices.pixel2xl, Devices.tabletPortrait, Devices.tabletLandscape]));
+      expect(
+        largeDevices,
+        containsAll([
+          Devices.pixel2xl,
+          Devices.tabletPortrait,
+          Devices.tabletLandscape,
+        ]),
+      );
       expect(largeDevices, isNot(contains(Devices.phone)));
     });
 

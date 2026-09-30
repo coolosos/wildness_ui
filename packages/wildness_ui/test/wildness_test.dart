@@ -12,10 +12,7 @@ base class TestButtonThemeData extends WildnessBase<TestButtonThemeData> {
   final double elevation;
 
   @override
-  TestButtonThemeData copyWith({
-    BoxDecoration? decoration,
-    double? elevation,
-  }) {
+  TestButtonThemeData copyWith({BoxDecoration? decoration, double? elevation}) {
     return TestButtonThemeData(
       decoration: decoration ?? this.decoration,
       elevation: elevation ?? this.elevation,
@@ -295,28 +292,32 @@ void main() {
         );
       });
 
-      test('replaceMultipleKind replaces multiple existing component kinds', () {
-        final updatedTheme = initialTheme.replaceMultipleKind(
-          kinds: const {
-            TestButtonThemeData: buttonDark,
-            TestCardThemeData: cardDark,
-          },
-        );
-
-        expect(updatedTheme.component<TestButtonThemeData>(), buttonDark);
-        expect(updatedTheme.component<TestCardThemeData>(), cardDark);
-      });
-
-      test('replaceMultipleKind throws AssertionError if any kind is missing', () {
-        expect(
-          () => initialTheme.replaceMultipleKind(
+      test(
+        'replaceMultipleKind replaces multiple existing component kinds',
+        () {
+          final updatedTheme = initialTheme.replaceMultipleKind(
             kinds: const {
-              TestResourceData: resourceLight,
+              TestButtonThemeData: buttonDark,
+              TestCardThemeData: cardDark,
             },
-          ),
-          throwsA(isA<AssertionError>()),
-        );
-      });
+          );
+
+          expect(updatedTheme.component<TestButtonThemeData>(), buttonDark);
+          expect(updatedTheme.component<TestCardThemeData>(), cardDark);
+        },
+      );
+
+      test(
+        'replaceMultipleKind throws AssertionError if any kind is missing',
+        () {
+          expect(
+            () => initialTheme.replaceMultipleKind(
+              kinds: const {TestResourceData: resourceLight},
+            ),
+            throwsA(isA<AssertionError>()),
+          );
+        },
+      );
     });
 
     test('copyWith produces clean partial modifications', () {
@@ -382,19 +383,14 @@ void main() {
           ),
         );
 
-        final cachedChild = _NonListeningWidget(
-          onBuild: () => buildCount++,
-        );
+        final cachedChild = _NonListeningWidget(onBuild: () => buildCount++);
 
         await tester.pumpWidget(
           ValueListenableBuilder<Wildness>(
             valueListenable: themeNotifier,
             child: cachedChild,
             builder: (context, currentTheme, child) {
-              return WildnessProvider(
-                data: currentTheme,
-                child: child!,
-              );
+              return WildnessProvider(data: currentTheme, child: child!);
             },
           ),
         );
