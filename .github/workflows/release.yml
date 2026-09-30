@@ -5,47 +5,32 @@ on:
     tags:
       - "*-*"
 
-env:
-  FLUTTER_VERSION: 3.47.2
-  RUNID: ${{ github.run_number }}
-  TAG: ${{ github.ref_name }}
-
 jobs:
+  prepare:
+    name: Extract Package
+    runs-on: ubuntu-latest
+    outputs:
+      package: ${{ steps.pkg.outputs.package }}
+      working-directory: packages/${{ steps.pkg.outputs.package }}
+    steps:
+      - name: Validate and extract package from tag
+        id: pkg
+        run: |
+          TAG="${{ github.ref_name }}"
+          if ! echo "$TAG" | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*-[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9\.-]+)?$'; then
+            echo "Invalid tag format: $TAG"
+            exit 1
+          fi
+          PACKAGE="${TAG%%-[0-9]*}"
+          echo "package=$PACKAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected package: $PACKAGE from tag: $TAG"
+
   publish:
+    name: Publish to pub.dev
+    needs: prepare
     permissions:
       id-token: write
       contents: read
-    name: Publish to pub.dev
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate tag
-        run: |
-          if ! echo "$TAG" | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*-[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9\.-]+)?$'; then
-            echo "Invalid tag format"
-            exit 1
-          fi
-
-      - name: Checkout
-        uses: actions/checkout@v7.0.1
-
-      - name: 🎯 Setup Flutter
-        uses: subosito/flutter-action@v2.23.0
-        with:
-          channel: "stable"
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          cache: false
-
-      - name: 📦 Install dependencies
-        run: flutter pub get
-
-      - name: Extract package from tag
-        id: pkg
-        run: |
-          PACKAGE="${TAG%%-[0-9]*}"
-          echo "package=$PACKAGE" >> "$GITHUB_OUTPUT"
-          echo "Publishing package: $PACKAGE from tag $TAG"
-
-      - name: 🚀 Publish to pub.dev
-        run: |
-          cd "packages/${{ steps.pkg.outputs.package }}"
-          dart pub publish --force
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: packages/${{ needs.prepare.outputs.package }}
