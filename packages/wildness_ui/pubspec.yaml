@@ -19,7 +19,7 @@ dependencies:
 
   meta: ^1.19.0
   collection: ^1.19.1
-  equatable: ^2.1.0
+  equatable: ^3.0.0
   nested: ^1.0.0
 
 dev_dependencies:

@@ -2,6 +2,7 @@
 
 - Stable 2.0.0 release.
 - Updated `coolint` to `^3.0.0`.
+- Updated `equatable` to `^3.0.0`.
 
 ## 2.0.0-rc.3
 
