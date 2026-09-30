@@ -1,19 +1,25 @@
-# wildness_ui_golden_toolkit
+# Wildness UI Golden Toolkit 📸
 
-A lightweight toolkit to simplify **Flutter Golden Tests** by organizing tests into **scenarios** and **device layouts** with minimal boilerplate.
+<p align="center">
+  <strong>A lightweight, zero-boilerplate toolkit to streamline Flutter Golden Tests across multi-device viewports and visual scenario matrixes.</strong>
+</p>
 
-It helps you focus on **what you want to render** instead of dealing with `pumpWidget`, surface sizing, and gesture setup.
+<p align="center">
+  <a href="https://pub.dev/packages/wildness_ui_golden_toolkit"><img src="https://img.shields.io/pub/v/wildness_ui_golden_toolkit.svg?label=pub&color=purple" alt="Pub Version"></a>
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-%3E%3D3.47.2-02569B?logo=flutter" alt="Flutter Version"></a>
+  <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-%3E%3D3.13.2-0175C2?logo=dart" alt="Dart Version"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
 
 ---
 
 ## ✨ Features
 
-- Define multiple **scenarios** for a component
-- Render the same UI across **different devices**
-- Automatic golden file naming and organization
-- Built-in helpers for touch / hover interactions
-- Handles surface size, DPR, and layout configuration
-- Reduces golden test setup to a single function call
+- 📱 **Multi-Device Testing**: Render components across realistic device dimensions with `Devices.all`, `Devices.phones`, and `Devices.tablets`.
+- 📐 **Scenario Columns**: Stack multiple variants (hover, active, disabled, loading) vertically with `testColumnComponent`.
+- 🤖 **Zero-Boilerplate**: Handles font loading, DPR, surface sizes, and gesture simulation automatically.
+- 🎨 **Wildness UI Native**: Seamlessly injects `WildnessApp.withDefaultTheme` and component providers.
+- ⚡ **Lightweight & Fast**: Pure Flutter test harness with zero heavy external dependencies.
 
 ---
 
@@ -39,21 +45,28 @@ Wrap your components in `Component` definitions and choose how you want to rende
 Use `testColumnComponent` when you want to compare multiple scenarios vertically.
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:wildness_ui_golden_toolkit/wildness_ui_golden_toolkit.dart';
 
 void main() {
-  group('group_name', () {
+  group('WildButton Scenarios', () {
     testColumnComponent(
-      name: 'test_component_column',
-      surfaceSize: const Size(800, 300),
-      scenarios: const [
+      name: 'wild_button_scenarios',
+      surfaceSize: const Size(800, 400),
+      scenarios: [
         Component(
-          name: 'test',
-          widget: LinearProgressIndicator(
-            value: 0.5,
-            color: Color.fromRGBO(0, 0, 0, 1),
-            backgroundColor: Color.fromRGBO(255, 0, 0, 1),
+          name: 'primary_default',
+          widget: WildButton<PrimaryButtonThemeData>(
+            label: 'Primary Button',
+            onTap: () {},
+          ),
+        ),
+        Component(
+          name: 'secondary_outline',
+          widget: WildButton<SecondaryButtonThemeData>(
+            label: 'Secondary Button',
+            onTap: () {},
           ),
         ),
       ],
@@ -69,29 +82,21 @@ void main() {
 Use `testDeviceComponent` to validate how a component behaves across multiple screen sizes.
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:wildness_ui_golden_toolkit/wildness_ui_golden_toolkit.dart';
 
 void main() {
-  group('group_name', () {
+  group('WildButton Responsive', () {
     testDeviceComponent(
-      name: 'test_device_component',
-      devices: const [
-        TestDevice(name: 'iPhone 12', size: Size(390, 844)),
-        TestDevice(name: 'iPad Pro', size: Size(1024, 1366)),
-      ],
-      scenarios: const [
+      name: 'wild_button_devices',
+      devices: Devices.phones,
+      scenarios: [
         Component(
-          name: 'test',
-          widget: Column(
-            children: [
-              LinearProgressIndicator(
-                value: 0.5,
-                minHeight: 4.0,
-                color: Color.fromRGBO(0, 0, 0, 1),
-                backgroundColor: Color.fromRGBO(255, 0, 0, 1),
-              ),
-            ],
+          name: 'primary_action',
+          widget: WildButton<PrimaryButtonThemeData>(
+            label: 'Confirm Transaction',
+            onTap: () {},
           ),
         ),
       ],
