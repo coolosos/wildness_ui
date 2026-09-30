@@ -23,7 +23,7 @@ Add to your `dev_dependencies`:
 
 ```yaml
 dev_dependencies:
-  wildness_ui_golden_toolkit: ^2.0.0-rc.1
+  wildness_ui_golden_toolkit: ^2.0.0
 ```
 
 ---

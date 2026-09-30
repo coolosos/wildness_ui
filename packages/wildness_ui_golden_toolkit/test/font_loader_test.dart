@@ -6,7 +6,10 @@ void main() {
     test('returns overridable font family directly', () {
       expect(derivedFontFamily({'family': 'Roboto'}), 'Roboto');
       expect(derivedFontFamily({'family': '.SF UI Text'}), '.SF UI Text');
-      expect(derivedFontFamily({'family': '.SF Pro Display'}), '.SF Pro Display');
+      expect(
+        derivedFontFamily({'family': '.SF Pro Display'}),
+        '.SF Pro Display',
+      );
     });
 
     test('extracts overridable font name from packages prefix', () {

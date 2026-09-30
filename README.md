@@ -23,7 +23,7 @@ Add `wildness_ui` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  wildness_ui: ^2.0.0-rc.1
+  wildness_ui: ^2.0.0
 ```
 
 For full documentation and usage examples, check [packages/wildness_ui/README.md](packages/wildness_ui/README.md).
@@ -34,7 +34,7 @@ Add `wildness_ui_golden_toolkit` to your `dev_dependencies`:
 
 ```yaml
 dev_dependencies:
-  wildness_ui_golden_toolkit: ^2.0.0-rc.1
+  wildness_ui_golden_toolkit: ^2.0.0
 ```
 
 For golden testing guide and examples, check [packages/wildness_ui_golden_toolkit/README.md](packages/wildness_ui_golden_toolkit/README.md).

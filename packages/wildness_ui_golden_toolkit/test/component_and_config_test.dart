@@ -17,12 +17,15 @@ void main() {
   });
 
   group('GoldenRenderConfig', () {
-    test('default constructor provides expected standard size and pump duration', () {
-      const config = GoldenRenderConfig();
-      expect(config.size, const Size(800, 600));
-      expect(config.devicePixelRatio, 1);
-      expect(config.additionalPump, const Duration(milliseconds: 16));
-    });
+    test(
+      'default constructor provides expected standard size and pump duration',
+      () {
+        const config = GoldenRenderConfig();
+        expect(config.size, const Size(800, 600));
+        expect(config.devicePixelRatio, 1);
+        expect(config.additionalPump, const Duration(milliseconds: 16));
+      },
+    );
 
     test('device factory constructor maps properties from TestDevice', () {
       final config = GoldenRenderConfig.device(Devices.iphone11);
@@ -33,19 +36,20 @@ void main() {
   });
 
   group('wildnessWidgetWrapper and wildnessApp', () {
-    testWidgets('wildnessApp wraps child in WildnessApp.withDefaultTheme and WidgetsApp', (
-      tester,
-    ) async {
-      final app = wildnessApp(
-        child: const Text('Hello Golden', textDirection: TextDirection.ltr),
-        primaryColor: const Color(0xFF009688),
-      );
+    testWidgets(
+      'wildnessApp wraps child in WildnessApp.withDefaultTheme and WidgetsApp',
+      (tester) async {
+        final app = wildnessApp(
+          child: const Text('Hello Golden', textDirection: TextDirection.ltr),
+          primaryColor: const Color(0xFF009688),
+        );
 
-      expect(app, isA<WildnessApp>());
+        expect(app, isA<WildnessApp>());
 
-      await tester.pumpWidget(app);
-      expect(find.text('Hello Golden'), findsOneWidget);
-    });
+        await tester.pumpWidget(app);
+        expect(find.text('Hello Golden'), findsOneWidget);
+      },
+    );
 
     testWidgets('wildnessWidgetWrapper returns functional builder', (
       tester,

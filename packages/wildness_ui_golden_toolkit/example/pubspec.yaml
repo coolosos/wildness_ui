@@ -13,12 +13,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  wildness_ui_golden_toolkit: ^2.0.0-rc.1
+  wildness_ui_golden_toolkit: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  coolint: 3.0.0-rc.1
+  coolint: ^3.0.0
 
 flutter:
   uses-material-design: true

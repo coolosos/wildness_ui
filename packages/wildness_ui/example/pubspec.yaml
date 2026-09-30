@@ -1,7 +1,7 @@
 name: wildness_ui_example
 description: "Demonstration and example app for Wildness UI theming engine."
 publish_to: "none"
-version: 2.0.0-rc.1
+version: 2.0.0
 
 environment:
   sdk: ">=3.13.2 <4.0.0"
@@ -12,12 +12,12 @@ resolution: workspace
 dependencies:
   flutter:
     sdk: flutter
-  wildness_ui: ^2.0.0-rc.1
+  wildness_ui: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  coolint: 3.0.0-rc.1
+  coolint: ^3.0.0
 
 flutter:
   uses-material-design: true

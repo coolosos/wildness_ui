@@ -138,26 +138,29 @@ void main() {
       expect(updated.dark, [replicaButton]);
     });
 
-    test('fromComponents and fromResources instantiate configurations cleanly', () {
-      const componentsLight = _TestComponents(componentsList: [normalButton]);
-      const componentsDark = _TestComponents(componentsList: [replicaButton]);
-      const resourcesLight = _TestResources(resourcesList: [resourceLight]);
-      const resourcesDark = _TestResources(resourcesList: [resourceDark]);
+    test(
+      'fromComponents and fromResources instantiate configurations cleanly',
+      () {
+        const componentsLight = _TestComponents(componentsList: [normalButton]);
+        const componentsDark = _TestComponents(componentsList: [replicaButton]);
+        const resourcesLight = _TestResources(resourcesList: [resourceLight]);
+        const resourcesDark = _TestResources(resourcesList: [resourceDark]);
 
-      final configComponents = Configuration.fromComponents(
-        light: componentsLight,
-        dark: componentsDark,
-      );
-      final configResources = Configuration.fromResources(
-        light: resourcesLight,
-        dark: resourcesDark,
-      );
+        final configComponents = Configuration.fromComponents(
+          light: componentsLight,
+          dark: componentsDark,
+        );
+        final configResources = Configuration.fromResources(
+          light: resourcesLight,
+          dark: resourcesDark,
+        );
 
-      expect(configComponents.light, [normalButton]);
-      expect(configComponents.dark, [replicaButton]);
-      expect(configResources.light, [resourceLight]);
-      expect(configResources.dark, [resourceDark]);
-    });
+        expect(configComponents.light, [normalButton]);
+        expect(configComponents.dark, [replicaButton]);
+        expect(configResources.light, [resourceLight]);
+        expect(configResources.dark, [resourceDark]);
+      },
+    );
   });
 
   group('WildnessProperties', () {
@@ -191,7 +194,9 @@ void main() {
     test('components size and deduplication by type', () {
       const properties = WildnessProperties(
         forceThemeMode: Brightness.light,
-        components: Configuration(light: [normalButton, replicaButton, kindButton]),
+        components: Configuration(
+          light: [normalButton, replicaButton, kindButton],
+        ),
       );
 
       // normalButton and replicaButton share CoolButtonThemeData runtimeType, kindButton has CoolKindButtonThemeData
@@ -200,10 +205,7 @@ void main() {
 
     test('components resolves according to themeMode, forceThemeMode, and explicit brightness', () {
       const properties = WildnessProperties(
-        components: Configuration(
-          light: [normalButton],
-          dark: [replicaButton],
-        ),
+        components: Configuration(light: [normalButton], dark: [replicaButton]),
       );
 
       // Default (no forceThemeMode, no brightness) -> light
@@ -215,7 +217,9 @@ void main() {
         replicaButton,
       );
       expect(
-        properties.components(brightness: Brightness.light)[CoolButtonThemeData],
+        properties.components(
+          brightness: Brightness.light,
+        )[CoolButtonThemeData],
         normalButton,
       );
 
@@ -226,10 +230,7 @@ void main() {
 
     test('resources resolves according to themeMode, forceThemeMode, and explicit brightness', () {
       const properties = WildnessProperties(
-        resources: Configuration(
-          light: [resourceLight],
-          dark: [resourceDark],
-        ),
+        resources: Configuration(light: [resourceLight], dark: [resourceDark]),
       );
 
       // Default (no forceThemeMode, no brightness) -> light
@@ -272,7 +273,10 @@ void main() {
       expect(updated.physics, const BouncingScrollPhysics());
       expect(updated.minScaleFactor, 0.8);
       expect(updated.maxScaleFactor, 1.6);
-      expect(updated.components(brightness: Brightness.light)[CoolButtonThemeData], replicaButton);
+      expect(
+        updated.components(brightness: Brightness.light)[CoolButtonThemeData],
+        replicaButton,
+      );
       expect(updated.resources()[CoolResourceData], resourceDark);
     });
   });
@@ -501,63 +505,63 @@ void main() {
       },
     );
 
-    testWidgets('componentByName and componentByNameCast resolve from ComponentTheme', (
-      tester,
-    ) async {
-      WildnessBase<dynamic>? byNameRoot;
-      CoolButtonThemeData? byNameCastRoot;
-      CoolButtonThemeData? byNameCastOverridden;
+    testWidgets(
+      'componentByName and componentByNameCast resolve from ComponentTheme',
+      (tester) async {
+        WildnessBase<dynamic>? byNameRoot;
+        CoolButtonThemeData? byNameCastRoot;
+        CoolButtonThemeData? byNameCastOverridden;
 
-      const rootButton = CoolButtonThemeData(
-        decoration: BoxDecoration(color: Colors.blue),
-      );
-      const overrideButton = CoolButtonThemeData(
-        decoration: BoxDecoration(color: Colors.green),
-      );
+        const rootButton = CoolButtonThemeData(
+          decoration: BoxDecoration(color: Colors.blue),
+        );
+        const overrideButton = CoolButtonThemeData(
+          decoration: BoxDecoration(color: Colors.green),
+        );
 
-      await tester.pumpWidget(
-        WildnessApp(
-          wildnessProperties: const WildnessProperties(
-            components: Configuration(light: [rootButton]),
-          ),
-          child: Column(
-            children: [
-              Builder(
-                builder: (context) {
-                  byNameRoot = ComponentTheme.componentByName(
-                    context,
-                    'CoolButtonThemeData',
-                  );
-                  byNameCastRoot =
-                      ComponentTheme.componentByNameCast<CoolButtonThemeData>(
-                        context,
-                        'CoolButtonThemeData',
-                      );
-                  return const SizedBox.shrink();
-                },
-              ),
-              WildnessComponentProvider<CoolButtonThemeData>(
-                data: overrideButton,
-                child: Builder(
-                  builder: (innerContext) {
-                    byNameCastOverridden =
+        await tester.pumpWidget(
+          WildnessApp(
+            wildnessProperties: const WildnessProperties(
+              components: Configuration(light: [rootButton]),
+            ),
+            child: Column(
+              children: [
+                Builder(
+                  builder: (context) {
+                    byNameRoot = ComponentTheme.componentByName(
+                      context,
+                      'CoolButtonThemeData',
+                    );
+                    byNameCastRoot =
                         ComponentTheme.componentByNameCast<CoolButtonThemeData>(
-                          innerContext,
+                          context,
                           'CoolButtonThemeData',
                         );
                     return const SizedBox.shrink();
                   },
                 ),
-              ),
-            ],
+                WildnessComponentProvider<CoolButtonThemeData>(
+                  data: overrideButton,
+                  child: Builder(
+                    builder: (innerContext) {
+                      byNameCastOverridden =
+                          ComponentTheme.componentByNameCast<
+                            CoolButtonThemeData
+                          >(innerContext, 'CoolButtonThemeData');
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(byNameRoot, rootButton);
-      expect(byNameCastRoot?.decoration?.color, Colors.blue);
-      expect(byNameCastOverridden?.decoration?.color, Colors.green);
-    });
+        expect(byNameRoot, rootButton);
+        expect(byNameCastRoot?.decoration?.color, Colors.blue);
+        expect(byNameCastOverridden?.decoration?.color, Colors.green);
+      },
+    );
   });
 }
 

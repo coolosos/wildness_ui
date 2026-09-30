@@ -22,7 +22,7 @@ Add `wildness_ui` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  wildness_ui: ^2.0.0-rc.1
+  wildness_ui: ^2.0.0
 ```
 
 ---

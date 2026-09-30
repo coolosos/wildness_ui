@@ -66,12 +66,12 @@ abstract base class ButtonThemeData<T extends ButtonThemeData<T>>
 
   @override
   List<Object?> get props => [
-        backgroundColor,
-        textColor,
-        borderColor,
-        borderRadius,
-        padding,
-      ];
+    backgroundColor,
+    textColor,
+    borderColor,
+    borderRadius,
+    padding,
+  ];
 }
 
 /// Kind: Primary button variant.
@@ -143,11 +143,7 @@ final class SecondaryButtonThemeData
 // =============================================================================
 
 class WildButton<K extends ButtonThemeData<K>> extends StatelessWidget {
-  const new({
-    required this.label,
-    required this.onTap,
-    super.key,
-  });
+  const new({required this.label, required this.onTap, super.key});
 
   final String label;
   final VoidCallback onTap;
@@ -160,7 +156,8 @@ class WildButton<K extends ButtonThemeData<K>> extends StatelessWidget {
     final textColor = theme?.textColor ?? const Color(0xFFFFFFFF);
     final borderColor = theme?.borderColor;
     final borderRadius = theme?.borderRadius ?? 8.0;
-    final padding = theme?.padding ??
+    final padding =
+        theme?.padding ??
         const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
 
     return GestureDetector(
@@ -248,12 +245,15 @@ class _ExampleAppState extends State<ExampleApp> {
     );
 
     final isDark = _brightness == Brightness.dark;
-    final backgroundColor =
-        isDark ? const Color(0xFF111827) : const Color(0xFFF9FAFB);
-    final titleColor =
-        isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
-    final subtitleColor =
-        isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280);
+    final backgroundColor = isDark
+        ? const Color(0xFF111827)
+        : const Color(0xFFF9FAFB);
+    final titleColor = isDark
+        ? const Color(0xFFF9FAFB)
+        : const Color(0xFF111827);
+    final subtitleColor = isDark
+        ? const Color(0xFF9CA3AF)
+        : const Color(0xFF6B7280);
 
     return WildnessApp(
       wildnessProperties: wildnessProperties,
@@ -293,10 +293,7 @@ class _ExampleAppState extends State<ExampleApp> {
                     const SizedBox(height: 8),
                     Text(
                       'One component (WildButton<T>) parameterized by theme kind',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: subtitleColor,
-                      ),
+                      style: TextStyle(fontSize: 14, color: subtitleColor),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),

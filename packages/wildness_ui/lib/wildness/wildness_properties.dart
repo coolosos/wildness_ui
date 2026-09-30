@@ -26,21 +26,20 @@ final class WildnessProperties {
     ScrollPhysics physics = const ClampingScrollPhysics(),
     double minScaleFactor = 0.5,
     double maxScaleFactor = 1.2,
-  }) =>
-      WildnessProperties(
-        forceThemeMode: forceThemeMode,
-        components: Configuration.fromComponents(
-          light: lightComponents,
-          dark: darkComponents,
-        ),
-        resources: Configuration.fromResources(
-          light: lightResources,
-          dark: darkResources,
-        ),
-        physics: physics,
-        minScaleFactor: minScaleFactor,
-        maxScaleFactor: maxScaleFactor,
-      );
+  }) => WildnessProperties(
+    forceThemeMode: forceThemeMode,
+    components: Configuration.fromComponents(
+      light: lightComponents,
+      dark: darkComponents,
+    ),
+    resources: Configuration.fromResources(
+      light: lightResources,
+      dark: darkResources,
+    ),
+    physics: physics,
+    minScaleFactor: minScaleFactor,
+    maxScaleFactor: maxScaleFactor,
+  );
 
   /// Components of this theme.
   ///
