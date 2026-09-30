@@ -174,17 +174,17 @@ class CardComponents extends Components {
 
   @override
   List<WildnessBase<dynamic>> get components => [
-        elevatedCard, // index 0 (subtype, NOT default)
-        outlinedCard,
-        warningCard,
-        successCard,
-        defaultCard, // index 4 (base default CardThemeData)
-        shadowsCard,
-        errorCard,
-        accentCard,
-        infoCard,
-        minimalCard,
-      ];
+    elevatedCard, // index 0 (subtype, NOT default)
+    outlinedCard,
+    warningCard,
+    successCard,
+    defaultCard, // index 4 (base default CardThemeData)
+    shadowsCard,
+    errorCard,
+    accentCard,
+    infoCard,
+    minimalCard,
+  ];
 }
 
 class AppComponents extends Components {
@@ -195,9 +195,9 @@ class AppComponents extends Components {
 
   @override
   List<WildnessBase<dynamic>> get components => [
-        ...cards.components,
-        buttonTheme,
-      ];
+    ...cards.components,
+    buttonTheme,
+  ];
 }
 
 // Consumers to verify granular rebuilds
@@ -282,18 +282,24 @@ void main() {
             ),
             child: Builder(
               builder: (context) {
-                resolvedDefault =
-                    ComponentTheme.kindThemeData<CardThemeData>(context);
+                resolvedDefault = ComponentTheme.kindThemeData<CardThemeData>(
+                  context,
+                );
                 resolvedElevated =
-                    ComponentTheme.kindThemeData<ElevatedCardThemeData>(context);
-                resolvedInfo =
-                    ComponentTheme.kindThemeData<InfoCardThemeData>(context);
+                    ComponentTheme.kindThemeData<ElevatedCardThemeData>(
+                      context,
+                    );
+                resolvedInfo = ComponentTheme.kindThemeData<InfoCardThemeData>(
+                  context,
+                );
                 resolvedError =
                     ComponentTheme.kindThemeData<ErrorCardThemeData>(context);
                 resolvedMinimal =
                     ComponentTheme.kindThemeData<MinimalCardThemeData>(context);
                 resolvedButton =
-                    ComponentTheme.kindThemeData<CustomButtonThemeData>(context);
+                    ComponentTheme.kindThemeData<CustomButtonThemeData>(
+                      context,
+                    );
                 return const SizedBox.shrink();
               },
             ),

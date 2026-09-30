@@ -17,7 +17,7 @@ workspace:
 
 dev_dependencies:
   melos: ^8.6.0
-  coolint: 3.0.0-rc.1
+  coolint: ^3.0.0
 
 melos:
   scripts:

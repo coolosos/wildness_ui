@@ -1,3 +1,9 @@
+## 2.0.0
+
+- Stable 2.0.0 release.
+- Updated dependency `wildness_ui` to `^2.0.0`.
+- Updated `coolint` to `^3.0.0`.
+
 ## 2.0.0-rc.2
 
 - **Chore**: Updated dependency `wildness_ui` to `^2.0.0-rc.2`.

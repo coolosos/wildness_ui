@@ -26,24 +26,18 @@ final class Configuration {
   });
 
   /// Creates a [Configuration] from [Components] instances for light and dark modes.
-  factory fromComponents({
-    Components? light,
-    Components? dark,
-  }) =>
+  factory fromComponents({Components? light, Components? dark}) =>
       Configuration(
-        light: light?.components ?? const Iterable<WildnessBase<dynamic>>.empty(),
+        light:
+            light?.components ?? const Iterable<WildnessBase<dynamic>>.empty(),
         dark: dark?.components ?? const Iterable<WildnessBase<dynamic>>.empty(),
       );
 
   /// Creates a [Configuration] from [Resources] instances for light and dark modes.
-  factory fromResources({
-    Resources? light,
-    Resources? dark,
-  }) =>
-      Configuration(
-        light: light?.resources ?? const Iterable<WildnessBase<dynamic>>.empty(),
-        dark: dark?.resources ?? const Iterable<WildnessBase<dynamic>>.empty(),
-      );
+  factory fromResources({Resources? light, Resources? dark}) => Configuration(
+    light: light?.resources ?? const Iterable<WildnessBase<dynamic>>.empty(),
+    dark: dark?.resources ?? const Iterable<WildnessBase<dynamic>>.empty(),
+  );
 
   final Iterable<WildnessBase<dynamic>> dark;
   final Iterable<WildnessBase<dynamic>> light;

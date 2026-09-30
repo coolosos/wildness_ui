@@ -12,7 +12,10 @@ base class TestBuilderThemeData extends WildnessBase<TestBuilderThemeData> {
   }
 
   @override
-  TestBuilderThemeData lerp(WildnessBase<TestBuilderThemeData>? other, double t) {
+  TestBuilderThemeData lerp(
+    WildnessBase<TestBuilderThemeData>? other,
+    double t,
+  ) {
     if (other is! TestBuilderThemeData) return this;
     return t < 0.5 ? this : other;
   }
@@ -38,8 +41,7 @@ void main() {
             ),
             child: WildnessBuilder(
               builder: (context, theme) {
-                capturedTitle =
-                    theme.component<TestBuilderThemeData>()?.title;
+                capturedTitle = theme.component<TestBuilderThemeData>()?.title;
                 return Text(capturedTitle ?? 'none');
               },
             ),
@@ -57,9 +59,7 @@ void main() {
       var buildCount = 0;
       final propertiesNotifier = ValueNotifier<WildnessProperties>(
         const WildnessProperties(
-          components: Configuration(
-            light: [TestBuilderThemeData(title: 'V1')],
-          ),
+          components: Configuration(light: [TestBuilderThemeData(title: 'V1')]),
         ),
       );
 
@@ -89,9 +89,7 @@ void main() {
       expect(find.text('V1'), findsOneWidget);
 
       propertiesNotifier.value = const WildnessProperties(
-        components: Configuration(
-          light: [TestBuilderThemeData(title: 'V2')],
-        ),
+        components: Configuration(light: [TestBuilderThemeData(title: 'V2')]),
       );
       await tester.pump();
 
